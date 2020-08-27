@@ -1,6 +1,7 @@
 from django import forms
 
 from Home.models import UserGuiar, City, Town, BusinessManager
+from Poll.models import Sales
 
 
 class LoginForm(forms.Form):
@@ -47,3 +48,7 @@ class ChangeProfileBMPoll(forms.Form):
     fullname = forms.CharField(max_length=100)
     email = forms.EmailField()
     phone = forms.IntegerField()
+
+
+class ChangeSaleFrom(forms.Form):
+    sales = forms.ModelChoiceField(queryset=Sales.objects.all(), widget=forms.RadioSelect)

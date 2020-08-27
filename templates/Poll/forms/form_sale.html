@@ -1,0 +1,19 @@
+<div style="margin-bottom: 15px">
+    <h3 class="title">3.- Ventas anuales</h3>
+    <p>Asegurese que la información este actualizada</p>
+</div>
+<form id="id_personal_BS" method="post" data-url="{% url 'poll-sales' %}">
+    {% csrf_token %}
+    <div class="container">
+        {% for i in sale_form.sales %}
+            <div class="input-radio">
+                {{ i.tag }}
+                <label for="{{ i.id_for_label }}">{{ i.choice_label }}</label>
+            </div>
+        {% endfor %}
+    </div>
+    <div>
+        <button class="button" onclick="plusSlides(-1)">Anterior</button>
+        <button type="submit" class="button">Siguiente</button>
+    </div>
+</form>

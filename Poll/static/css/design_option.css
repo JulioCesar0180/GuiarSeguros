@@ -1,0 +1,70 @@
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+    -webkit-text-fill-color: #43464d;
+}
+
+.inicio{
+    font-size: 16px;
+    color: #43464d;
+    padding: 20px;
+    line-height: 1.5em;
+    margin:0 auto;
+    width: 65%;
+}
+
+.input-radio{
+    display: inline-block;
+    width:100%;
+}
+
+input[type=radio] {
+    display: none;
+}
+
+input[type=radio] + label{
+    padding: 15px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    text-align:left;
+    transition: 0.2s;
+    width: 100%;
+    font-family: Grotesque,Arial,sans-serif;
+    font-size: 16px;
+    background: #f3f5f6;
+    border-color: #f3f5f6;
+  }
+
+  input[type=radio]:checked + label{
+    background:#2e393f;
+    border-color:#030404;
+    color:white;
+    font-family: Grotesque,Arial,sans-serif;
+    font-size: 16px;
+    width:100%;
+  }
+
+.inicio{
+    font-size: 16px;
+    color: #43464d;
+    padding: 20px;
+    line-height: 1.5em;
+    margin:0 auto;
+    width: 65%;
+}
+
+label{
+    display: inline-block;
+    margin-bottom: 0.5rem;
+}

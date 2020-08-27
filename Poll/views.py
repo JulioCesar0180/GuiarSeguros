@@ -6,7 +6,7 @@ from django.views import View
 # Create your views here.
 from django.views.generic import *
 
-from Poll.forms import LoginForm, ChangeProfileBSPoll, ChangeProfileBMPoll
+from Poll.forms import LoginForm, ChangeProfileBSPoll, ChangeProfileBMPoll, ChangeSaleFrom
 from Home.models import UserGuiar, BusinessManager
 
 
@@ -51,7 +51,8 @@ def poll_view(request):
     manager = UserGuiar.objects.get(rut=request.user).manager
     bs_form = ChangeProfileBSPoll()
     bm_form = ChangeProfileBMPoll()
-    context = {'BS_profile': bs_form, 'BM_profile': bm_form, 'manager': manager}
+    sale_form = ChangeSaleFrom()
+    context = {'BS_profile': bs_form, 'BM_profile': bm_form, 'manager': manager, 'sale_form': sale_form}
     return render(request, 'Poll/mideturiesgo-page1.html', context)
 
 
@@ -116,4 +117,27 @@ class FormProfileMSPoll(FormView):
             return response
 
 
+class FormSales(FormView):
+    form_class = ChangeSaleFrom
+    template_name = 'Poll/forms/form_sale.html'
+    success_url = '/form-success/'
 
+    def form_invalid(self, form):
+        response = super(FormSales, self).form_invalid(form)
+        if self.request.is_ajax():
+            return JsonResponse(form.errors, status=400)
+        else:
+            return response
+
+    def form_valid(self, form):
+        response = super(FormSales, self).form_valid(form)
+        if self.request.is_ajax():
+            user = UserGuiar.objects.get(rut=self.request.user.rut)
+            user.sales_id = form.cleaned_data['sales']
+            user.save()
+            data = {
+                'message': "Successfully submitted form data."
+            }
+            return JsonResponse(data)
+        else:
+            return response
