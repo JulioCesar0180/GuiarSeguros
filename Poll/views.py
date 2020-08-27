@@ -6,7 +6,7 @@ from django.views import View
 # Create your views here.
 from django.views.generic import *
 
-from Poll.forms import LoginForm, ChangeProfileBSPoll, ChangeProfileBMPoll, ChangeSaleFrom, QuantityEmpForm
+from Poll.forms import LoginForm, ChangeProfileBSPoll, ChangeProfileBMPoll, ChangeSaleFrom, QuantityEmpForm, ProcessForm
 from Home.models import UserGuiar, BusinessManager
 
 
@@ -53,12 +53,14 @@ def poll_view(request):
     bm_form = ChangeProfileBMPoll()
     sale_form = ChangeSaleFrom(instance=request.user)
     quantityEmp_form = QuantityEmpForm(instance=request.user)
+    process_form = ProcessForm(instance=request.user)
     context = {
         'BS_profile': bs_form,
         'BM_profile': bm_form,
         'manager': manager,
         'sale_form': sale_form,
-        'quantityEmp_form': quantityEmp_form
+        'quantityEmp_form': quantityEmp_form,
+        'process_form': process_form
     }
     return render(request, 'Poll/mideturiesgo-page1.html', context)
 
@@ -123,21 +125,79 @@ class FormProfileMSPoll(FormView):
             return response
 
 
-class FormSales(UpdateView):
+class FormSalesPoll(UpdateView):
     model = UserGuiar
     form_class = ChangeSaleFrom
     template_name = 'Poll/forms/form_sale.html'
     success_url = '/form-success/'
 
     def form_invalid(self, form):
-        response = super(FormSales, self).form_invalid(form)
+        response = super(FormSalesPoll, self).form_invalid(form)
         if self.request.is_ajax():
             return JsonResponse(form.errors, status=400)
         else:
             return response
 
     def form_valid(self, form):
-        response = super(FormSales, self).form_valid(form)
+        response = super(FormSalesPoll, self).form_valid(form)
+        if self.request.is_ajax():
+            form.save()
+            data = {
+                'message': "Successfully submitted form data."
+            }
+            return JsonResponse(data)
+        else:
+            return response
+
+    def get_object(self, queryset=None):
+        obj = UserGuiar.objects.get(rut=self.request.user.rut)
+        return obj
+
+
+class FormQuantityPoll(UpdateView):
+    model = UserGuiar
+    form_class = QuantityEmpForm
+    template_name = 'Poll/forms/form_dotacion.html'
+    success_url = '/form-success/'
+
+    def form_invalid(self, form):
+        response = super(FormQuantityPoll, self).form_invalid(form)
+        if self.request.is_ajax():
+            return JsonResponse(form.errors, status=400)
+        else:
+            return response
+
+    def form_valid(self, form):
+        response = super(FormQuantityPoll, self).form_valid(form)
+        if self.request.is_ajax():
+            form.save()
+            data = {
+                'message': "Successfully submitted form data."
+            }
+            return JsonResponse(data)
+        else:
+            return response
+
+    def get_object(self, queryset=None):
+        obj = UserGuiar.objects.get(rut=self.request.user.rut)
+        return obj
+
+
+class FormProcessPoll(UpdateView):
+    model = UserGuiar
+    form_class = ProcessForm
+    template_name = 'Poll/forms/form_process.html'
+    success_url = '/form-success/'
+
+    def form_invalid(self, form):
+        response = super(FormProcessPoll, self).form_invalid(form)
+        if self.request.is_ajax():
+            return JsonResponse(form.errors, status=400)
+        else:
+            return response
+
+    def form_valid(self, form):
+        response = super(FormProcessPoll, self).form_valid(form)
         if self.request.is_ajax():
             form.save()
             data = {

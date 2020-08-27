@@ -72,3 +72,13 @@ class QuantityEmpForm(forms.ModelForm):
             'n_mach_heavy': forms.NumberInput(attrs={'class': 'input'}),
             'n_mach_heavy_cont': forms.NumberInput(attrs={'class': 'input'})
         }
+
+
+class ProcessForm(forms.ModelForm):
+    class Meta:
+        model = UserGuiar
+        fields = ['process']
+
+        widgets = {
+            'process': forms.CheckboxSelectMultiple
+        }

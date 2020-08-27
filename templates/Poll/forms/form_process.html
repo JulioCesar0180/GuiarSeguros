@@ -2,13 +2,13 @@
     <h3 class="title">3.- Ventas anuales</h3>
     <p>Asegurese que la información este actualizada</p>
 </div>
-<form id="id_sales" method="post" data-url="{% url 'poll-sales' %}">
+<form id="id_process" method="post" data-url="{% url 'poll-process' %}">
     {% csrf_token %}
     <div class="container">
-        {% for i in sale_form.sales %}
+        {% for i in process_form.process %}
             <div class="input-radio">
                 {{ i.tag }}
-                <label for="{{ i.id_for_label }}">{{ i.choice_label }}</label>
+                <label for="{{ i.id_for_label }}" class="unselectable">{{ i.choice_label }}</label>
             </div>
         {% endfor %}
     </div>
