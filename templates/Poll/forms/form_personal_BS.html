@@ -7,25 +7,25 @@
     <div class="field">
         <label for="{{ BS_profile.name_BS.id_for_label }}" class="label">Razón Social</label>
         <div class="control">
-            <input id="{{ BS_profile.name_BS.id_for_label }}" name="{{ BS_profile.name_BS.html_name }}" class="input" maxlength="50" required type="text" value="{{ user.name }}">
+            {{ BS_profile.name }}
         </div>
     </div>
     <div class="field">
         <label for="{{ BS_profile.rut_BS.id_for_label }}" class="label">RUT</label>
         <div class="control">
-            <input id="{{ BS_profile.rut_BS.id_for_label }}" name="{{ BS_profile.rut_BS.html_name }}" class="input" maxlength="10" required type="text" value="{{ user.rut }}">
+            {{ BS_profile.rut }}
         </div>
     </div>
     <div class="field">
         <label for="{{ BS_profile.seniority.id_for_label }}" class="label">Antigüedad de la empresa (años)</label>
         <div class="control">
-            <input type="number" name="{{ BS_profile.seniority.html_name }}" class="input" min="0" max="10000" required id="{{ BS_profile.seniority.id_for_label }}" value="{{ user.seniority }}">
+            {{ BS_profile.seniority }}
         </div>
     </div>
     <div class="field">
         <label for="{{ BS_profile.address.id_for_label }}" class="label">Dirección</label>
         <div class="control">
-            <input type="text" name="{{ BS_profile.address.html_name }}" class="input" maxlength="100" required id="{{ BS_profile.address.id_for_label }}" value="{{ user.address }}">
+            {{ BS_profile.address }}
         </div>
     </div>
     <div class="field">
@@ -40,7 +40,7 @@
         <label class="label">Comuna</label>
         <div class="control">
             <div class="select">
-
+                {{ BS_profile.town }}
             </div>
         </div>
     </div>

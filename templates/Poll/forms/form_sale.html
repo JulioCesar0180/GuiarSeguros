@@ -2,7 +2,7 @@
     <h3 class="title">3.- Ventas anuales</h3>
     <p>Asegurese que la información este actualizada</p>
 </div>
-<form id="id_personal_BS" method="post" data-url="{% url 'poll-sales' %}">
+<form id="id_sales" method="post" data-url="{% url 'poll-sales' %}">
     {% csrf_token %}
     <div class="container">
         {% for i in sale_form.sales %}

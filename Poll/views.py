@@ -6,7 +6,7 @@ from django.views import View
 # Create your views here.
 from django.views.generic import *
 
-from Poll.forms import LoginForm, ChangeProfileBSPoll, ChangeProfileBMPoll, ChangeSaleFrom
+from Poll.forms import LoginForm, ChangeProfileBSPoll, ChangeProfileBMPoll, ChangeSaleFrom, QuantityEmpForm
 from Home.models import UserGuiar, BusinessManager
 
 
@@ -49,14 +49,22 @@ def view_welcome(request):
 
 def poll_view(request):
     manager = UserGuiar.objects.get(rut=request.user).manager
-    bs_form = ChangeProfileBSPoll()
+    bs_form = ChangeProfileBSPoll(instance=request.user)
     bm_form = ChangeProfileBMPoll()
-    sale_form = ChangeSaleFrom()
-    context = {'BS_profile': bs_form, 'BM_profile': bm_form, 'manager': manager, 'sale_form': sale_form}
+    sale_form = ChangeSaleFrom(instance=request.user)
+    quantityEmp_form = QuantityEmpForm(instance=request.user)
+    context = {
+        'BS_profile': bs_form,
+        'BM_profile': bm_form,
+        'manager': manager,
+        'sale_form': sale_form,
+        'quantityEmp_form': quantityEmp_form
+    }
     return render(request, 'Poll/mideturiesgo-page1.html', context)
 
 
-class FormProfileBSPoll(FormView):
+class FormProfileBSPoll(UpdateView):
+    model = UserGuiar
     form_class = ChangeProfileBSPoll
     template_name = 'Poll/forms/form_personal_BS.html'
     success_url = '/form-success/'
@@ -71,13 +79,7 @@ class FormProfileBSPoll(FormView):
     def form_valid(self, f):
         response = super(FormProfileBSPoll, self).form_valid(f)
         if self.request.is_ajax():
-            user = UserGuiar.objects.get(rut=self.request.user.rut)
-            user.name = f.cleaned_data['name_BS']
-            user.rut = f.cleaned_data['rut_BS']
-            user.seniority = f.cleaned_data['seniority']
-            user.address = f.cleaned_data['address']
-            user.city = f.cleaned_data['city']
-            user.save()
+            f.save()
             data = {
                 'message': "Successfully submitted form data."
             }
@@ -85,6 +87,10 @@ class FormProfileBSPoll(FormView):
             return JsonResponse(data)
         else:
             return response
+
+    def get_object(self, queryset=None):
+        obj = UserGuiar.objects.get(rut=self.request.user.rut)
+        return obj
 
 
 class FormProfileMSPoll(FormView):
@@ -117,7 +123,8 @@ class FormProfileMSPoll(FormView):
             return response
 
 
-class FormSales(FormView):
+class FormSales(UpdateView):
+    model = UserGuiar
     form_class = ChangeSaleFrom
     template_name = 'Poll/forms/form_sale.html'
     success_url = '/form-success/'
@@ -132,12 +139,14 @@ class FormSales(FormView):
     def form_valid(self, form):
         response = super(FormSales, self).form_valid(form)
         if self.request.is_ajax():
-            user = UserGuiar.objects.get(rut=self.request.user.rut)
-            user.sales_id = form.cleaned_data['sales']
-            user.save()
+            form.save()
             data = {
                 'message': "Successfully submitted form data."
             }
             return JsonResponse(data)
         else:
             return response
+
+    def get_object(self, queryset=None):
+        obj = UserGuiar.objects.get(rut=self.request.user.rut)
+        return obj

@@ -17,22 +17,17 @@ class LoginForm(forms.Form):
     }))
 
 
-class ChangeProfileBSPoll(forms.Form):
-    name_BS = forms.CharField(max_length=50, widget=forms.TextInput(attrs={
-        'class': 'input'
-    }))
-    rut_BS = forms.CharField(max_length=10, widget=forms.TextInput(attrs={
-        'class': 'input'
-    }))
-    seniority = forms.IntegerField(min_value=0, max_value=10000, widget=forms.NumberInput(attrs={
-        'class': 'input'
-    }))
-    address = forms.CharField(max_length=100, widget=forms.TextInput(attrs={
-        'class': 'input'
-    }))
-    city = forms.ModelChoiceField(queryset=City.objects.all())
-    # town = forms.ModelMultipleChoiceField(queryset=City.objects.none(),
-                                          # widget=forms.Select())
+class ChangeProfileBSPoll(forms.ModelForm):
+    class Meta:
+        model = UserGuiar
+        fields = ['name', 'rut', 'seniority', 'address', 'city', 'town']
+
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'input'}),
+            'rut': forms.TextInput(attrs={'class': 'input'}),
+            'seniority': forms.TextInput(attrs={'class': 'input'}),
+            'address': forms.TextInput(attrs={'class': 'input'}),
+        }
 
 
 
@@ -50,5 +45,30 @@ class ChangeProfileBMPoll(forms.Form):
     phone = forms.IntegerField()
 
 
-class ChangeSaleFrom(forms.Form):
-    sales = forms.ModelChoiceField(queryset=Sales.objects.all(), widget=forms.RadioSelect)
+class ChangeSaleFrom(forms.ModelForm):
+    class Meta:
+        model = UserGuiar
+        fields = ['sales']
+
+        widgets = {
+            'sales': forms.RadioSelect
+        }
+
+
+class QuantityEmpForm(forms.ModelForm):
+    class Meta:
+        model = UserGuiar
+        fields = ['n_emp_hired', 'n_cont_emp', 'n_veh_com_light',
+                  'n_veh_com_cont', 'n_veh_com_heavy', 'n_veh_com_heavy_cont',
+                  'n_mach_heavy', 'n_mach_heavy_cont']
+
+        widgets = {
+            'n_emp_hired': forms.NumberInput(attrs={'class': 'input'}),
+            'n_cont_emp': forms.NumberInput(attrs={'class': 'input'}),
+            'n_veh_com_light': forms.NumberInput(attrs={'class': 'input'}),
+            'n_veh_com_cont': forms.NumberInput(attrs={'class': 'input'}),
+            'n_veh_com_heavy': forms.NumberInput(attrs={'class': 'input'}),
+            'n_veh_com_heavy_cont': forms.NumberInput(attrs={'class': 'input'}),
+            'n_mach_heavy': forms.NumberInput(attrs={'class': 'input'}),
+            'n_mach_heavy_cont': forms.NumberInput(attrs={'class': 'input'})
+        }
