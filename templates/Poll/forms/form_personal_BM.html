@@ -2,28 +2,28 @@
     <h3 class="title">2.- Datos del representante</h3>
     <p>Asegurese que la información este actualizada</p>
 </div>
-<form id="id_personal_BM" method="post" data-url="{% url 'poll-manager' 1 %}">
+<form id="id_personal_BM" method="post" data-url="{% url 'poll-manager' %}">
     {% csrf_token %}
     <div class="field">
         <label for="{{ BM_profile.fullname.id_for_label }}" class="label">Nombre</label>
         <div class="control">
-            {{ BM_profile.fullname }}
+            <input class="input" type="text" name="{{ BM_profile.fullname.html_name }}" maxlength="100" required id="{{ BM_profile.fullname.id_for_label }}" value="{{ manager.fullname }}">
         </div>
     </div>
     <div class="field">
-        <label for="{{ BS_profile.rut_bm.id_for_label }}" class="label">RUN</label>
+        <label for="{{ BM_profile.rut_bm.id_for_label }}" class="label">RUN</label>
         <div class="control">
-            {{ BM_profile.rut_bm }}
+            <input class="input" type="text" name="{{ BM_profile.rut_bm.html_name }}" maxlength="12" required id="{{ BM_profile.rut_bm.id_for_label }}" value="{{ manager.rut_bm }}">
         </div>
     </div>
     <div class="field">
-        <label for="{{ BS_profile.email.id_for_label }}" class="label">email</label>
+        <label for="{{ BM_profile.email.id_for_label }}" class="label">email</label>
         <div class="control">
-            {{ BM_profile.email }}
+            <input type="email" class="input" name="{{ BM_profile.email.html_name }}" required id="{{ BM_profile.email.id_for_label }}" value="{{ manager.email }}">
         </div>
     </div>
 
-    <label for="{{ BS_profile.phone.id_for_label }}" class="label">Celular</label>
+    <label for="{{ BM_profile.phone.id_for_label }}" class="label">Celular</label>
     <div class="field has-addons">
         <p class="control">
             <a class="button is-static">
@@ -31,7 +31,7 @@
             </a>
         </p>
         <p class="control">
-            {{ BM_profile.phone }}
+            <input class="input" type="number" name="{{ BM_profile.phone.html_name }}" required id="{{ BM_profile.phone.id_for_label }}" value="{{ manager.phone }}">
         </p>
     </div>
     <div>

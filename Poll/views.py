@@ -50,7 +50,7 @@ def view_welcome(request):
 def poll_view(request):
     manager = UserGuiar.objects.get(rut=request.user).manager
     bs_form = ChangeProfileBSPoll()
-    bm_form = ChangeProfileBMPoll(instance=manager)
+    bm_form = ChangeProfileBMPoll()
     context = {'BS_profile': bs_form, 'BM_profile': bm_form, 'manager': manager}
     return render(request, 'Poll/mideturiesgo-page1.html', context)
 
@@ -86,8 +86,7 @@ class FormProfileBSPoll(FormView):
             return response
 
 
-class FormProfileMSPoll(UpdateView):
-    model = BusinessManager
+class FormProfileMSPoll(FormView):
     form_class = ChangeProfileBMPoll
     template_name = 'Poll/forms/form_personal_BM.html'
     success_url = '/form-success/'
@@ -102,7 +101,13 @@ class FormProfileMSPoll(UpdateView):
     def form_valid(self, form):
         response = super(FormProfileMSPoll, self).form_valid(form)
         if self.request.is_ajax():
-            form.save()
+            user = UserGuiar.objects.get(rut=self.request.user.rut)
+            manager = user.manager
+            manager.rut_bm = form.cleaned_data['rut_bm']
+            manager.fullname = form.cleaned_data['fullname']
+            manager.email = form.cleaned_data['email']
+            manager.phone = form.cleaned_data['phone']
+            manager.save()
             data = {
                 'message': "Successfully submitted form data."
             }

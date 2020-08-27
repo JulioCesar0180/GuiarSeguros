@@ -42,22 +42,8 @@ class ChangeProfileBSPoll(forms.Form):
 """
 
 
-class ChangeProfileBMPoll(forms.ModelForm):
-    class Meta:
-        model = BusinessManager
-        fields = '__all__'
-
-        widgets = {
-            'fullname': forms.TextInput(attrs={
-                'class': 'input'
-            }),
-            'rut_bm': forms.TextInput(attrs={
-                'class': 'input'
-            }),
-            'email': forms.EmailInput(attrs={
-                'class': 'input'
-            }),
-            'phone': forms.NumberInput(attrs={
-                'class': 'input'
-            })
-        }
+class ChangeProfileBMPoll(forms.Form):
+    rut_bm = forms.CharField(max_length=12)
+    fullname = forms.CharField(max_length=100)
+    email = forms.EmailField()
+    phone = forms.IntegerField()
