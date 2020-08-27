@@ -18,7 +18,6 @@ $(document).ready(function () {
     });
 
     function handleFormSuccess(data, textStatus, jqXHR){
-        console.log("Otra vez POST")
         plusSlides(1);
     }
 
@@ -49,7 +48,6 @@ $(document).ready(function () {
     });
 
     function handleFormSuccess(data, textStatus, jqXHR){
-        console.log("POST 2")
         plusSlides(1);
     }
 
