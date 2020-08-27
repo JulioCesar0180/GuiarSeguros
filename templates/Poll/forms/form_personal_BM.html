@@ -1,0 +1,41 @@
+<div style="margin-bottom: 15px">
+    <h3 class="title">2.- Datos del representante</h3>
+    <p>Asegurese que la información este actualizada</p>
+</div>
+<form id="id_personal_BM" method="post" data-url="{% url 'poll-manager' 1 %}">
+    {% csrf_token %}
+    <div class="field">
+        <label for="{{ BM_profile.fullname.id_for_label }}" class="label">Nombre</label>
+        <div class="control">
+            {{ BM_profile.fullname }}
+        </div>
+    </div>
+    <div class="field">
+        <label for="{{ BS_profile.rut_bm.id_for_label }}" class="label">RUN</label>
+        <div class="control">
+            {{ BM_profile.rut_bm }}
+        </div>
+    </div>
+    <div class="field">
+        <label for="{{ BS_profile.email.id_for_label }}" class="label">email</label>
+        <div class="control">
+            {{ BM_profile.email }}
+        </div>
+    </div>
+
+    <label for="{{ BS_profile.phone.id_for_label }}" class="label">Celular</label>
+    <div class="field has-addons">
+        <p class="control">
+            <a class="button is-static">
+                +56
+            </a>
+        </p>
+        <p class="control">
+            {{ BM_profile.phone }}
+        </p>
+    </div>
+    <div>
+        <button class="button" onclick="plusSlides(-1)">Anterior</button>
+        <button type="submit" class="button">Siguiente</button>
+    </div>
+</form>

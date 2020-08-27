@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block head %}
+{% endblock %}
+{% block content %}
+    <div class="container is-fluid" style="background-color: gray">
+        <div class="container is-1-desktop">
+            <h3>mideturiesgo</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+                ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+                anim id est laborum.</p>
+            <a href="{% url 'welcome' %}" class="button">Responder Encuesta</a>
+        </div>
+        <div class="container is-1-desktop">
+            <h3>Datos de la empresa</h3>
+            <div class="field">
+                <p class="control has-icons-left has-icons-right">
+                    <input class="input" type="email" placeholder="Email">
+                    <span class="icon is-small is-left"><i class="fas fa-envelope"></i></span>
+                    <span class="icon is-small is-right"><i class="fas fa-check"></i></span>
+                </p>
+            </div>
+            <div class="field">
+                <p class="control has-icons-left">
+                    <input class="input" type="password" placeholder="Password">
+                    <span class="icon is-small is-left"><i class="fas fa-lock"></i></span>
+                </p>
+            </div>
+            <div class="field">
+                <p class="control">
+                    <a class="button is-success" href="{% url 'logout' %}">Logout</a>
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+{% endblock %}

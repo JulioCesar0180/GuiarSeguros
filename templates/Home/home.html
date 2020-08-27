@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <title>Guiar Seguros</title>
+{% endblock %}
+
+{% block content %}
+    <nav class="navbar is-fixed-top gs-navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a id="insignia" class="navbar-item" href="{% url 'home' %}">
+                <img src="{% static 'img/logoGC.png' %}">
+            </a>
+
+            <button class="button navbar-burger" type="button" uk-toggle="target: #offcanvas-overlay">
+                <i class="fas fa-bars" style="color: white"></i>
+            </button>
+        </div>
+
+        <div id="navMenu-bar" class="navbar-menu">
+            <div class="navbar-start">
+                <a id="item-about" href="" class="navbar-item">Mide tu riesgo</a>
+                <a id="item-computer-lab" href="" class="navbar-item">Acerca de</a>
+                <a id="item-computer-lab" href="" class="navbar-item">Servicios</a>
+                <a id="item-computer-lab" href="" class="navbar-item">Alianzas</a>
+                <a id="item-computer-lab" href="" class="navbar-item">Nuestro Trabajo</a>
+                <a id="item-computer-lab" href="" class="navbar-item">Contacto</a>
+            </div>
+
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+                        {% if request.user.is_authenticated %}
+                            <a href="{% url 'profile' %}" class="button gs-btn-blue"><strong>Mi cuenta</strong></a>
+                            <a href="{% url 'logout' %}" class="button gs-btn-blue"><strong>Salir</strong></a>
+                        {% else %}
+                            <a href="{% url 'login' %}" class="button gs-btn-blue"><strong>Ingresar</strong></a>
+                            <a href="{% url 'signUp' %}" class="button gs-btn-blue"><strong>Registrarte</strong></a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="offcanvas-overlay" uk-offcanvas="overlay: true; flip: true; mode: push">
+        <div class="uk-offcanvas-bar">
+
+            <button class="uk-offcanvas-close" type="button" uk-close></button>
+
+            <h3>Title</h3>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+
+        </div>
+    </div>
+    <div class="container-fluid gs-cover" style="background-image: url('{% static 'img/business-suit-690048_1920.jpg' %}')" >
+    </div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

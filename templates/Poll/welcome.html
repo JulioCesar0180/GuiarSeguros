@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/animate.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/welcome.css' %}"/>
+
+{% endblock %}
+
+{% block content %}
+    <div class="gs-cover" style="background-color: rgb(0,48,87); width: fit-content">
+        <center style="margin: 0 auto">
+            <figure>
+                <img src="{% static 'img/logo-gc-blanco.png' %}" alt="">
+            </figure>
+            <div class="card" style="background-color: rgb(0,48,87); border: none; box-shadow: none">
+                <div class="card-content">
+                    <p class="subtitle" style="margin: 0 auto; color: white; text-align: justify">Bienvenido a nuestro
+                        evaluador de riesgo de negocio. Este formulario tiene como objetivo saber de las
+                características de su empresa, de tal manera de mostrarle sus principales oportunidades para disminuir su
+                riesgo de operación, de tal manera de proteger su patrimonio y transferir el riesgo no deseado.</p>
+                </div>
+            </div>
+            <div class="animate__animated animate__pulse animate__infinite">
+                <a class="button" href="{% url 'poll-personal' %}">Comenzar</a>
+            </div>
+        </center>
+    </div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

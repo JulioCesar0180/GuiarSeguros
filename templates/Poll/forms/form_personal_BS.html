@@ -1,0 +1,51 @@
+<div style="margin-bottom: 15px">
+    <h3 class="title">1.- Datos generales de la empresa</h3>
+    <p>Asegurese que la información este actualizada</p>
+</div>
+<form id="id_personal_BS" method="post" data-url="{% url 'poll-personal' %}">
+    {% csrf_token %}
+    <div class="field">
+        <label for="{{ BS_profile.name_BS.id_for_label }}" class="label">Razón Social</label>
+        <div class="control">
+            <input id="{{ BS_profile.name_BS.id_for_label }}" name="{{ BS_profile.name_BS.html_name }}" class="input" maxlength="50" required type="text" value="{{ user.name }}">
+        </div>
+    </div>
+    <div class="field">
+        <label for="{{ BS_profile.rut_BS.id_for_label }}" class="label">RUT</label>
+        <div class="control">
+            <input id="{{ BS_profile.rut_BS.id_for_label }}" name="{{ BS_profile.rut_BS.html_name }}" class="input" maxlength="10" required type="text" value="{{ user.rut }}">
+        </div>
+    </div>
+    <div class="field">
+        <label for="{{ BS_profile.seniority.id_for_label }}" class="label">Antigüedad de la empresa (años)</label>
+        <div class="control">
+            <input type="number" name="{{ BS_profile.seniority.html_name }}" class="input" min="0" max="10000" required id="{{ BS_profile.seniority.id_for_label }}" value="{{ user.seniority }}">
+        </div>
+    </div>
+    <div class="field">
+        <label for="{{ BS_profile.address.id_for_label }}" class="label">Dirección</label>
+        <div class="control">
+            <input type="text" name="{{ BS_profile.address.html_name }}" class="input" maxlength="100" required id="{{ BS_profile.address.id_for_label }}" value="{{ user.address }}">
+        </div>
+    </div>
+    <div class="field">
+        <label class="label">Ciudad</label>
+        <div class="control">
+            <div class="select">
+                {{ BS_profile.city }}
+            </div>
+        </div>
+    </div>
+    <div class="field">
+        <label class="label">Comuna</label>
+        <div class="control">
+            <div class="select">
+
+            </div>
+        </div>
+    </div>
+    <div>
+        <button class="button" onclick="plusSlides(-1)">Anterior</button>
+        <button type="submit" class="button">Siguiente</button>
+    </div>
+</form>
