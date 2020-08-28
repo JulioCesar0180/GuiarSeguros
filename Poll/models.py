@@ -16,3 +16,51 @@ class ProcessBusiness(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class TransportProcess(models.Model):
+    option_transport = models.CharField(max_length=100)
+    ri_transport = models.DecimalField(max_digits=5, decimal_places=2)
+
+    def __str__(self):
+        return self.option_transport
+
+
+class ManufactureProcess(models.Model):
+    option_manufacture = models.CharField(max_length=100)
+    ri_manufacture = models.DecimalField(max_digits=5, decimal_places=2)
+
+    def __str__(self):
+        return self.option_manufacture
+
+
+class BuildingProcess(models.Model):
+    option_building = models.CharField(max_length=100)
+    ri_building = models.DecimalField(max_digits=5, decimal_places=2)
+
+    def __str__(self):
+        return self.option_building
+
+
+class GeneralServicesProcess(models.Model):
+    option_service = models.CharField(max_length=100)
+    ri_service = models.DecimalField(max_digits=5, decimal_places=2)
+
+    def __str__(self):
+        return self.option_service
+
+
+class RiskManagement(models.Model):
+    option_risk = models.CharField(max_length=100)
+    ri_risk = models.DecimalField(max_digits=5, decimal_places=2)
+
+    def __str__(self):
+        return self.option_risk
+
+
+class RiskPreventionPersonal(models.Model):
+    option_prevent = models.CharField(max_length=100)
+    ri_prevent = models.DecimalField(max_digits=5, decimal_places=2)
+
+    def __str__(self):
+        return self.option_prevent

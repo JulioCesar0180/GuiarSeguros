@@ -28,6 +28,7 @@ class UserGuiarAdmin(UserAdmin):
         ('Dotación Empresa', {'fields': ('n_emp_hired', 'n_cont_emp', 'n_veh_com_light', 'n_veh_com_cont',
                                          'n_veh_com_heavy', 'n_veh_com_heavy_cont', 'n_mach_heavy', 'n_mach_heavy_cont')}),
         ('Procesos', {'fields': ('process',)}),
+        ('Trabajos realizados', {'fields': ('transport', 'manufacture', 'building', 'general_services')}),
         ('Permisos', {'fields': ('is_admin',)})
     )
 
@@ -35,3 +36,9 @@ class UserGuiarAdmin(UserAdmin):
 admin.site.register(BusinessManager)
 admin.site.register(City)
 admin.site.register(Town)
+admin.site.register(TransportProcess)
+admin.site.register(ManufactureProcess)
+admin.site.register(BuildingProcess)
+admin.site.register(GeneralServicesProcess)
+admin.site.register(RiskManagement)
+admin.site.register(RiskPreventionPersonal)

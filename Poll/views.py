@@ -69,12 +69,13 @@ def poll_view(request):
         process_form = ProcessForm(request.POST, instance=request.user)
         if process_form.is_valid():
             process_form.save()
-            return render(request, 'Poll/mideturiesgo_page2.html')
+            return redirect('poll-risk')
     return render(request, 'Poll/mideturiesgo-page1.html', context)
 
 
 def poll_risk(request):
-    return render(request, 'Poll/mideturiesgo-page2.html')
+    context = {'g': 'Hello'}
+    return render(request, 'Poll/mideturiesgo_page2.html', context)
 
 
 class FormProfileBSPoll(UpdateView):

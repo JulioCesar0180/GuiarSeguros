@@ -55,19 +55,35 @@ class UserGuiar(AbstractUser):
     sales = models.ForeignKey(Sales, on_delete=models.CASCADE, null=True)
 
     # Dotacion Empresa
-    n_emp_hired = models.PositiveIntegerField(null=True)
-    n_cont_emp = models.PositiveIntegerField(null=True)
-    n_veh_com_light = models.PositiveIntegerField(null=True)
-    n_veh_com_cont = models.PositiveIntegerField(null=True)
-    n_veh_com_heavy = models.PositiveIntegerField(null=True)
-    n_veh_com_heavy_cont = models.PositiveIntegerField(null=True)
-    n_mach_heavy = models.PositiveIntegerField(null=True)
-    n_mach_heavy_cont = models.PositiveIntegerField(null=True)
+    n_emp_hired = models.PositiveIntegerField(null=True, default=0)
+    n_cont_emp = models.PositiveIntegerField(null=True, default=0)
+    n_veh_com_light = models.PositiveIntegerField(null=True, default=0)
+    n_veh_com_cont = models.PositiveIntegerField(null=True, default=0)
+    n_veh_com_heavy = models.PositiveIntegerField(null=True, default=0)
+    n_veh_com_heavy_cont = models.PositiveIntegerField(null=True, default=0)
+    n_mach_heavy = models.PositiveIntegerField(null=True, default=0)
+    n_mach_heavy_cont = models.PositiveIntegerField(null=True, default=0)
 
     # Procesos de la Empresa
-    process = models.ManyToManyField(ProcessBusiness)
+    process = models.ManyToManyField(ProcessBusiness, blank=True)
 
-    #
+    # Transporte
+    transport = models.ManyToManyField(TransportProcess, blank=True)
+
+    # Manufactura
+    manufacture = models.ManyToManyField(ManufactureProcess, blank=True)
+
+    # Construccion
+    building = models.ManyToManyField(BuildingProcess, blank=True)
+
+    # Servicios Generales
+    general_services = models.ManyToManyField(GeneralServicesProcess, blank=True)
+
+    # Elementos de manejo de riesgos
+    risk_management = models.ForeignKey(RiskManagement, on_delete=models.DO_NOTHING, null=True, blank=True)
+
+    # Prevencionista de Riesgo
+    risk_prevent = models.ForeignKey(RiskPreventionPersonal, on_delete=models.DO_NOTHING, null=True, blank=True)
 
     is_admin = models.BooleanField(default=False)
     objects = UserGuiarManager()
