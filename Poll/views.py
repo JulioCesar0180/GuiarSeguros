@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 from django.views import View
@@ -7,7 +8,7 @@ from django.views import View
 from django.views.generic import *
 
 from Poll.forms import LoginForm, ChangeProfileBSPoll, ChangeProfileBMPoll, ChangeSaleFrom, QuantityEmpForm, ProcessForm
-from Home.models import UserGuiar, BusinessManager
+from Home.models import UserGuiar, BusinessManager, ProcessBusiness
 
 
 def login_view(request):
@@ -54,15 +55,26 @@ def poll_view(request):
     sale_form = ChangeSaleFrom(instance=request.user)
     quantityEmp_form = QuantityEmpForm(instance=request.user)
     process_form = ProcessForm(instance=request.user)
+    user = UserGuiar.objects.get(rut=request.user.rut)
     context = {
         'BS_profile': bs_form,
         'BM_profile': bm_form,
         'manager': manager,
         'sale_form': sale_form,
         'quantityEmp_form': quantityEmp_form,
-        'process_form': process_form
+        'process_form': process_form,
+        'user': user
     }
+    if request.method == "POST":
+        process_form = ProcessForm(request.POST, instance=request.user)
+        if process_form.is_valid():
+            process_form.save()
+            return render(request, 'Poll/mideturiesgo_page2.html')
     return render(request, 'Poll/mideturiesgo-page1.html', context)
+
+
+def poll_risk(request):
+    return render(request, 'Poll/mideturiesgo-page2.html')
 
 
 class FormProfileBSPoll(UpdateView):
@@ -200,8 +212,16 @@ class FormProcessPoll(UpdateView):
         response = super(FormProcessPoll, self).form_valid(form)
         if self.request.is_ajax():
             form.save()
+            type_process = []
+            user = UserGuiar.objects.get(rut=self.request.user.rut)
+            process = ProcessBusiness.objects.all()
+            for e in process:
+                if e in user.process.all():
+                    type_process.append(e.title)
+            print(type_process)
             data = {
-                'message': "Successfully submitted form data."
+                'message': "Successfully submitted form data.",
+                'array': type_process,
             }
             return JsonResponse(data)
         else:

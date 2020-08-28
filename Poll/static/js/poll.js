@@ -131,34 +131,7 @@ $(document).ready(function () {
 * form: 5
 * */
 
-$(document).ready(function () {
-    var $form_quantity = $('#id_process');
-    $form_quantity.submit(function (event) {
-        event.preventDefault();
-        var $formData = $(this).serialize();
-        var $thisURL = $form_quantity.attr('data-url');
-        $.ajax({
-            method: 'POST',
-            url: $thisURL,
-            data: $formData,
-            success: handleFormSuccess,
-            error: handleFormError,
-        })
-    });
 
-    function handleFormSuccess(data, textStatus, jqXHR){
-        console.log(data);
-        console.log(textStatus);
-        console.log(jqXHR);
-        plusSlides(1);
-    }
-
-    function handleFormError(jqXHR, textStatus, errorThrown){
-        console.log(jqXHR);
-        console.log(textStatus);
-        console.log(errorThrown);
-    }
-});
 
 var slideIndex = 1;
 showSlides(slideIndex);
