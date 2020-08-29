@@ -12,7 +12,7 @@ from django.views.generic import *
 
 from Poll.forms import LoginForm, ChangeProfileBSPoll, ChangeProfileBMPoll, ChangeSaleFrom, QuantityEmpForm,\
     ProcessForm, TransportProcessForm, ManufactureProcessForm, BuildingProcessForm, GeneralServiceForm, \
-    ControlRiskForm, PreventRiskForm
+    ControlRiskForm, PreventRiskForm, ConfirmedForm
 from Home.models import UserGuiar, BusinessManager, ProcessBusiness
 
 
@@ -232,7 +232,81 @@ def view_prevent_risk(request, pk):
         form = PreventRiskForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
-            return redirect('home')
+            return redirect('poll-confirmed-explosive', pk)
         else:
             messages.error(request, "Error")
     return render(request, 'Poll/forms/form_prevnet_risk.html', context)
+
+
+@login_required
+def view_confirmed_control_explosive(request, pk):
+    form = ConfirmedForm()
+    if request.method == "POST":
+        form = ConfirmedForm(request.POST)
+        if form.is_valid():
+            if form.cleaned_data['confirm'] == "True":
+                return redirect('poll-explosive', pk)
+            else:
+                return redirect('poll-confirmed-electricity', pk)
+    context = {'form': form}
+    return render(request, 'Poll/forms/form_confirm_explosive.html', context)
+
+
+@login_required
+def view_control_explosive(request, pk):
+    pass
+
+
+def view_confirmed_control_electricity(request, pk):
+    form = ConfirmedForm()
+    if request.method == "POST":
+        form = ConfirmedForm(request.POST)
+        if form.is_valid():
+            if form.cleaned_data['confirm'] == "True":
+                return redirect('poll-electricity', pk)
+            else:
+                return redirect('poll-confirmed-substance', pk)
+    context = {'form': form}
+    return render(request, 'Poll/forms/form_confirm_electricity.html', context)
+
+
+def view_control_electricity(request, pk):
+    return None
+
+
+def view_confirmed_substances(request, pk):
+    form = ConfirmedForm()
+    if request.method == "POST":
+        form = ConfirmedForm(request.POST)
+        if form.is_valid():
+            if form.cleaned_data['confirm'] == "True":
+                return redirect('poll-substance', pk)
+            else:
+                return redirect('poll-confirmed-height', pk)
+    context = {'form': form}
+    return render(request, 'Poll/forms/form_confirm_substance.html', context)
+
+
+def view_control_substances(request, pk):
+    return None
+
+
+def view_confirmed_height(request, pk):
+    form = ConfirmedForm()
+    if request.method == "POST":
+        form = ConfirmedForm(request.POST)
+        if form.is_valid():
+            if form.cleaned_data['confirm'] == "True":
+                return redirect('poll-height', pk)
+            else:
+                return redirect('poll-results')
+    context = {'form': form}
+    return render(request, 'Poll/forms/form_confirm_height.html', context)
+
+
+def view_control_height(request, pk):
+    return None
+
+
+def view_results(request):
+    return HttpResponse("Results")

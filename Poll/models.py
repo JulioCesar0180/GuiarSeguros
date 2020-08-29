@@ -64,3 +64,35 @@ class RiskPreventionPersonal(models.Model):
 
     def __str__(self):
         return self.option_prevent
+
+
+class ExplosiveControl(models.Model):
+    explosive_control = models.CharField(max_length=255)
+    ri_explosive = models.DecimalField(max_digits=5, decimal_places=2)
+
+    def __str__(self):
+        return self.explosive_control
+
+
+class ControlElectricity(models.Model):
+    electricity_control = models.CharField(max_length=255)
+    ri_electricity = models.DecimalField(max_digits=5, decimal_places=2)
+
+    def __str__(self):
+        return self.electricity_control
+
+
+class ControlSubstance(models.Model):
+    substance_control = models.CharField(max_length=255)
+    ri_substance = models.DecimalField(max_digits=5, decimal_places=2)
+
+    def __str__(self):
+        return self.substance_control
+
+
+class ControlHeight(models.Model):
+    height_control = models.CharField(max_length=255)
+    ri_height = models.DecimalField(max_digits=5, decimal_places=2)
+
+    def __str__(self):
+        return self.height_control

@@ -147,3 +147,9 @@ class PreventRiskForm(forms.ModelForm):
         widgets = {
             'risk_prevent': forms.CheckboxSelectMultiple
         }
+
+
+class ConfirmedForm(forms.Form):
+    CHOICE = [(True, "Sí"),
+              (False, "No")]
+    confirm = forms.ChoiceField(choices=CHOICE, widget=forms.RadioSelect)

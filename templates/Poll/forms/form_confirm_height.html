@@ -10,15 +10,14 @@
 {% block content %}
 <div class="container is-fluid">
     <div class="container is-desktop">
-
         <div style="margin-bottom: 15px">
-            <h3 class="title">5.- Indique el tipo de cargas dentro del territorio nacional para TRANSPORTE TERRESTRE que realiza la empresa a ser evaluada</h3>
+            <h3 class="title">5.- ¿En la empresa para su funcionamiento se realizan trabajos en altura?</h3>
             <p>Asegurese que la información este actualizada</p>
         </div>
         <form id="id_process" method="post">
             {% csrf_token %}
             <div class="container">
-                {% for i in form.transport %}
+                {% for i in form.confirm %}
                     <div class="input-radio">
                         {{ i.tag }}
                         <label for="{{ i.id_for_label }}" class="unselectable">{{ i.choice_label }}</label>

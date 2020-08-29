@@ -85,6 +85,15 @@ class UserGuiar(AbstractUser):
     # Prevencionista de Riesgo
     risk_prevent = models.ForeignKey(RiskPreventionPersonal, on_delete=models.DO_NOTHING, null=True, blank=True)
 
+    # Explosives Control
+    explosive_control = None
+    # Electricity Control
+    electricity_control = None
+    # Substance Control
+    substance_control = None
+    # Height Control
+    height_control = None
+
     is_admin = models.BooleanField(default=False)
     objects = UserGuiarManager()
     USERNAME_FIELD = 'rut'
