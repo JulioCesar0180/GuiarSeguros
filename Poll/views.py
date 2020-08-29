@@ -12,7 +12,8 @@ from django.views.generic import *
 
 from Poll.forms import LoginForm, ChangeProfileBSPoll, ChangeProfileBMPoll, ChangeSaleFrom, QuantityEmpForm,\
     ProcessForm, TransportProcessForm, ManufactureProcessForm, BuildingProcessForm, GeneralServiceForm, \
-    ControlRiskForm, PreventRiskForm, ConfirmedForm
+    ControlRiskForm, PreventRiskForm, ConfirmedForm, ExplosiveControlForm, ElectricityControlForm, \
+    SubstanceControlForm, HeightControlForm
 from Home.models import UserGuiar, BusinessManager, ProcessBusiness
 
 
@@ -65,7 +66,6 @@ def view_form_profile_bs(request, pk):
             form.save()
             return redirect('poll-manager', user.pk)
         else:
-            print(messages.error(request, "Error"))
             messages.error(request, "Error")
     return render(request, 'Poll/forms/form_personal_BS.html', context)
 
@@ -254,7 +254,17 @@ def view_confirmed_control_explosive(request, pk):
 
 @login_required
 def view_control_explosive(request, pk):
-    pass
+    user = UserGuiar.objects.get(rut=pk)
+    form = ExplosiveControlForm(instance=user)
+    context = {'user': user, 'form': form}
+    if request.method == "POST":
+        form = ExplosiveControlForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('poll-confirmed-electricity', pk)
+        else:
+            messages.error(request, "Error")
+    return render(request, 'Poll/forms/form_control_explosives.html', context)
 
 
 def view_confirmed_control_electricity(request, pk):
@@ -271,7 +281,17 @@ def view_confirmed_control_electricity(request, pk):
 
 
 def view_control_electricity(request, pk):
-    return None
+    user = UserGuiar.objects.get(rut=pk)
+    form = ElectricityControlForm(instance=user)
+    context = {'user': user, 'form': form}
+    if request.method == "POST":
+        form = ElectricityControlForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('poll-confirmed-substance', pk)
+        else:
+            messages.error(request, "Error")
+    return render(request, 'Poll/forms/form_control_electricity.html', context)
 
 
 def view_confirmed_substances(request, pk):
@@ -288,7 +308,17 @@ def view_confirmed_substances(request, pk):
 
 
 def view_control_substances(request, pk):
-    return None
+    user = UserGuiar.objects.get(rut=pk)
+    form = SubstanceControlForm(instance=user)
+    context = {'user': user, 'form': form}
+    if request.method == "POST":
+        form = SubstanceControlForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('poll-confirmed-height', pk)
+        else:
+            messages.error(request, "Error")
+    return render(request, 'Poll/forms/form_control_substance.html', context)
 
 
 def view_confirmed_height(request, pk):
@@ -305,7 +335,17 @@ def view_confirmed_height(request, pk):
 
 
 def view_control_height(request, pk):
-    return None
+    user = UserGuiar.objects.get(rut=pk)
+    form = HeightControlForm(instance=user)
+    context = {'user': user, 'form': form}
+    if request.method == "POST":
+        form = HeightControlForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('poll-results')
+        else:
+            messages.error(request, "Error")
+    return render(request, 'Poll/forms/form_control_height.html', context)
 
 
 def view_results(request):

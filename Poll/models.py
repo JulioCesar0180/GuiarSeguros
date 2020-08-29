@@ -74,7 +74,7 @@ class ExplosiveControl(models.Model):
         return self.explosive_control
 
 
-class ControlElectricity(models.Model):
+class ElectricityControl(models.Model):
     electricity_control = models.CharField(max_length=255)
     ri_electricity = models.DecimalField(max_digits=5, decimal_places=2)
 
@@ -82,7 +82,7 @@ class ControlElectricity(models.Model):
         return self.electricity_control
 
 
-class ControlSubstance(models.Model):
+class SubstanceControl(models.Model):
     substance_control = models.CharField(max_length=255)
     ri_substance = models.DecimalField(max_digits=5, decimal_places=2)
 
@@ -90,7 +90,7 @@ class ControlSubstance(models.Model):
         return self.substance_control
 
 
-class ControlHeight(models.Model):
+class HeightControl(models.Model):
     height_control = models.CharField(max_length=255)
     ri_height = models.DecimalField(max_digits=5, decimal_places=2)
 

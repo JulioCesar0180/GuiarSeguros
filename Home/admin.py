@@ -31,6 +31,10 @@ class UserGuiarAdmin(UserAdmin):
         ('Trabajos realizados', {'fields': ('transport', 'manufacture', 'building', 'general_services')}),
         ('Control de Riesgos', {'fields': ('risk_management',)}),
         ('Prevencion de Riesgos', {'fields': ('risk_prevent',)}),
+        ('Manejo de Explosivos', {'fields': ('explosive_control',)}),
+        ('Control de Altas Tensiones', {'fields': ('electricity_control',)}),
+        ('Manejo de Sustancias', {'fields': ('substance_control',)}),
+        ('Precaucion en Alturas', {'fields': ('height_control', )}),
         ('Permisos', {'fields': ('is_admin',)})
     )
 
@@ -44,3 +48,7 @@ admin.site.register(BuildingProcess)
 admin.site.register(GeneralServicesProcess)
 admin.site.register(RiskManagement)
 admin.site.register(RiskPreventionPersonal)
+admin.site.register(ExplosiveControl)
+admin.site.register(ElectricityControl)
+admin.site.register(SubstanceControl)
+admin.site.register(HeightControl)

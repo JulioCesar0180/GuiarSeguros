@@ -153,3 +153,43 @@ class ConfirmedForm(forms.Form):
     CHOICE = [(True, "Sí"),
               (False, "No")]
     confirm = forms.ChoiceField(choices=CHOICE, widget=forms.RadioSelect)
+
+
+class ExplosiveControlForm(forms.ModelForm):
+    class Meta:
+        model = UserGuiar
+        fields = ['explosive_control']
+
+        widgets = {
+            'explosive_control': forms.CheckboxSelectMultiple
+        }
+
+
+class ElectricityControlForm(forms.ModelForm):
+    class Meta:
+        model = UserGuiar
+        fields = ['electricity_control']
+
+        widgets = {
+            'electricity_control': forms.CheckboxSelectMultiple
+        }
+
+
+class SubstanceControlForm(forms.ModelForm):
+    class Meta:
+        model = UserGuiar
+        fields = ['substance_control']
+
+        widgets = {
+            'substance_control': forms.CheckboxSelectMultiple
+        }
+
+
+class HeightControlForm(forms.ModelForm):
+    class Meta:
+        model = UserGuiar
+        fields = ['height_control']
+
+        widgets = {
+            'height_control': forms.CheckboxSelectMultiple
+        }

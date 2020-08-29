@@ -12,13 +12,13 @@
     <div class="container is-desktop">
 
         <div style="margin-bottom: 15px">
-            <h3 class="title">5.- Indique todas las actividades que realiza la empresa para disminuir los riesgos con respecto a la manipulación de explosivos</h3>
+            <h3 class="title">5.- Indique todas las actividades que realiza la empresa para disminuir los riesgos con respecto al TRANSPORTE DE SUSTANCIAS PELIGROSAS</h3>
             <p>Asegurese que la información este actualizada</p>
         </div>
         <form id="id_process" method="post">
             {% csrf_token %}
             <div class="container">
-                {% for i in form.explosive_control %}
+                {% for i in form.substance_control %}
                     <div class="input-radio">
                         {{ i.tag }}
                         <label for="{{ i.id_for_label }}" class="unselectable">{{ i.choice_label }}</label>

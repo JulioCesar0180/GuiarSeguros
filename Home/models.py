@@ -86,13 +86,13 @@ class UserGuiar(AbstractUser):
     risk_prevent = models.ForeignKey(RiskPreventionPersonal, on_delete=models.DO_NOTHING, null=True, blank=True)
 
     # Explosives Control
-    explosive_control = None
+    explosive_control = models.ManyToManyField(ExplosiveControl)
     # Electricity Control
-    electricity_control = None
+    electricity_control = models.ManyToManyField(ElectricityControl)
     # Substance Control
-    substance_control = None
+    substance_control = models.ManyToManyField(SubstanceControl)
     # Height Control
-    height_control = None
+    height_control = models.ManyToManyField(HeightControl)
 
     is_admin = models.BooleanField(default=False)
     objects = UserGuiarManager()
