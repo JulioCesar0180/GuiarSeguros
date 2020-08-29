@@ -22,13 +22,15 @@ class UserGuiarAdmin(UserAdmin):
 
     fieldsets = (
         (None, {'fields': ('rut', 'password')}),
-        ('Datos de la empresa', {'fields': ('name', 'city', 'town', 'seniority')}),
+        ('Datos de la empresa', {'fields': ('name', 'address', 'city', 'town', 'seniority')}),
         ('Datos del representante', {'fields': ('manager',)}),
         ('Ventas Anuales', {'fields': ('sales',)}),
         ('Dotación Empresa', {'fields': ('n_emp_hired', 'n_cont_emp', 'n_veh_com_light', 'n_veh_com_cont',
                                          'n_veh_com_heavy', 'n_veh_com_heavy_cont', 'n_mach_heavy', 'n_mach_heavy_cont')}),
         ('Procesos', {'fields': ('process',)}),
         ('Trabajos realizados', {'fields': ('transport', 'manufacture', 'building', 'general_services')}),
+        ('Control de Riesgos', {'fields': ('risk_management',)}),
+        ('Prevencion de Riesgos', {'fields': ('risk_prevent',)}),
         ('Permisos', {'fields': ('is_admin',)})
     )
 

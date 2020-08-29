@@ -65,7 +65,7 @@ class UserGuiar(AbstractUser):
     n_mach_heavy_cont = models.PositiveIntegerField(null=True, default=0)
 
     # Procesos de la Empresa
-    process = models.ManyToManyField(ProcessBusiness, blank=True)
+    process = models.ManyToManyField(ProcessBusiness)
 
     # Transporte
     transport = models.ManyToManyField(TransportProcess, blank=True)

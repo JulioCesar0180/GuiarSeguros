@@ -27,9 +27,8 @@ class ChangeProfileBSPoll(forms.ModelForm):
             'rut': forms.TextInput(attrs={'class': 'input'}),
             'seniority': forms.TextInput(attrs={'class': 'input'}),
             'address': forms.TextInput(attrs={'class': 'input'}),
+            'town': forms.TextInput(attrs={'class': 'input'})
         }
-
-
 
 """
     def __init__(self, city_q, *args, **kwargs):
@@ -38,11 +37,17 @@ class ChangeProfileBSPoll(forms.ModelForm):
 """
 
 
-class ChangeProfileBMPoll(forms.Form):
-    rut_bm = forms.CharField(max_length=12)
-    fullname = forms.CharField(max_length=100)
-    email = forms.EmailField()
-    phone = forms.IntegerField()
+class ChangeProfileBMPoll(forms.ModelForm):
+    class Meta:
+        model = BusinessManager
+        fields = "__all__"
+
+        widgets = {
+            'fullname': forms.TextInput(attrs={'class': 'input'}),
+            'rut_bm': forms.TextInput(attrs={'class': 'input'}),
+            'email': forms.EmailInput(attrs={'class': 'input'}),
+            'phone': forms.NumberInput(attrs={'class': 'input'})
+        }
 
 
 class ChangeSaleFrom(forms.ModelForm):
@@ -81,4 +86,64 @@ class ProcessForm(forms.ModelForm):
 
         widgets = {
             'process': forms.CheckboxSelectMultiple
+        }
+
+
+class TransportProcessForm(forms.ModelForm):
+    class Meta:
+        model = UserGuiar
+        fields = ['transport']
+
+        widgets = {
+            'transport': forms.CheckboxSelectMultiple
+        }
+
+
+class ManufactureProcessForm(forms.ModelForm):
+    class Meta:
+        model = UserGuiar
+        fields = ['manufacture']
+
+        widgets = {
+            'manufacture': forms.CheckboxSelectMultiple
+        }
+
+
+class BuildingProcessForm(forms.ModelForm):
+    class Meta:
+        model = UserGuiar
+        fields = ['building']
+
+        widgets = {
+            'building': forms.CheckboxSelectMultiple
+        }
+
+
+class GeneralServiceForm(forms.ModelForm):
+    class Meta:
+        model = UserGuiar
+        fields = ['general_services']
+
+        widgets = {
+            'general_services': forms.CheckboxSelectMultiple
+        }
+
+
+class ControlRiskForm(forms.ModelForm):
+    class Meta:
+        model = UserGuiar
+        fields = ['risk_management']
+
+        widgets = {
+            'risk_management': forms.CheckboxSelectMultiple
+        }
+
+
+class PreventRiskForm(forms.ModelForm):
+    class Meta:
+        model = UserGuiar
+        fields = ['risk_prevent']
+
+        widgets = {
+            'risk_prevent': forms.CheckboxSelectMultiple
         }

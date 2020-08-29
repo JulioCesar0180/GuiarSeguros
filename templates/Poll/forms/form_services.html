@@ -10,7 +10,6 @@
 {% block content %}
 <div class="container is-fluid">
     <div class="container is-desktop">
-
         <div style="margin-bottom: 15px">
             <h3 class="title">5.- Indique el o los rubros en que participa la empresa</h3>
             <p>Asegurese que la información este actualizada</p>
@@ -18,7 +17,7 @@
         <form id="id_process" method="post">
             {% csrf_token %}
             <div class="container">
-                {% for i in form.process %}
+                {% for i in form.general_services %}
                     <div class="input-radio">
                         {{ i.tag }}
                         <label for="{{ i.id_for_label }}" class="unselectable">{{ i.choice_label }}</label>

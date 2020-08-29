@@ -1,48 +1,70 @@
-<div style="margin-bottom: 15px">
-    <h3 class="title">1.- Datos generales de la empresa</h3>
-    <p>Asegurese que la información este actualizada</p>
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/slideform.css' %}">
+    <link rel="stylesheet" href="{% static 'css/design_option.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container is-fluid">
+    <div class="container is-desktop">
+        <div style="margin-bottom: 15px">
+            <h3 class="title">1.- Datos generales de la empresa</h3>
+            <p>Asegurese que la información este actualizada</p>
+        </div>
+        {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+        {% endfor %}
+        <form id="id_personal_BS" method="post">
+            {% csrf_token %}
+            <div class="field">
+                <label for="{{ BS_profile.name_BS.id_for_label }}" class="label">Razón Social</label>
+                <div class="control">
+                    {{ form.name }}
+                </div>
+            </div>
+            <div class="field">
+                <label for="{{ BS_profile.rut_BS.id_for_label }}" class="label">RUT</label>
+                <div class="control">
+                    {{ form.rut }}
+                </div>
+            </div>
+            <div class="field">
+                <label for="{{ BS_profile.seniority.id_for_label }}" class="label">Antigüedad de la empresa (años)</label>
+                <div class="control">
+                    {{ form.seniority }}
+                </div>
+            </div>
+            <div class="field">
+                <label for="{{ BS_profile.address.id_for_label }}" class="label">Dirección</label>
+                <div class="control">
+                    {{ form.address }}
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Ciudad</label>
+                <div class="control">
+                    <div class="select">
+                        {{ form.city }}
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Comuna</label>
+                <div class="control">
+                    <div class="select">
+                        {{ form.town }}
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="button">Siguiente</button>
+        </form>
+    </div>
 </div>
-<form id="id_personal_BS" method="post" data-url="{% url 'poll-personal' %}">
-    {% csrf_token %}
-    <div class="field">
-        <label for="{{ BS_profile.name_BS.id_for_label }}" class="label">Razón Social</label>
-        <div class="control">
-            {{ BS_profile.name }}
-        </div>
-    </div>
-    <div class="field">
-        <label for="{{ BS_profile.rut_BS.id_for_label }}" class="label">RUT</label>
-        <div class="control">
-            {{ BS_profile.rut }}
-        </div>
-    </div>
-    <div class="field">
-        <label for="{{ BS_profile.seniority.id_for_label }}" class="label">Antigüedad de la empresa (años)</label>
-        <div class="control">
-            {{ BS_profile.seniority }}
-        </div>
-    </div>
-    <div class="field">
-        <label for="{{ BS_profile.address.id_for_label }}" class="label">Dirección</label>
-        <div class="control">
-            {{ BS_profile.address }}
-        </div>
-    </div>
-    <div class="field">
-        <label class="label">Ciudad</label>
-        <div class="control">
-            <div class="select">
-                {{ BS_profile.city }}
-            </div>
-        </div>
-    </div>
-    <div class="field">
-        <label class="label">Comuna</label>
-        <div class="control">
-            <div class="select">
-                {{ BS_profile.town }}
-            </div>
-        </div>
-    </div>
-    <button type="submit" class="button">Siguiente</button>
-</form>
+{% endblock %}

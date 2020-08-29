@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="animate__animated animate__pulse animate__infinite">
-                <a class="button" href="{% url 'poll' %}">Comenzar</a>
+                <a class="button" href="{% url 'poll-personal' request.user.pk %}">Comenzar</a>
             </div>
         </center>
     </div>

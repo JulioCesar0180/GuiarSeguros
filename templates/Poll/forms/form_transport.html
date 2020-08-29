@@ -18,7 +18,7 @@
         <form id="id_process" method="post">
             {% csrf_token %}
             <div class="container">
-                {% for i in form.process %}
+                {% for i in form.transport %}
                     <div class="input-radio">
                         {{ i.tag }}
                         <label for="{{ i.id_for_label }}" class="unselectable">{{ i.choice_label }}</label>
