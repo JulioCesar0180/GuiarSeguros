@@ -4,5 +4,6 @@ from .models import *
 
 admin.site.register(Sales)
 admin.site.register(ProcessBusiness)
+admin.site.register(Poliza)
 # admin.site.register(RiskManagement)
 # admin.site.register(RiskPreventionPersonal)

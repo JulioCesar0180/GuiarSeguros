@@ -329,7 +329,7 @@ def view_confirmed_height(request, pk):
             if form.cleaned_data['confirm'] == "True":
                 return redirect('poll-height', pk)
             else:
-                return redirect('poll-results')
+                return redirect('poll-results', pk)
     context = {'form': form}
     return render(request, 'Poll/forms/form_confirm_height.html', context)
 
@@ -342,11 +342,21 @@ def view_control_height(request, pk):
         form = HeightControlForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
-            return redirect('poll-results')
+            return redirect('poll-results', pk)
         else:
             messages.error(request, "Error")
     return render(request, 'Poll/forms/form_control_height.html', context)
 
 
-def view_results(request):
+def view_results(request, pk):
+    # [Nombre de la poliza, maximo puntaje, puntaje obtenido, id de la Poliza]
+    desgloce = []
+    # Resultado global independiente de las polizas
+    total = 0
+    user = UserGuiar.objects.get(rut=pk)
+    for proceso in user.transport.all():
+        print(proceso.ri_transport)
+    # for poliza in TablaPoliza.objects.all():
+    #         desgloce.append([poliza.nombre_poliza,0,0,poliza.id])
+
     return HttpResponse("Results")

@@ -26,6 +26,6 @@ urlpatterns = [
     path('poll17/<int:pk>', views.view_control_substances, name="poll-substance"),
     path('poll18/<int:pk>', views.view_confirmed_height, name="poll-confirmed-height"),
     path('poll19/<int:pk>', views.view_control_height, name="poll-height"),
-    path('poll-results', views.view_results, name="poll-results"),
+    path('poll-results/<int:pk>', views.view_results, name="poll-results"),
     path('logout', views.logout_view, name="logout"),
 ]
