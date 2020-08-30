@@ -112,3 +112,35 @@ class Poliza(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ExplosiveConfirmed(models.Model):
+    option_explosive = models.CharField(max_length=10)
+    value_ri_explosive = models.DecimalField(max_digits=5, decimal_places=2)
+
+    def __str__(self):
+        return self.option_explosive
+
+
+class ElectricityConfirmed(models.Model):
+    option_electricity = models.CharField(max_length=10)
+    value_ri_electricity = models.DecimalField(max_digits=5, decimal_places=2)
+
+    def __str__(self):
+        return self.option_electricity
+
+
+class SubstanceConfirmed(models.Model):
+    option_substance = models.CharField(max_length=10)
+    value_ri_substance = models.DecimalField(max_digits=5, decimal_places=2)
+
+    def __str__(self):
+        return self.option_substance
+
+
+class HeightConfirmed(models.Model):
+    option_height = models.CharField(max_length=10)
+    value_ri_height = models.DecimalField(max_digits=5, decimal_places=2)
+
+    def __str__(self):
+        return self.option_height

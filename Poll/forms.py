@@ -149,7 +149,7 @@ class PreventRiskForm(forms.ModelForm):
         }
 
 
-class ConfirmedForm(forms.Form):
+class ConfirmedControlForm(forms.Form):
     CHOICE = [(True, "Sí"),
               (False, "No")]
     confirm = forms.ChoiceField(choices=CHOICE, widget=forms.RadioSelect)
@@ -192,4 +192,44 @@ class HeightControlForm(forms.ModelForm):
 
         widgets = {
             'height_control': forms.CheckboxSelectMultiple
+        }
+
+
+class ExplosiveConfirmedForm(forms.ModelForm):
+    class Meta:
+        model = UserGuiar
+        fields = ['explosive_confirmed']
+
+        widgets = {
+            'explosive_confirmed': forms.RadioSelect
+        }
+
+
+class ElectricityConfirmedForm(forms.ModelForm):
+    class Meta:
+        model = UserGuiar
+        fields = ['electricity_confirmed']
+
+        widgets = {
+            'electricity_confirmed': forms.RadioSelect
+        }
+
+
+class SubstancesConfirmedForm(forms.ModelForm):
+    class Meta:
+        model = UserGuiar
+        fields = ['substance_confirmed']
+
+        widgets = {
+            'substance_confirmed': forms.RadioSelect
+        }
+
+
+class HeightConfirmedForm(forms.ModelForm):
+    class Meta:
+        model = UserGuiar
+        fields = ['height_confirmed']
+
+        widgets = {
+            'height_confirmed': forms.RadioSelect
         }

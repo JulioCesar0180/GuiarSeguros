@@ -10,10 +10,7 @@ from django.views import View
 # Create your views here.
 from django.views.generic import *
 
-from Poll.forms import LoginForm, ChangeProfileBSPoll, ChangeProfileBMPoll, ChangeSaleFrom, QuantityEmpForm,\
-    ProcessForm, TransportProcessForm, ManufactureProcessForm, BuildingProcessForm, GeneralServiceForm, \
-    ControlRiskForm, PreventRiskForm, ConfirmedForm, ExplosiveControlForm, ElectricityControlForm, \
-    SubstanceControlForm, HeightControlForm
+from Poll.forms import *
 from Home.models import UserGuiar, BusinessManager, ProcessBusiness
 
 
@@ -45,6 +42,7 @@ def logout_view(request):
     return redirect('home')
 
 
+@login_required
 def profile_view(request):
     user = UserGuiar.objects.get(rut=request.user.rut)
     return render(request, 'Poll/profile.html', {'user': user})
@@ -77,10 +75,8 @@ def view_form_profile_bm(request, pk):
     context = {'manager': manager, 'form': form}
     if request.method == "POST":
         form = ChangeProfileBMPoll(request.POST, instance=manager)
-        print("USER")
         if form.is_valid():
             form.save()
-            print("dsdsd")
             return redirect('poll-sales', pk)
         else:
             messages.error(request, "Error")
@@ -240,11 +236,13 @@ def view_prevent_risk(request, pk):
 
 @login_required
 def view_confirmed_control_explosive(request, pk):
-    form = ConfirmedForm()
+    user = UserGuiar.objects.get(rut=pk)
+    form = ExplosiveConfirmedForm(instance=user)
     if request.method == "POST":
-        form = ConfirmedForm(request.POST)
+        form = ExplosiveConfirmedForm(request.POST, instance=user)
         if form.is_valid():
-            if form.cleaned_data['confirm'] == "True":
+            form.save()
+            if user.explosive_confirmed.option_explosive == "Sí":
                 return redirect('poll-explosive', pk)
             else:
                 return redirect('poll-confirmed-electricity', pk)
@@ -267,12 +265,15 @@ def view_control_explosive(request, pk):
     return render(request, 'Poll/forms/form_control_explosives.html', context)
 
 
+@login_required
 def view_confirmed_control_electricity(request, pk):
-    form = ConfirmedForm()
+    user = UserGuiar.objects.get(rut=pk)
+    form = ElectricityConfirmedForm(instance=user)
     if request.method == "POST":
-        form = ConfirmedForm(request.POST)
+        form = ElectricityConfirmedForm(request.POST, instance=user)
         if form.is_valid():
-            if form.cleaned_data['confirm'] == "True":
+            form.save()
+            if user.electricity_confirmed.option_electricity == "Sí":
                 return redirect('poll-electricity', pk)
             else:
                 return redirect('poll-confirmed-substance', pk)
@@ -280,6 +281,7 @@ def view_confirmed_control_electricity(request, pk):
     return render(request, 'Poll/forms/form_confirm_electricity.html', context)
 
 
+@login_required
 def view_control_electricity(request, pk):
     user = UserGuiar.objects.get(rut=pk)
     form = ElectricityControlForm(instance=user)
@@ -294,12 +296,15 @@ def view_control_electricity(request, pk):
     return render(request, 'Poll/forms/form_control_electricity.html', context)
 
 
+@login_required
 def view_confirmed_substances(request, pk):
-    form = ConfirmedForm()
+    user = UserGuiar.objects.get(rut=pk)
+    form = SubstancesConfirmedForm(instance=user)
     if request.method == "POST":
-        form = ConfirmedForm(request.POST)
+        form = SubstancesConfirmedForm(request.POST, instance=user)
         if form.is_valid():
-            if form.cleaned_data['confirm'] == "True":
+            form.save()
+            if user.substance_confirmed.option_substance == "Sí":
                 return redirect('poll-substance', pk)
             else:
                 return redirect('poll-confirmed-height', pk)
@@ -307,6 +312,7 @@ def view_confirmed_substances(request, pk):
     return render(request, 'Poll/forms/form_confirm_substance.html', context)
 
 
+@login_required
 def view_control_substances(request, pk):
     user = UserGuiar.objects.get(rut=pk)
     form = SubstanceControlForm(instance=user)
@@ -321,12 +327,15 @@ def view_control_substances(request, pk):
     return render(request, 'Poll/forms/form_control_substance.html', context)
 
 
+@login_required
 def view_confirmed_height(request, pk):
-    form = ConfirmedForm()
+    user = UserGuiar.objects.get(rut=pk)
+    form = HeightConfirmedForm(instance=user)
     if request.method == "POST":
-        form = ConfirmedForm(request.POST)
+        form = HeightConfirmedForm(request.POST, instance=user)
         if form.is_valid():
-            if form.cleaned_data['confirm'] == "True":
+            form.save()
+            if user.height_confirmed.option_height == "Sí":
                 return redirect('poll-height', pk)
             else:
                 return redirect('poll-results', pk)
@@ -334,6 +343,7 @@ def view_confirmed_height(request, pk):
     return render(request, 'Poll/forms/form_confirm_height.html', context)
 
 
+@login_required
 def view_control_height(request, pk):
     user = UserGuiar.objects.get(rut=pk)
     form = HeightControlForm(instance=user)
@@ -348,6 +358,7 @@ def view_control_height(request, pk):
     return render(request, 'Poll/forms/form_control_height.html', context)
 
 
+@login_required
 def view_results(request, pk):
     # [Nombre de la poliza, maximo puntaje, puntaje obtenido, id de la Poliza]
     desgloce = []

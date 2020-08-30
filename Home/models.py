@@ -94,6 +94,11 @@ class UserGuiar(AbstractUser):
     # Height Control
     height_control = models.ManyToManyField(HeightControl)
 
+    explosive_confirmed = models.ForeignKey(ExplosiveConfirmed, on_delete=models.DO_NOTHING, null=True)
+    electricity_confirmed = models.ForeignKey(ElectricityConfirmed, on_delete=models.DO_NOTHING, null=True)
+    substance_confirmed = models.ForeignKey(SubstanceConfirmed, on_delete=models.DO_NOTHING, null=True)
+    height_confirmed = models.ForeignKey(HeightConfirmed, on_delete=models.DO_NOTHING, null=True)
+
     is_admin = models.BooleanField(default=False)
     objects = UserGuiarManager()
     USERNAME_FIELD = 'rut'

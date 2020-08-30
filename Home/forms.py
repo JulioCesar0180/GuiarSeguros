@@ -24,5 +24,3 @@ class UserGuiarCreationForm(UserCreationForm):
         if commit:
             user.save()
         return user
-
-
