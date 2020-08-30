@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
-from .models import UserGuiar
+from .models import UserGuiar, BusinessManager
 
 
 class UserGuiarCreationForm(UserCreationForm):
@@ -24,3 +24,16 @@ class UserGuiarCreationForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+
+class CreateManagerForm(forms.ModelForm):
+    class Meta:
+        model = BusinessManager
+        fields = ['fullname', 'rut_bm', 'email', 'phone']
+
+        widgets = {
+            'fullname': forms.TextInput(attrs={'class': 'input'}),
+            'rut_bm': forms.TextInput(attrs={'class': 'input'}),
+            'email': forms.EmailInput(attrs={'class': 'input'}),
+            'phone': forms.NumberInput(attrs={'class': 'input'})
+        }

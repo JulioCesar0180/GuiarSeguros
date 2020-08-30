@@ -135,6 +135,7 @@ def view_transport_process(request, pk):
     user = UserGuiar.objects.get(rut=pk)
     process = ProcessBusiness.objects.get(title="Transporte")
     if process not in user.process.all():
+        user.transport.clear()
         return redirect('poll-manufacture', pk)
 
     form = TransportProcessForm(instance=user)
@@ -154,6 +155,7 @@ def view_manufacture_process(request, pk):
     user = UserGuiar.objects.get(rut=pk)
     process = ProcessBusiness.objects.get(title="Manufactura")
     if process not in user.process.all():
+        user.manufacture.clear()
         return redirect('poll-building', pk)
 
     form = ManufactureProcessForm(instance=user)
@@ -173,6 +175,7 @@ def view_building_process(request, pk):
     user = UserGuiar.objects.get(rut=pk)
     process = ProcessBusiness.objects.get(title="Construcción")
     if process not in user.process.all():
+        user.building.clear()
         return redirect('poll-services', pk)
 
     form = BuildingProcessForm(instance=user)
@@ -192,6 +195,7 @@ def view_services_process(request, pk):
     user = UserGuiar.objects.get(rut=pk)
     process = ProcessBusiness.objects.get(title="Servicios Generales")
     if process not in user.process.all():
+        user.general_services.clear()
         return redirect('poll-control-risk', pk)
 
     form = GeneralServiceForm(instance=user)
@@ -247,6 +251,7 @@ def view_confirmed_control_explosive(request, pk):
             if user.explosive_confirmed.option_explosive == "Sí":
                 return redirect('poll-explosive', pk)
             else:
+                user.explosive_control.clear()
                 return redirect('poll-confirmed-electricity', pk)
     context = {'form': form}
     return render(request, 'Poll/forms/form_confirm_explosive.html', context)
@@ -278,6 +283,7 @@ def view_confirmed_control_electricity(request, pk):
             if user.electricity_confirmed.option_electricity == "Sí":
                 return redirect('poll-electricity', pk)
             else:
+                user.electricity_control.clear()
                 return redirect('poll-confirmed-substance', pk)
     context = {'form': form}
     return render(request, 'Poll/forms/form_confirm_electricity.html', context)
@@ -309,6 +315,7 @@ def view_confirmed_substances(request, pk):
             if user.substance_confirmed.option_substance == "Sí":
                 return redirect('poll-substance', pk)
             else:
+                user.substance_control.clear()
                 return redirect('poll-confirmed-height', pk)
     context = {'form': form}
     return render(request, 'Poll/forms/form_confirm_substance.html', context)
@@ -340,6 +347,7 @@ def view_confirmed_height(request, pk):
             if user.height_confirmed.option_height == "Sí":
                 return redirect('poll-height', pk)
             else:
+                user.height_control.clear()
                 return redirect('poll-results', pk)
     context = {'form': form}
     return render(request, 'Poll/forms/form_confirm_height.html', context)

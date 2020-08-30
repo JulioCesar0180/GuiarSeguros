@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block head %}
+{% endblock %}
+{% block content %}
+    <div class="container is-desktop">
+    <h1 class="title">Formulario de Registro para el representante</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form }}
+        <button class="button">Registrate</button>
+    </form>
+    </div>
+{% endblock %}
