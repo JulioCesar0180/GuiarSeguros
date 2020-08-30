@@ -10,7 +10,9 @@ from django.views import View
 # Create your views here.
 from django.views.generic import *
 
+
 from Poll.forms import *
+from Poll.models import Poliza
 from Home.models import UserGuiar, BusinessManager, ProcessBusiness
 
 
@@ -362,12 +364,107 @@ def view_control_height(request, pk):
 def view_results(request, pk):
     # [Nombre de la poliza, maximo puntaje, puntaje obtenido, id de la Poliza]
     desgloce = []
+    desgloce.clear()
     # Resultado global independiente de las polizas
     total = 0
+
+    # Se generan las categorias a considerar en los resultados
+    polizas = Poliza.objects.all()
+    for pol in polizas:
+        desgloce.append([pol.name, 0, 0, pol.id])
+
+    # Se obtiene el usuario del cual se lee la informacion
     user = UserGuiar.objects.get(rut=pk)
+
+    # Se lleva la cuenta de los resultados de Transporte
     for proceso in user.transport.all():
-        print(proceso.ri_transport)
-    # for poliza in TablaPoliza.objects.all():
-    #         desgloce.append([poliza.nombre_poliza,0,0,poliza.id])
+        total += proceso.ri_transport
+        for des in desgloce:
+            if proceso.poliza.id == des[3]:
+                des[2] += proceso.ri_transport
+                if not proceso.poliza.id == 1:
+                    desgloce[0][2] += proceso.ri_transport
+
+    # Se lleva la cuenta de los resultados de Construccion
+    for proceso in user.building.all():
+        total += proceso.ri_building
+        for des in desgloce:
+            if proceso.poliza.id == des[3]:
+                des[2] += proceso.ri_building
+                if not proceso.poliza.id == 1:
+                    desgloce[0][2] += proceso.ri_building
+
+    # Se lleva la cuenta de los resultados de Manufactura
+    for proceso in user.manufacture.all():
+        total += proceso.ri_manufacture
+        for des in desgloce:
+            if proceso.poliza.id == des[3]:
+                des[2] += proceso.ri_manufacture
+                if not proceso.poliza.id == 1:
+                    desgloce[0][2] += proceso.ri_manufacture
+
+    # Se lleva la cuenta de los resultados de Servicios Generales
+    for proceso in user.general_services.all():
+        total += proceso.ri_service
+        for des in desgloce:
+            if proceso.poliza.id == des[3]:
+                des[2] += proceso.ri_service
+                if not proceso.poliza.id == 1:
+                    desgloce[0][2] += proceso.ri_service
+
+    '''# Se lleva la cuenta de los resultados de Manejo de Riesgo
+    manejo_riesgo = user.risk_management.all()
+    print(manejo_riesgo)            
+    # Se lleva la cuenta de los resultados de Prevencionista de Riesgo
+    prevencionista = user.risk_prevent.all()
+    print(prevencionista)
+    
+    amortiguacion = manejo_riesgo + prevencionista
+
+    # Se lleva la cuenta de los resultados de Explosivos
+    if user.explosive_use:
+        for proceso in user.explosive_control.all():
+            total += proceso.ri_explosive
+            for des in desgloce:
+                if proceso.poliza.id == des[3]:
+                    des[2] += proceso.ri_explosive
+                    if not proceso.poliza.id == 1:
+                        desgloce[0][2] += proceso.ri_explosive
+
+    # Se lleva la cuenta de los resultados de Electricidad
+    if user.electricity_use:
+        for proceso in user.electricity_control.all():
+            total += proceso.ri_electricity
+            for des in desgloce:
+                if proceso.poliza.id == des[3]:
+                    des[2] += proceso.ri_electricity
+                    if not proceso.poliza.id == 1:
+                        desgloce[0][2] += proceso.ri_electricity
+
+    # Se lleva la cuenta de los resultados de Sustancias Peligrosas
+    if user.substance_use:
+        for proceso in user.substance_control.all():
+            total += proceso.ri_substance
+            for des in desgloce:
+                if proceso.poliza.id == des[3]:
+                    des[2] += proceso.ri_substance
+                    if not proceso.poliza.id == 1:
+                        desgloce[0][2] += proceso.ri_substance
+
+    # Se lleva la cuenta de los resultados de Altura
+    if user.height_use:
+        for proceso in user.height_control.all():
+            total += proceso.ri_height
+            for des in desgloce:
+                if proceso.poliza.id == des[3]:
+                    des[2] += proceso.ri_height
+                    if not proceso.poliza.id == 1:
+                        desgloce[0][2] += proceso.ri_height
+    
+    for d in desgloce:
+        d[2] = d[2] * (1 - amortiguacion)'''
+
+    for d in desgloce:
+        print(d[0], d[1], d[2], d[3])
 
     return HttpResponse("Results")
