@@ -3,6 +3,7 @@
 
 {% block head %}
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css'%}">
     <title>Guiar Seguros</title>
 {% endblock %}
 
@@ -55,8 +56,8 @@
 
         </div>
     </div>
-    <div class="container is-fluid gs-cover" style="background-image: url('{% static 'img/business-suit-690048_1920.jpg' %}')" >
-    </div>
+    {% include 'Home/top-home.html' %}
+
     <div class="container is-fluid">
         <div class="container is-desktop">
             <div class="uk-text-center" uk-grid>
@@ -252,4 +253,5 @@
 {% endblock %}
 
 {% block script %}
+    <script src="{% static 'js/home.js' %}"></script>
 {% endblock %}
