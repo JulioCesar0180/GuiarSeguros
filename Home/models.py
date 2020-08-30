@@ -80,10 +80,10 @@ class UserGuiar(AbstractUser):
     general_services = models.ManyToManyField(GeneralServicesProcess, blank=True)
 
     # Elementos de manejo de riesgos
-    risk_management = models.ForeignKey(RiskManagement, on_delete=models.DO_NOTHING, null=True, blank=True)
+    risk_management = models.ForeignKey(RiskManagement, on_delete=models.DO_NOTHING, null=True)
 
     # Prevencionista de Riesgo
-    risk_prevent = models.ForeignKey(RiskPreventionPersonal, on_delete=models.DO_NOTHING, null=True, blank=True)
+    risk_prevent = models.ForeignKey(RiskPreventionPersonal, on_delete=models.DO_NOTHING, null=True)
 
     # Explosives Control
     explosive_control = models.ManyToManyField(ExplosiveControl)

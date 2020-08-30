@@ -135,7 +135,7 @@ class ControlRiskForm(forms.ModelForm):
         fields = ['risk_management']
 
         widgets = {
-            'risk_management': forms.CheckboxSelectMultiple
+            'risk_management': forms.RadioSelect
         }
 
 
@@ -145,7 +145,7 @@ class PreventRiskForm(forms.ModelForm):
         fields = ['risk_prevent']
 
         widgets = {
-            'risk_prevent': forms.CheckboxSelectMultiple
+            'risk_prevent': forms.RadioSelect
         }
 
 
