@@ -774,4 +774,20 @@ def view_results(request, pk):
     for d in desgloce_ordenado:
         print(d[0], d[1], d[2], d[3])
 
-    return HttpResponse("Results")
+    res_por = ((total) / (maximo))
+    res_img = (379 + 19) * res_por
+    res_fin = (379 + 19) - res_img
+    res_fin = int(res_fin)
+    cuartil = (maximo) / 4
+
+    if total < (cuartil):
+        color = "VERDE"
+    elif (cuartil) <= total < (2 * cuartil):
+        color = "AMARILLO"
+    elif (2 * cuartil) <= total <= (3 * cuartil):
+        color = "ANARANJADO"
+    else:
+        color = "ROJO"
+
+    return render(request, 'Poll/results.html',
+                  {'maximo': maximo, 'minimo': minimo, 'total': total, 'res_fin': res_fin, 'color': color})
