@@ -380,14 +380,16 @@ def view_results(request, pk):
     minimo = 0
     # Se generan las categorias a considerar en los resultados
     polizas = Poliza.objects.all()
+    i = 0
     for pol in polizas:
         desgloce.append([pol.name, 0, 0, pol.id])
+        # Se obtiene la posicion de la poliza de accidentes personales
+        if pol.name == "Accidentes Personales":
+            index = i
+        i += 1
 
     # Se obtiene el usuario del cual se lee la informacion
     user = UserGuiar.objects.get(rut=pk)
-
-    # Se lleva la cuenta de los resultados de Dotacion de la Empresa
-    index = desgloce.index("Accidentes Personales")
 
     emp = user.n_cont_emp
     if emp < 50:
