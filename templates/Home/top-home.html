@@ -15,23 +15,27 @@
   </div>
   <div class="mySlides fade">
     <div class="container is-fluid gs-cover" style="background-image: url('{% static 'img/business-suit-690048_1920.jpg' %}')" >
-        <div class="box" style="background-color: rgba(0,0,0,0.7);">
-            <article class="media">
-                <div class="media-left">
+        <div style="background-color: rgba(0,0,0,.7); width: 100%" uk-grid>
+            <div class="uk-width-1-2">
+                <div>
                     <h1 class="title is-1" style="color: white; padding: 12px;">CONOCE NUESTRA INNOVADORA PLATAFORMA</h1>
-                    <h1 class="title is-5" style="bottom: 35%; color: white; padding: 12px;">Ingresa a MideTuRiesgo y podrás
-                        identificar a través de un informe, los seguros que debe contar tu empresa y tus trabajadores.</h1>
+                    <h1 class="title is-5" style="bottom: 35%; color: white; padding: 12px;">Ingresa a MideTuRiesgo <br>y podrás
+                        identificar a través de un informe, <br>los seguros que debe contar tu empresa y tus trabajadores.</h1>
                 </div>
-                <div class="media-content">
+            </div>
+            <div class="uk-width-1-2">
+                <div>
                     <div class="card" style="background-color: rgba(0,0,0,.7)">
                         <header class="card-header">
-                            <p class="card-header-title">¡Conocerás!</p>
+                            <p class="card-header-title" style="color: white">¡Conocerás!</p>
                         </header>
                         <div class="card-content">
                             <div class="content">
-                                -	El Índice de Riesgo de tu empresa según la actividad de tu negocio e industria.
-                                -	Te mostramos todas las Coberturas, condiciones y tarifas preferentes.
-                                -	Podrás elegir tus pólizas en las opciones asociadas a tu actividad.
+                                <ol type="1" style="color: white">
+                                    <li><p>El Índice de Riesgo de tu empresa según la actividad de tu negocio e industria.</p></li>
+                                    <li><p>Te mostramos todas las Coberturas, condiciones y tarifas preferentes.</p></li>
+                                    <li><p>Podrás elegir tus pólizas en las opciones asociadas a tu actividad.</p></li>
+                                </ol>
                             </div>
                         </div>
                         <footer class="card-footer" style="border-top: none">
@@ -39,7 +43,7 @@
                         </footer>
                     </div>
                 </div>
-            </article>
+            </div>
         </div>
     </div>
   </div>
@@ -58,12 +62,4 @@
         </div>
     </div>
   </div>
-
-    <!-- The dots/circles -->
-    <div style="text-align:center">
-        <span class="dot" onclick="currentSlide(1)"></span>
-        <span class="dot" onclick="currentSlide(2)"></span>
-        <span class="dot" onclick="currentSlide(3)"></span>
-    </div>
 </div>
-<br>
