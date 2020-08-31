@@ -382,11 +382,20 @@ def view_results(request, pk):
     polizas = Poliza.objects.all()
     i = 0
     index = 0
+    index1 = 0
+    index2 = 0
+    index3 = 0
     for pol in polizas:
         desgloce.append([pol.name, 0, 0, pol.id])
         # Se obtiene la posicion de la poliza de accidentes personales
         if pol.name == "Accidentes Personales":
             index = i
+        if pol.name == "Equipos Móviles":
+            index1 = i
+        if pol.name == "Vehículos Comerciales Livianos":
+            index2 = i
+        if pol.name == "Vehículos Comerciales Pesados":
+            index3 = i
         i += 1
 
     # Se obtiene el usuario del cual se lee la informacion
@@ -440,23 +449,23 @@ def view_results(request, pk):
 
     emp = user.n_veh_com_light
     if emp < 20:
-        desgloce[index][2] += 1 * emp
-        if index != 0:
+        desgloce[index2][2] += 1 * emp
+        if index2 != 0:
             desgloce[0][2] += 1 * emp
         total += 1 * emp
     elif 20 <= emp < 30:
-        desgloce[index][2] += 3 * emp
-        if index != 0:
+        desgloce[index2][2] += 3 * emp
+        if index2 != 0:
             desgloce[0][2] += 3 * emp
         total += 3 * emp
     elif 30 <= emp < 40:
-        desgloce[index][2] += 5 * emp
-        if index != 0:
+        desgloce[index2][2] += 5 * emp
+        if index2 != 0:
             desgloce[0][2] += 5 * emp
         total += 5 * emp
     elif 40 <= emp < 50:
-        desgloce[index][2] += 6 * emp
-        if index != 0:
+        desgloce[index2][2] += 6 * emp
+        if index2 != 0:
             desgloce[0][2] += 6 * emp
         total += 6 * emp
     else:
@@ -468,140 +477,140 @@ def view_results(request, pk):
 
     emp = user.n_veh_com_cont
     if emp < 20:
-        desgloce[index][2] += 1 * emp
-        if index != 0:
+        desgloce[index2][2] += 1 * emp
+        if index2 != 0:
             desgloce[0][2] += 1 * emp
         total += 1 * emp
     elif 20 <= emp < 30:
-        desgloce[index][2] += 3 * emp
-        if index != 0:
+        desgloce[index2][2] += 3 * emp
+        if index2 != 0:
             desgloce[0][2] += 3 * emp
         total += 3 * emp
     elif 30 <= emp < 40:
-        desgloce[index][2] += 5 * emp
-        if index != 0:
+        desgloce[index2][2] += 5 * emp
+        if index2 != 0:
             desgloce[0][2] += 5 * emp
         total += 5 * emp
     elif 40 <= emp < 50:
-        desgloce[index][2] += 6 * emp
-        if index != 0:
+        desgloce[index2][2] += 6 * emp
+        if index2 != 0:
             desgloce[0][2] += 6 * emp
         total += 6 * emp
     else:
-        desgloce[index][2] += 7 * 50
-        if index != 0:
+        desgloce[index2][2] += 7 * 50
+        if index2 != 0:
             desgloce[0][2] += 7 * 50
         total += 7 * 50
     maximo += 7 * 50
 
     emp = user.n_veh_com_heavy
     if emp < 20:
-        desgloce[index][2] += 3 * emp
-        if index != 0:
+        desgloce[index3][2] += 3 * emp
+        if index3 != 0:
             desgloce[0][2] += 3 * emp
         total += 3 * emp
     elif 20 <= emp < 30:
-        desgloce[index][2] += 6 * emp
-        if index != 0:
+        desgloce[index3][2] += 6 * emp
+        if index3 != 0:
             desgloce[0][2] += 6 * emp
         total += 6 * emp
     elif 30 <= emp < 40:
-        desgloce[index][2] += 9 * emp
-        if index != 0:
+        desgloce[index3][2] += 9 * emp
+        if index3 != 0:
             desgloce[0][2] += 9 * emp
         total += 9 * emp
     elif 40 <= emp < 50:
-        desgloce[index][2] += 12 * emp
-        if index != 0:
+        desgloce[index3][2] += 12 * emp
+        if index3 != 0:
             desgloce[0][2] += 12 * emp
         total += 12 * emp
     else:
-        desgloce[index][2] += 15 * 50
-        if index != 0:
+        desgloce[index3][2] += 15 * 50
+        if index3 != 0:
             desgloce[0][2] += 15 * 50
         total += 15 * 50
     maximo += 15 * 50
 
     emp = user.n_veh_com_heavy_cont
     if emp < 20:
-        desgloce[index][2] += 3 * emp
-        if index != 0:
+        desgloce[index3][2] += 3 * emp
+        if index3 != 0:
             desgloce[0][2] += 3 * emp
         total += 3 * emp
     elif 20 <= emp < 30:
-        desgloce[index][2] += 6 * emp
-        if index != 0:
+        desgloce[index3][2] += 6 * emp
+        if index3 != 0:
             desgloce[0][2] += 6 * emp
         total += 6 * emp
     elif 30 <= emp < 40:
-        desgloce[index][2] += 9 * emp
-        if index != 0:
+        desgloce[index3][2] += 9 * emp
+        if index3 != 0:
             desgloce[0][2] += 9 * emp
         total += 9 * emp
     elif 40 <= emp < 50:
-        desgloce[index][2] += 12 * emp
-        if index != 0:
+        desgloce[index3][2] += 12 * emp
+        if index3 != 0:
             desgloce[0][2] += 12 * emp
         total += 12 * emp
     else:
-        desgloce[index][2] += 15 * 50
-        if index != 0:
+        desgloce[index3][2] += 15 * 50
+        if index3 != 0:
             desgloce[0][2] += 15 * 50
         total += 15 * 50
     maximo += 15 * 50
 
     emp = user.n_mach_heavy
     if emp < 20:
-        desgloce[index][2] += 1 * emp
-        if index != 0:
+        desgloce[index1][2] += 1 * emp
+        if index1 != 0:
             desgloce[0][2] += 1 * emp
         total += 1 * emp
     elif 20 <= emp < 30:
-        desgloce[index][2] += 3 * emp
-        if index != 0:
+        desgloce[index1][2] += 3 * emp
+        if index1 != 0:
             desgloce[0][2] += 3 * emp
         total += 3 * emp
     elif 30 <= emp < 40:
-        desgloce[index][2] += 5 * emp
-        if index != 0:
+        desgloce[index1][2] += 5 * emp
+        if index1 != 0:
             desgloce[0][2] += 5 * emp
         total += 5 * emp
     elif 40 <= emp < 50:
-        desgloce[index][2] += 6 * emp
-        if index != 0:
+        desgloce[index1][2] += 6 * emp
+        if index1 != 0:
             desgloce[0][2] += 6 * emp
         total += 6 * emp
     else:
-        desgloce[index][2] += 7 * 50
-        if index != 0:
+        desgloce[index1][2] += 7 * 50
+        if index1 != 0:
             desgloce[0][2] += 7 * 50
         total += 7 * 50
     maximo += 7 * 50
 
     emp = user.n_mach_heavy_cont
     if emp < 20:
-        desgloce[index][2] += 1 * emp
-        if index != 0:
+        desgloce[index1][2] += 1 * emp
+        if index1 != 0:
             desgloce[0][2] += 1 * emp
         total += 1 * emp
     elif 20 <= emp < 30:
-        desgloce[index][2] += 3 * emp
-        if index != 0:
+        desgloce[index1][2] += 3 * emp
+        if index1 != 0:
             desgloce[0][2] += 3 * emp
         total += 3 * emp
     elif 30 <= emp < 40:
-        desgloce[index][2] += 5 * emp
-        if index != 0:
+        desgloce[index1][2] += 5 * emp
+        if index1 != 0:
             desgloce[0][2] += 5 * emp
         total += 5 * emp
     elif 40 <= emp < 50:
-        desgloce[index][2] += 6 * emp
-        if index != 0:
+        desgloce[index1][2] += 6 * emp
+        if index1 != 0:
             desgloce[0][2] += 6 * emp
         total += 6 * emp
     else:
-        desgloce[index][2] += 7 * 50
-        if index != 0:
+        desgloce[index1][2] += 7 * 50
+        if index1 != 0:
             desgloce[0][2] += 7 * 50
         total += 7 * 50
     maximo += 7 * 50
