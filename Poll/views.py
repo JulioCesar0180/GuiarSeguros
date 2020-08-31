@@ -786,4 +786,4 @@ def view_results(request, pk):
         color = "ROJO"
 
     return render(request, 'Poll/results.html',
-                  {'maximo': maximo, 'minimo': minimo, 'total': total, 'res_fin': res_fin, 'color': color})
+                  {'maximo': maximo, 'minimo': minimo, 'total': total, 'res_fin': res_fin, 'color': color, 'desgloce': desgloce_ordenado})
