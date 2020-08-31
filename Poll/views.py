@@ -375,7 +375,9 @@ def view_results(request, pk):
     desgloce.clear()
     # Resultado global independiente de las polizas
     total = 0
-
+    # Maximo y Minimo valor obtenible en la encuesta (para ajustar la representacion grafica)
+    maximo = 0
+    minimo = 0
     # Se generan las categorias a considerar en los resultados
     polizas = Poliza.objects.all()
     for pol in polizas:
@@ -383,6 +385,185 @@ def view_results(request, pk):
 
     # Se obtiene el usuario del cual se lee la informacion
     user = UserGuiar.objects.get(rut=pk)
+
+    # Se lleva la cuenta de los resultados de Dotacion de la Empresa
+    index = desgloce.index("Accidentes Personales")
+
+    emp = user.n_cont_emp
+    if emp < 50:
+        desgloce[index][2] += 1 * emp
+        desgloce[0][2] += 1 * emp
+        total += 1 * emp
+    elif 50 <= emp < 125:
+        desgloce[index][2] += 2 * emp
+        desgloce[0][2] += 2 * emp
+        total += 2 * emp
+    elif 125 <= emp < 200:
+        desgloce[index][2] += 3 * emp
+        desgloce[0][2] += 3 * emp
+        total += 3 * emp
+    else:
+        desgloce[index][2] += 4 * 200
+        desgloce[0][2] += 4 * 200
+        total += 4 * 200
+    maximo += 4 * 200
+    # TODO: Corroborar si este campo es de empleado propio de la empresa o contratista (lo mismo para el campo anterior)
+    emp = user.n_emp_hired
+    if emp < 50:
+        desgloce[index][2] += 1 * emp
+        desgloce[0][2] += 1 * emp
+        total += 1 * emp
+    elif 50 <= emp < 125:
+        desgloce[index][2] += 2 * emp
+        desgloce[0][2] += 2 * emp
+        total += 2 * emp
+    elif 125 <= emp < 200:
+        desgloce[index][2] += 3 * emp
+        desgloce[0][2] += 3 * emp
+        total += 3 * emp
+    else:
+        desgloce[index][2] += 5 * 200
+        desgloce[0][2] += 5 * 200
+        total += 5 * 200
+    maximo += 5 * 200
+
+    emp = user.n_veh_com_light
+    if emp < 20:
+        desgloce[index][2] += 1 * emp
+        desgloce[0][2] += 1 * emp
+        total += 1 * emp
+    elif 20 <= emp < 30:
+        desgloce[index][2] += 3 * emp
+        desgloce[0][2] += 3 * emp
+        total += 3 * emp
+    elif 30 <= emp < 40:
+        desgloce[index][2] += 5 * emp
+        desgloce[0][2] += 5 * emp
+        total += 5 * emp
+    elif 40 <= emp < 50:
+        desgloce[index][2] += 6 * emp
+        desgloce[0][2] += 6 * emp
+        total += 6 * emp
+    else:
+        desgloce[index][2] += 7 * 50
+        desgloce[0][2] += 7 * 50
+        total += 7 * 50
+    maximo += 7 * 50
+
+    emp = user.n_veh_com_cont
+    if emp < 20:
+        desgloce[index][2] += 1 * emp
+        desgloce[0][2] += 1 * emp
+        total += 1 * emp
+    elif 20 <= emp < 30:
+        desgloce[index][2] += 3 * emp
+        desgloce[0][2] += 3 * emp
+        total += 3 * emp
+    elif 30 <= emp < 40:
+        desgloce[index][2] += 5 * emp
+        desgloce[0][2] += 5 * emp
+        total += 5 * emp
+    elif 40 <= emp < 50:
+        desgloce[index][2] += 6 * emp
+        desgloce[0][2] += 6 * emp
+        total += 6 * emp
+    else:
+        desgloce[index][2] += 7 * 50
+        desgloce[0][2] += 7 * 50
+        total += 7 * 50
+    maximo += 7 * 50
+
+    emp = user.n_veh_com_heavy
+    if emp < 20:
+        desgloce[index][2] += 3 * emp
+        desgloce[0][2] += 3 * emp
+        total += 3 * emp
+    elif 20 <= emp < 30:
+        desgloce[index][2] += 6 * emp
+        desgloce[0][2] += 6 * emp
+        total += 6 * emp
+    elif 30 <= emp < 40:
+        desgloce[index][2] += 9 * emp
+        desgloce[0][2] += 9 * emp
+        total += 9 * emp
+    elif 40 <= emp < 50:
+        desgloce[index][2] += 12 * emp
+        desgloce[0][2] += 12 * emp
+        total += 12 * emp
+    else:
+        desgloce[index][2] += 15 * 50
+        desgloce[0][2] += 15 * 50
+        total += 15 * 50
+    maximo += 15 * 50
+
+    emp = user.n_veh_com_heavy_cont
+    if emp < 20:
+        desgloce[index][2] += 3 * emp
+        desgloce[0][2] += 3 * emp
+        total += 3 * emp
+    elif 20 <= emp < 30:
+        desgloce[index][2] += 6 * emp
+        desgloce[0][2] += 6 * emp
+        total += 6 * emp
+    elif 30 <= emp < 40:
+        desgloce[index][2] += 9 * emp
+        desgloce[0][2] += 9 * emp
+        total += 9 * emp
+    elif 40 <= emp < 50:
+        desgloce[index][2] += 12 * emp
+        desgloce[0][2] += 12 * emp
+        total += 12 * emp
+    else:
+        desgloce[index][2] += 15 * 50
+        desgloce[0][2] += 15 * 50
+        total += 15 * 50
+    maximo += 15 * 50
+
+    emp = user.n_mach_heavy
+    if emp < 20:
+        desgloce[index][2] += 1 * emp
+        desgloce[0][2] += 1 * emp
+        total += 1 * emp
+    elif 20 <= emp < 30:
+        desgloce[index][2] += 3 * emp
+        desgloce[0][2] += 3 * emp
+        total += 3 * emp
+    elif 30 <= emp < 40:
+        desgloce[index][2] += 5 * emp
+        desgloce[0][2] += 5 * emp
+        total += 5 * emp
+    elif 40 <= emp < 50:
+        desgloce[index][2] += 6 * emp
+        desgloce[0][2] += 6 * emp
+        total += 6 * emp
+    else:
+        desgloce[index][2] += 7 * 50
+        desgloce[0][2] += 7 * 50
+        total += 7 * 50
+    maximo += 7 * 50
+
+    emp = user.n_mach_heavy_cont
+    if emp < 20:
+        desgloce[index][2] += 1 * emp
+        desgloce[0][2] += 1 * emp
+        total += 1 * emp
+    elif 20 <= emp < 30:
+        desgloce[index][2] += 3 * emp
+        desgloce[0][2] += 3 * emp
+        total += 3 * emp
+    elif 30 <= emp < 40:
+        desgloce[index][2] += 5 * emp
+        desgloce[0][2] += 5 * emp
+        total += 5 * emp
+    elif 40 <= emp < 50:
+        desgloce[index][2] += 6 * emp
+        desgloce[0][2] += 6 * emp
+        total += 6 * emp
+    else:
+        desgloce[index][2] += 7 * 50
+        desgloce[0][2] += 7 * 50
+        total += 7 * 50
+    maximo += 7 * 50
 
     # Se lleva la cuenta de los resultados de Transporte
     for proceso in user.transport.all():
@@ -392,7 +573,8 @@ def view_results(request, pk):
                 des[2] += proceso.ri_transport
                 if not proceso.poliza.id == 1:
                     desgloce[0][2] += proceso.ri_transport
-
+    # TODO: Agregar los verdaderos maximos desde este punto en adelante
+    maximo += 0
     # Se lleva la cuenta de los resultados de Construccion
     for proceso in user.building.all():
         total += proceso.ri_building
@@ -401,7 +583,7 @@ def view_results(request, pk):
                 des[2] += proceso.ri_building
                 if not proceso.poliza.id == 1:
                     desgloce[0][2] += proceso.ri_building
-
+    maximo += 0
     # Se lleva la cuenta de los resultados de Manufactura
     for proceso in user.manufacture.all():
         total += proceso.ri_manufacture
@@ -410,7 +592,7 @@ def view_results(request, pk):
                 des[2] += proceso.ri_manufacture
                 if not proceso.poliza.id == 1:
                     desgloce[0][2] += proceso.ri_manufacture
-
+    maximo += 0
     # Se lleva la cuenta de los resultados de Servicios Generales
     for proceso in user.general_services.all():
         total += proceso.ri_service
@@ -419,14 +601,15 @@ def view_results(request, pk):
                 des[2] += proceso.ri_service
                 if not proceso.poliza.id == 1:
                     desgloce[0][2] += proceso.ri_service
-
+    maximo += 0
     '''# Se lleva la cuenta de los resultados de Manejo de Riesgo
     manejo_riesgo = user.risk_management.all()
     print(manejo_riesgo)            
     # Se lleva la cuenta de los resultados de Prevencionista de Riesgo
     prevencionista = user.risk_prevent.all()
     print(prevencionista)
-    
+
+    # Se obtiene el total de amortiguacion de riesgo, aqui no hay un valor maximo que aumente el riesgo
     amortiguacion = manejo_riesgo + prevencionista
 
     # Se lleva la cuenta de los resultados de Explosivos
@@ -438,7 +621,7 @@ def view_results(request, pk):
                     des[2] += proceso.ri_explosive
                     if not proceso.poliza.id == 1:
                         desgloce[0][2] += proceso.ri_explosive
-
+    maximo += 0
     # Se lleva la cuenta de los resultados de Electricidad
     if user.electricity_use:
         for proceso in user.electricity_control.all():
@@ -448,7 +631,7 @@ def view_results(request, pk):
                     des[2] += proceso.ri_electricity
                     if not proceso.poliza.id == 1:
                         desgloce[0][2] += proceso.ri_electricity
-
+    maximo += 0
     # Se lleva la cuenta de los resultados de Sustancias Peligrosas
     if user.substance_use:
         for proceso in user.substance_control.all():
@@ -458,7 +641,7 @@ def view_results(request, pk):
                     des[2] += proceso.ri_substance
                     if not proceso.poliza.id == 1:
                         desgloce[0][2] += proceso.ri_substance
-
+    maximo += 0
     # Se lleva la cuenta de los resultados de Altura
     if user.height_use:
         for proceso in user.height_control.all():
@@ -468,7 +651,7 @@ def view_results(request, pk):
                     des[2] += proceso.ri_height
                     if not proceso.poliza.id == 1:
                         desgloce[0][2] += proceso.ri_height
-    
+    maximo += 0
     for d in desgloce:
         d[2] = d[2] * (1 - amortiguacion)'''
 
