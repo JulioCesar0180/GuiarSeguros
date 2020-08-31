@@ -43,7 +43,8 @@ def logout_view(request):
 @login_required
 def profile_view(request):
     user = UserGuiar.objects.get(rut=request.user.rut)
-    return render(request, 'Poll/profile.html', {'user': user})
+    manager = BusinessManager.objects.get(rut_bm=user.manager.rut_bm)
+    return render(request, 'Poll/profile.html', {'user': user, 'manager': manager})
 
 
 @login_required
