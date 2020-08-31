@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/slideform.css' %}">
+    <link rel="stylesheet" href="{% static 'css/design_option.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div>
+      <div class="row">
+        <div class="col">
+          ¡Muchas gracias por tomar el test, según lo respondido el grupo en el que su empresa se encuentra es:
+          <b>{{ color }}</b> y por lo pronto se contactarán con usted para entregar mayor detalles.
+          <br>
+          <br>
+          A continuación se darán a conocer los detalles por seccion en valores porcentuales respecto al riesgo potencial según la encuesta:
+          <br>
+          <br>
+          <div class ="bordes">
+            <!--{% for d in desgloce %}
+                {{ d.0 }} {{ d.1 }}
+            %
+            <br>
+            {% endfor %}-->
+          </div>
+          <br>
+          Recomendamos fuertemente que, en base al resultado de la encuesta realizada, usted adquiera una poliza de <!--<b>{{ desgloce.0.0 }}</b>-->.
+        <br>
+        Lo tomaremos en consideración cuando nos contactemos con usted. Además, con el siguiente link puede descargar el reporte,
+        en donde podrá ver el resumen de la encuenta respondida.
+        </div>
+        <div class="col containerimgs">
+          {% if resultado == total %}
+            <div id="triangulo" style="margin-bottom: -19px;"></div>
+          {% elif resultado == minimo %}
+            <div id="triangulo" style="margin-bottom: 379px;"></div>
+          {% else %}
+            <div id="triangulo" style="margin-bottom: {{res_fin}}px;"></div>
+          {% endif %}
+          <div id="rectangulo"></div>
+        </div>
+      <div>
+        <hr>
+      </div>
+    </div>
+{% endblock %}

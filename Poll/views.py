@@ -371,14 +371,272 @@ def view_results(request, pk):
     desgloce.clear()
     # Resultado global independiente de las polizas
     total = 0
-
+    # Maximo y Minimo valor obtenible en la encuesta (para ajustar la representacion grafica)
+    maximo = 0
+    minimo = 0
     # Se generan las categorias a considerar en los resultados
     polizas = Poliza.objects.all()
+    i = 0
+    index = 0
+    index1 = 0
+    index2 = 0
+    index3 = 0
+    index4 = 0
     for pol in polizas:
         desgloce.append([pol.name, 0, 0, pol.id])
+        # Se obtiene la posicion de la poliza de accidentes personales
+        if pol.name == "Accidentes Personales":
+            index = i
+        if pol.name == "Equipos Móviles":
+            index1 = i
+        if pol.name == "Vehículos Comerciales Livianos":
+            index2 = i
+        if pol.name == "Vehículos Comerciales Pesados":
+            index3 = i
+        if pol.name == "Transporte Terrestre":
+            index4 = i
+        i += 1
 
     # Se obtiene el usuario del cual se lee la informacion
     user = UserGuiar.objects.get(rut=pk)
+
+    emp = user.n_cont_emp
+    if emp < 50:
+        desgloce[index][2] += 1 * emp
+        if index != 0:
+            desgloce[0][2] += 1 * emp
+        total += 1 * emp
+    elif 50 <= emp < 125:
+        desgloce[index][2] += 2 * emp
+        if index != 0:
+            desgloce[0][2] += 2 * emp
+        total += 2 * emp
+    elif 125 <= emp < 200:
+        desgloce[index][2] += 3 * emp
+        if index != 0:
+            desgloce[0][2] += 3 * emp
+        total += 3 * emp
+    else:
+        desgloce[index][2] += 4 * 200
+        if index != 0:
+            desgloce[0][2] += 4 * 200
+        total += 4 * 200
+    maximo += 4 * 200
+    if index != 0:
+        desgloce[index][1] += 4 * 200
+    desgloce[0][1] += 4 * 200
+    # TODO: Corroborar si este campo es de empleado propio de la empresa o contratista (lo mismo para el campo anterior)
+    emp = user.n_emp_hired
+    if emp < 50:
+        desgloce[index][2] += 1 * emp
+        if index != 0:
+            desgloce[0][2] += 1 * emp
+        total += 1 * emp
+    elif 50 <= emp < 125:
+        desgloce[index][2] += 2 * emp
+        if index != 0:
+            desgloce[0][2] += 2 * emp
+        total += 2 * emp
+    elif 125 <= emp < 200:
+        desgloce[index][2] += 3 * emp
+        if index != 0:
+            desgloce[0][2] += 3 * emp
+        total += 3 * emp
+    else:
+        desgloce[index][2] += 5 * 200
+        if index != 0:
+            desgloce[0][2] += 5 * 200
+        total += 5 * 200
+    maximo += 5 * 200
+    if index != 0:
+        desgloce[index][1] += 5 * 200
+    desgloce[0][1] += 5 * 200
+
+    emp = user.n_veh_com_light
+    if emp < 20:
+        desgloce[index2][2] += 1 * emp
+        if index2 != 0:
+            desgloce[0][2] += 1 * emp
+        total += 1 * emp
+    elif 20 <= emp < 30:
+        desgloce[index2][2] += 3 * emp
+        if index2 != 0:
+            desgloce[0][2] += 3 * emp
+        total += 3 * emp
+    elif 30 <= emp < 40:
+        desgloce[index2][2] += 5 * emp
+        if index2 != 0:
+            desgloce[0][2] += 5 * emp
+        total += 5 * emp
+    elif 40 <= emp < 50:
+        desgloce[index2][2] += 6 * emp
+        if index2 != 0:
+            desgloce[0][2] += 6 * emp
+        total += 6 * emp
+    else:
+        desgloce[index2][2] += 7 * 50
+        if index2 != 0:
+            desgloce[0][2] += 7 * 50
+        total += 7 * 50
+    maximo += 7 * 50
+    if index != 0:
+        desgloce[index2][1] += 7 * 50
+    desgloce[index2][1] += 7 * 50
+
+    emp = user.n_veh_com_cont
+    if emp < 20:
+        desgloce[index2][2] += 1 * emp
+        if index2 != 0:
+            desgloce[0][2] += 1 * emp
+        total += 1 * emp
+    elif 20 <= emp < 30:
+        desgloce[index2][2] += 3 * emp
+        if index2 != 0:
+            desgloce[0][2] += 3 * emp
+        total += 3 * emp
+    elif 30 <= emp < 40:
+        desgloce[index2][2] += 5 * emp
+        if index2 != 0:
+            desgloce[0][2] += 5 * emp
+        total += 5 * emp
+    elif 40 <= emp < 50:
+        desgloce[index2][2] += 6 * emp
+        if index2 != 0:
+            desgloce[0][2] += 6 * emp
+        total += 6 * emp
+    else:
+        desgloce[index2][2] += 7 * 50
+        if index2 != 0:
+            desgloce[0][2] += 7 * 50
+        total += 7 * 50
+    maximo += 7 * 50
+    if index != 0:
+        desgloce[index2][1] += 7 * 50
+    desgloce[0][1] += 7 * 50
+
+    emp = user.n_veh_com_heavy
+    if emp < 20:
+        desgloce[index3][2] += 3 * emp
+        if index3 != 0:
+            desgloce[0][2] += 3 * emp
+        total += 3 * emp
+    elif 20 <= emp < 30:
+        desgloce[index3][2] += 6 * emp
+        if index3 != 0:
+            desgloce[0][2] += 6 * emp
+        total += 6 * emp
+    elif 30 <= emp < 40:
+        desgloce[index3][2] += 9 * emp
+        if index3 != 0:
+            desgloce[0][2] += 9 * emp
+        total += 9 * emp
+    elif 40 <= emp < 50:
+        desgloce[index3][2] += 12 * emp
+        if index3 != 0:
+            desgloce[0][2] += 12 * emp
+        total += 12 * emp
+    else:
+        desgloce[index3][2] += 15 * 50
+        if index3 != 0:
+            desgloce[0][2] += 15 * 50
+        total += 15 * 50
+    maximo += 15 * 50
+    if index != 0:
+        desgloce[index3][1] += 15 * 50
+    desgloce[0][1] += 15 * 50
+
+    emp = user.n_veh_com_heavy_cont
+    if emp < 20:
+        desgloce[index3][2] += 3 * emp
+        if index3 != 0:
+            desgloce[0][2] += 3 * emp
+        total += 3 * emp
+    elif 20 <= emp < 30:
+        desgloce[index3][2] += 6 * emp
+        if index3 != 0:
+            desgloce[0][2] += 6 * emp
+        total += 6 * emp
+    elif 30 <= emp < 40:
+        desgloce[index3][2] += 9 * emp
+        if index3 != 0:
+            desgloce[0][2] += 9 * emp
+        total += 9 * emp
+    elif 40 <= emp < 50:
+        desgloce[index3][2] += 12 * emp
+        if index3 != 0:
+            desgloce[0][2] += 12 * emp
+        total += 12 * emp
+    else:
+        desgloce[index3][2] += 15 * 50
+        if index3 != 0:
+            desgloce[0][2] += 15 * 50
+        total += 15 * 50
+    maximo += 15 * 50
+    if index != 0:
+        desgloce[index3][1] += 15 * 50
+    desgloce[0][1] += 15 * 50
+
+    emp = user.n_mach_heavy
+    if emp < 20:
+        desgloce[index1][2] += 1 * emp
+        if index1 != 0:
+            desgloce[0][2] += 1 * emp
+        total += 1 * emp
+    elif 20 <= emp < 30:
+        desgloce[index1][2] += 3 * emp
+        if index1 != 0:
+            desgloce[0][2] += 3 * emp
+        total += 3 * emp
+    elif 30 <= emp < 40:
+        desgloce[index1][2] += 5 * emp
+        if index1 != 0:
+            desgloce[0][2] += 5 * emp
+        total += 5 * emp
+    elif 40 <= emp < 50:
+        desgloce[index1][2] += 6 * emp
+        if index1 != 0:
+            desgloce[0][2] += 6 * emp
+        total += 6 * emp
+    else:
+        desgloce[index1][2] += 7 * 50
+        if index1 != 0:
+            desgloce[0][2] += 7 * 50
+        total += 7 * 50
+    maximo += 7 * 50
+    if index != 0:
+        desgloce[index1][1] += 7 * 50
+    desgloce[0][1] += 7 * 50
+
+    emp = user.n_mach_heavy_cont
+    if emp < 20:
+        desgloce[index1][2] += 1 * emp
+        if index1 != 0:
+            desgloce[0][2] += 1 * emp
+        total += 1 * emp
+    elif 20 <= emp < 30:
+        desgloce[index1][2] += 3 * emp
+        if index1 != 0:
+            desgloce[0][2] += 3 * emp
+        total += 3 * emp
+    elif 30 <= emp < 40:
+        desgloce[index1][2] += 5 * emp
+        if index1 != 0:
+            desgloce[0][2] += 5 * emp
+        total += 5 * emp
+    elif 40 <= emp < 50:
+        desgloce[index1][2] += 6 * emp
+        if index1 != 0:
+            desgloce[0][2] += 6 * emp
+        total += 6 * emp
+    else:
+        desgloce[index1][2] += 7 * 50
+        if index1 != 0:
+            desgloce[0][2] += 7 * 50
+        total += 7 * 50
+    maximo += 7 * 50
+    if index != 0:
+        desgloce[index1][1] += 7 * 50
+    desgloce[0][1] += 7 * 50
 
     # Se lleva la cuenta de los resultados de Transporte
     for proceso in user.transport.all():
@@ -388,6 +646,10 @@ def view_results(request, pk):
                 des[2] += proceso.ri_transport
                 if not proceso.poliza.id == 1:
                     desgloce[0][2] += proceso.ri_transport
+    # TODO: Agregar los verdaderos maximos desde este punto en adelante de manera automatica
+    maximo += 18
+    desgloce[index4][1] += 18
+    desgloce[0][1] += 18
 
     # Se lleva la cuenta de los resultados de Construccion
     for proceso in user.building.all():
@@ -397,7 +659,8 @@ def view_results(request, pk):
                 des[2] += proceso.ri_building
                 if not proceso.poliza.id == 1:
                     desgloce[0][2] += proceso.ri_building
-
+    maximo += 14
+    desgloce[0][1] += 14
     # Se lleva la cuenta de los resultados de Manufactura
     for proceso in user.manufacture.all():
         total += proceso.ri_manufacture
@@ -406,7 +669,8 @@ def view_results(request, pk):
                 des[2] += proceso.ri_manufacture
                 if not proceso.poliza.id == 1:
                     desgloce[0][2] += proceso.ri_manufacture
-
+    maximo += 12
+    desgloce[0][1] += 12
     # Se lleva la cuenta de los resultados de Servicios Generales
     for proceso in user.general_services.all():
         total += proceso.ri_service
@@ -415,18 +679,24 @@ def view_results(request, pk):
                 des[2] += proceso.ri_service
                 if not proceso.poliza.id == 1:
                     desgloce[0][2] += proceso.ri_service
+    maximo += 35
+    desgloce[0][1] += 35
 
-    '''# Se lleva la cuenta de los resultados de Manejo de Riesgo
-    manejo_riesgo = user.risk_management.all()
+    # Se lleva la cuenta de los resultados de Manejo de Riesgo
+    manejo_riesgo = user.risk_management.ri_risk
     print(manejo_riesgo)            
     # Se lleva la cuenta de los resultados de Prevencionista de Riesgo
-    prevencionista = user.risk_prevent.all()
+    prevencionista = user.risk_prevent.ri_prevent
     print(prevencionista)
-    
-    amortiguacion = manejo_riesgo + prevencionista
+
+    # Se obtiene el total de amortiguacion de riesgo en %, aqui no hay un valor maximo que aumente el riesgo
+    amortiguacion = (manejo_riesgo + prevencionista)/100
 
     # Se lleva la cuenta de los resultados de Explosivos
-    if user.explosive_use:
+    riesgo = user.explosive_confirmed.value_ri_explosive
+    if user.explosive_confirmed.option_explosive == "Sí":
+        total += riesgo
+        desgloce[0][2] += riesgo
         for proceso in user.explosive_control.all():
             total += proceso.ri_explosive
             for des in desgloce:
@@ -434,9 +704,14 @@ def view_results(request, pk):
                     des[2] += proceso.ri_explosive
                     if not proceso.poliza.id == 1:
                         desgloce[0][2] += proceso.ri_explosive
+    maximo += riesgo + 25
+    desgloce[0][1] += riesgo + 25
 
     # Se lleva la cuenta de los resultados de Electricidad
-    if user.electricity_use:
+    riesgo = user.electricity_confirmed.value_ri_electricity
+    if user.electricity_confirmed.option_electricity == "Sí":
+        total += riesgo
+        desgloce[0][2] += riesgo
         for proceso in user.electricity_control.all():
             total += proceso.ri_electricity
             for des in desgloce:
@@ -444,9 +719,14 @@ def view_results(request, pk):
                     des[2] += proceso.ri_electricity
                     if not proceso.poliza.id == 1:
                         desgloce[0][2] += proceso.ri_electricity
+    maximo += riesgo + 25
+    desgloce[0][1] += riesgo + 25
 
     # Se lleva la cuenta de los resultados de Sustancias Peligrosas
-    if user.substance_use:
+    riesgo = user.substance_confirmed.value_ri_substance
+    if user.substance_confirmed.option_substance == "Sí":
+        total += riesgo
+        desgloce[0][2] += riesgo
         for proceso in user.substance_control.all():
             total += proceso.ri_substance
             for des in desgloce:
@@ -454,9 +734,14 @@ def view_results(request, pk):
                     des[2] += proceso.ri_substance
                     if not proceso.poliza.id == 1:
                         desgloce[0][2] += proceso.ri_substance
+    maximo += riesgo + 30
+    desgloce[0][1] += riesgo + 30
 
     # Se lleva la cuenta de los resultados de Altura
-    if user.height_use:
+    riesgo = user.height_confirmed.value_ri_height
+    if user.height_confirmed.option_height == "Sí":
+        total += riesgo
+        desgloce[0][2] += riesgo
         for proceso in user.height_control.all():
             total += proceso.ri_height
             for des in desgloce:
@@ -464,11 +749,41 @@ def view_results(request, pk):
                     des[2] += proceso.ri_height
                     if not proceso.poliza.id == 1:
                         desgloce[0][2] += proceso.ri_height
-    
+    maximo += riesgo + 20
+    desgloce[0][1] += riesgo + 20
+
     for d in desgloce:
-        d[2] = d[2] * (1 - amortiguacion)'''
+        d[2] = d[2] * (1 - amortiguacion)
 
     for d in desgloce:
         print(d[0], d[1], d[2], d[3])
 
-    return HttpResponse("Results")
+    desgloce_ordenado = []
+    desgloce_ordenado.clear()
+    for des in desgloce:
+        # Se filtran los resultados nulos
+        if des[2] != 0:
+            # Este nuevo arreglo tiene [Nombre Poliza, Maximo Poliza, Resultado Poliza, ID Poliza]
+            desgloce_ordenado.append([des[0], des[1], (des[2]/des[1])*100, des[3]])
+
+    desgloce_ordenado.sort(key=lambda array: array[2], reverse=True)
+    for d in desgloce_ordenado:
+        print(d[0], d[1], d[2], d[3])
+
+    res_por = ((total) / (maximo))
+    res_img = (379 + 19) * res_por
+    res_fin = (379 + 19) - res_img
+    res_fin = int(res_fin)
+    cuartil = (maximo) / 4
+
+    if total < (cuartil):
+        color = "VERDE"
+    elif (cuartil) <= total < (2 * cuartil):
+        color = "AMARILLO"
+    elif (2 * cuartil) <= total <= (3 * cuartil):
+        color = "ANARANJADO"
+    else:
+        color = "ROJO"
+
+    return render(request, 'Poll/results.html',
+                  {'maximo': maximo, 'minimo': minimo, 'total': total, 'res_fin': res_fin, 'color': color})

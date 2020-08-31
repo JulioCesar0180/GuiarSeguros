@@ -33,6 +33,36 @@ a:link{
     text-decoration: None;
 }
 
+.containerimgs{
+    width: 100px;
+    height: 400px;
+}
+#rectangulo{
+    width: 100px;
+    height: 400px;
+    border:1px solid #000;
+    background:linear-gradient(green 25%, yellow 25% 50%, orange 50% 75%, red 75% 100%);
+}
+
+#triangulo{
+    width: 0px;
+    height: 0px;
+	border-top: 20px solid transparent;
+	border-left: 30px solid #555;
+	/*Maximo margin-bottom 380px*/
+	/*Minimo margin-bottom -19px*/
+	margin-bottom: -19px;
+}
+#rectangulo, #triangulo{
+    display:inline-block;
+}
+
+.bordes{
+    border: 1px solid;
+    height: auto;
+    width: 300px;
+}
+
 /* Chrome, Safari, Edge, Opera*/
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button{
