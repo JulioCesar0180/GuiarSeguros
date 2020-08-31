@@ -385,6 +385,7 @@ def view_results(request, pk):
     index1 = 0
     index2 = 0
     index3 = 0
+    index4 = 0
     for pol in polizas:
         desgloce.append([pol.name, 0, 0, pol.id])
         # Se obtiene la posicion de la poliza de accidentes personales
@@ -396,6 +397,8 @@ def view_results(request, pk):
             index2 = i
         if pol.name == "Vehículos Comerciales Pesados":
             index3 = i
+        if pol.name == "Transporte Terrestre":
+            index4 = i
         i += 1
 
     # Se obtiene el usuario del cual se lee la informacion
@@ -423,6 +426,9 @@ def view_results(request, pk):
             desgloce[0][2] += 4 * 200
         total += 4 * 200
     maximo += 4 * 200
+    if index != 0:
+        desgloce[index][1] += 4 * 200
+    desgloce[0][1] += 4 * 200
     # TODO: Corroborar si este campo es de empleado propio de la empresa o contratista (lo mismo para el campo anterior)
     emp = user.n_emp_hired
     if emp < 50:
@@ -446,6 +452,9 @@ def view_results(request, pk):
             desgloce[0][2] += 5 * 200
         total += 5 * 200
     maximo += 5 * 200
+    if index != 0:
+        desgloce[index][1] += 5 * 200
+    desgloce[0][1] += 5 * 200
 
     emp = user.n_veh_com_light
     if emp < 20:
@@ -469,11 +478,14 @@ def view_results(request, pk):
             desgloce[0][2] += 6 * emp
         total += 6 * emp
     else:
-        desgloce[index][2] += 7 * 50
-        if index != 0:
+        desgloce[index2][2] += 7 * 50
+        if index2 != 0:
             desgloce[0][2] += 7 * 50
         total += 7 * 50
     maximo += 7 * 50
+    if index != 0:
+        desgloce[index2][1] += 7 * 50
+    desgloce[index2][1] += 7 * 50
 
     emp = user.n_veh_com_cont
     if emp < 20:
@@ -502,6 +514,9 @@ def view_results(request, pk):
             desgloce[0][2] += 7 * 50
         total += 7 * 50
     maximo += 7 * 50
+    if index != 0:
+        desgloce[index2][1] += 7 * 50
+    desgloce[0][1] += 7 * 50
 
     emp = user.n_veh_com_heavy
     if emp < 20:
@@ -530,6 +545,9 @@ def view_results(request, pk):
             desgloce[0][2] += 15 * 50
         total += 15 * 50
     maximo += 15 * 50
+    if index != 0:
+        desgloce[index3][1] += 15 * 50
+    desgloce[0][1] += 15 * 50
 
     emp = user.n_veh_com_heavy_cont
     if emp < 20:
@@ -558,6 +576,9 @@ def view_results(request, pk):
             desgloce[0][2] += 15 * 50
         total += 15 * 50
     maximo += 15 * 50
+    if index != 0:
+        desgloce[index3][1] += 15 * 50
+    desgloce[0][1] += 15 * 50
 
     emp = user.n_mach_heavy
     if emp < 20:
@@ -586,6 +607,9 @@ def view_results(request, pk):
             desgloce[0][2] += 7 * 50
         total += 7 * 50
     maximo += 7 * 50
+    if index != 0:
+        desgloce[index1][1] += 7 * 50
+    desgloce[0][1] += 7 * 50
 
     emp = user.n_mach_heavy_cont
     if emp < 20:
@@ -614,6 +638,9 @@ def view_results(request, pk):
             desgloce[0][2] += 7 * 50
         total += 7 * 50
     maximo += 7 * 50
+    if index != 0:
+        desgloce[index1][1] += 7 * 50
+    desgloce[0][1] += 7 * 50
 
     # Se lleva la cuenta de los resultados de Transporte
     for proceso in user.transport.all():
@@ -625,6 +652,9 @@ def view_results(request, pk):
                     desgloce[0][2] += proceso.ri_transport
     # TODO: Agregar los verdaderos maximos desde este punto en adelante de manera automatica
     maximo += 18
+    desgloce[index4][1] += 18
+    desgloce[0][1] += 18
+
     # Se lleva la cuenta de los resultados de Construccion
     for proceso in user.building.all():
         total += proceso.ri_building
@@ -634,6 +664,7 @@ def view_results(request, pk):
                 if not proceso.poliza.id == 1:
                     desgloce[0][2] += proceso.ri_building
     maximo += 14
+    desgloce[0][1] += 14
     # Se lleva la cuenta de los resultados de Manufactura
     for proceso in user.manufacture.all():
         total += proceso.ri_manufacture
@@ -643,6 +674,7 @@ def view_results(request, pk):
                 if not proceso.poliza.id == 1:
                     desgloce[0][2] += proceso.ri_manufacture
     maximo += 12
+    desgloce[0][1] += 12
     # Se lleva la cuenta de los resultados de Servicios Generales
     for proceso in user.general_services.all():
         total += proceso.ri_service
@@ -652,6 +684,8 @@ def view_results(request, pk):
                 if not proceso.poliza.id == 1:
                     desgloce[0][2] += proceso.ri_service
     maximo += 35
+    desgloce[0][1] += 35
+
     # Se lleva la cuenta de los resultados de Manejo de Riesgo
     manejo_riesgo = user.risk_management.ri_risk
     print(manejo_riesgo)            
@@ -675,6 +709,8 @@ def view_results(request, pk):
                     if not proceso.poliza.id == 1:
                         desgloce[0][2] += proceso.ri_explosive
     maximo += riesgo + 25
+    desgloce[0][1] += riesgo + 25
+
     # Se lleva la cuenta de los resultados de Electricidad
     riesgo = user.electricity_confirmed.value_ri_electricity
     if user.electricity_confirmed.option_electricity == "Sí":
@@ -688,6 +724,8 @@ def view_results(request, pk):
                     if not proceso.poliza.id == 1:
                         desgloce[0][2] += proceso.ri_electricity
     maximo += riesgo + 25
+    desgloce[0][1] += riesgo + 25
+
     # Se lleva la cuenta de los resultados de Sustancias Peligrosas
     riesgo = user.substance_confirmed.value_ri_substance
     if user.substance_confirmed.option_substance == "Sí":
@@ -701,6 +739,8 @@ def view_results(request, pk):
                     if not proceso.poliza.id == 1:
                         desgloce[0][2] += proceso.ri_substance
     maximo += riesgo + 30
+    desgloce[0][1] += riesgo + 30
+
     # Se lleva la cuenta de los resultados de Altura
     riesgo = user.height_confirmed.value_ri_height
     if user.height_confirmed.option_height == "Sí":
@@ -714,10 +754,24 @@ def view_results(request, pk):
                     if not proceso.poliza.id == 1:
                         desgloce[0][2] += proceso.ri_height
     maximo += riesgo + 20
+    desgloce[0][1] += riesgo + 20
+
     for d in desgloce:
         d[2] = d[2] * (1 - amortiguacion)
 
     for d in desgloce:
+        print(d[0], d[1], d[2], d[3])
+
+    desgloce_ordenado = []
+    desgloce_ordenado.clear()
+    for des in desgloce:
+        # Se filtran los resultados nulos
+        if des[2] != 0:
+            # Este nuevo arreglo tiene [Nombre Poliza, Maximo Poliza, Resultado Poliza, ID Poliza]
+            desgloce_ordenado.append([des[0], des[1], (des[2]/des[1])*100, des[3]])
+
+    desgloce_ordenado.sort(key=lambda array: array[2], reverse=True)
+    for d in desgloce_ordenado:
         print(d[0], d[1], d[2], d[3])
 
     return HttpResponse("Results")
