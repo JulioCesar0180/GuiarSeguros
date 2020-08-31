@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from Poll import views
+from .views import GeneratePDF
 
 urlpatterns = [
     path('', views.login_view, name="login"),
@@ -28,4 +29,5 @@ urlpatterns = [
     path('poll19/<int:pk>', views.view_control_height, name="poll-height"),
     path('poll-results/<int:pk>', views.view_results, name="poll-results"),
     path('logout', views.logout_view, name="logout"),
+    path('pdf', views.GeneratePDF, name="pdf"),
 ]
