@@ -765,7 +765,7 @@ def view_results(request, pk):
         # Se filtran los resultados nulos
         if des[2] != 0:
             # Este nuevo arreglo tiene [Nombre Poliza, Maximo Poliza, Resultado Poliza, ID Poliza]
-            desgloce_ordenado.append([des[0], des[1], (des[2]/des[1])*100, des[3]])
+            desgloce_ordenado.append([des[0], des[1], round((des[2]/des[1])*100,2), des[3]])
 
     desgloce_ordenado.sort(key=lambda array: array[2], reverse=True)
     for d in desgloce_ordenado:
@@ -787,4 +787,4 @@ def view_results(request, pk):
         color = "ROJO"
 
     return render(request, 'Poll/results.html',
-                  {'maximo': maximo, 'minimo': minimo, 'total': total, 'res_fin': res_fin, 'color': color})
+                  {'maximo': maximo, 'minimo': minimo, 'total': total, 'res_fin': res_fin, 'color': color, 'desgloce': desgloce_ordenado})
