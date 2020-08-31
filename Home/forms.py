@@ -32,8 +32,12 @@ class CreateManagerForm(forms.ModelForm):
         fields = ['fullname', 'rut_bm', 'email', 'phone']
 
         widgets = {
-            'fullname': forms.TextInput(attrs={'class': 'input'}),
-            'rut_bm': forms.TextInput(attrs={'class': 'input'}),
-            'email': forms.EmailInput(attrs={'class': 'input'}),
-            'phone': forms.NumberInput(attrs={'class': 'input'})
+            'fullname': forms.TextInput(attrs={'class': 'input gs-input', 'placeholder': 'Nombre Completo',
+                                               'autocomplete': 'off'}),
+            'rut_bm': forms.TextInput(attrs={'class': 'input gs-input', 'placeholder': 'Rut',
+                                             'autocomplete': 'off'}),
+            'email': forms.EmailInput(attrs={'class': 'input gs-input', 'placeholder': 'Email',
+                                             'autocomplete': 'off'}),
+            'phone': forms.NumberInput(attrs={'class': 'input gs-input', 'placeholder': 'Celular',
+                                              'autocomplete': 'off'})
         }

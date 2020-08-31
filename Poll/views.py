@@ -1,15 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.core import serializers
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy, reverse
-from django.views import View
 
 # Create your views here.
 from django.views.generic import *
-
 
 from Poll.forms import *
 from Poll.models import Poliza

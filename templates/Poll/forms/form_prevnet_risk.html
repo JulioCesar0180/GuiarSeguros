@@ -8,12 +8,12 @@
 {% endblock %}
 
 {% block content %}
-<div class="container is-fluid">
+<div class="gs-cover" style="background-color: rgb(0,48,87)">
     <div class="container is-desktop">
 
         <div style="margin-bottom: 15px">
-            <h3 class="title">5.- La empresa cuenta con prevencionista de riesgos</h3>
-            <p>Asegurese que la información este actualizada</p>
+            <h3 class="title" style="color: white;">5.- La empresa cuenta con prevencionista de riesgos</h3>
+            <p style="color: white">Asegurese que la información este actualizada</p>
         </div>
         <form id="id_process" method="post">
             {% csrf_token %}
@@ -26,8 +26,8 @@
                 {% endfor %}
             </div>
             <div>
-                <a class="button" onclick="plusSlides(-1)">Anterior</a>
-                <button type="submit" class="button">Siguiente</button>
+                <a class="button" style="background-color: rgb(0,94,184); color: white; border: none">Anterior</a>
+                <button type="submit" class="button" style="background-color: rgb(0,94,184); color: white; border: none">Siguiente</button>
             </div>
         </form>
     </div>

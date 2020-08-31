@@ -25,6 +25,10 @@
     border: rgb(0,94,184);
 }
 
+.gs-input{
+    margin-bottom: 5px;
+}
+
 a:link{
     text-decoration: None;
 }

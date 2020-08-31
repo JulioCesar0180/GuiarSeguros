@@ -16,17 +16,7 @@
             </div>
             <div>
                 <div class="uk-card-body">
-                    <h3 class="uk-card-title">¿Quien eres?</h3>
-                    <p>Para mejorar nuestra atención queremos saber con quien estamos tratando</p>
-                    <br>
-                    <form method="post">
-                        {% csrf_token %}
-                        {% for field in form %}
-                            {{ field.errors }}
-                            {{ field }}
-                        {% endfor %}
-                        <button class="button gs-btn-blue" style="width: 100%">Registrar</button>
-                    </form>
+
                 </div>
             </div>
         </div>
