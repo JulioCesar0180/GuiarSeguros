@@ -43,7 +43,7 @@
                             <input class="form-control" style="text-align: center; padding-left: 0" id="razon_social" value="{{ manager.phone }}" disabled>
                         </div>
                     </div>
-                    <a class="button gs-btn-blue update-profile">Editar Información</a>
+                    <a class="button gs-btn-blue" id="button_update_manager" data-target="modal_update_manager">Editar Información</a>
                 </div>
             </div>
             <div class="panel-card uk-width-1-2@m" style="margin-top: 25px">
@@ -99,12 +99,55 @@
                         <h5>Otros</h5>
                     </div>
                     <div style="background: rgba(25,25,112, 0.2);padding: 30px 35px;" text="left">
-                        <a href="#" class="button gs-btn-blue">Otro</a>
+                        <a class="button gs-btn-blue" data-target="modal-bis">Otro</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div id="modal-update_manager" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Modal title</p>
+                <button class="delete" aria-label="close"></button>
+            </header>
+            <section class="modal-card-body">
+                <!-- Content ... -->
+            </section>
+            <footer class="modal-card-foot">
+                <button class="button is-success">Save changes</button>
+                <button class="button">Cancel</button>
+            </footer>
+        </div>
+    </div>
+
 {% endblock %}
 {% block script %}
+    <script>
+        var buttonUpdateManager = document.getElementById('button_update_manager');
+        buttonUpdateManager.onclick = function(){
+            var modalUpdateManager = document.getElementById('modal_update_manager');
+            $(modalUpdateManager).addClass('is-active');
+        };
+
+
+
+        $(document).ready(function () {
+            var $form_quantity = $('#id_process');
+            $form_quantity.submit(function (event) {
+                event.preventDefault();
+                var $formData = $(this).serialize();
+                var $thisURL = $form_quantity.attr('data-url');
+                $.ajax({
+                    method: 'POST',
+                    url: $thisURL,
+                    data: $formData,
+                    success: handleFormSuccess,
+                    error: handleFormError,
+                });
+            });
+        });
+    </script>
 {% endblock %}

@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.db.models import Sum
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
@@ -8,7 +9,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import *
 
 from Poll.forms import *
-from Poll.models import Poliza
+from Poll.models import *
 from Home.models import UserGuiar, BusinessManager, ProcessBusiness
 
 
@@ -367,6 +368,20 @@ def view_control_height(request, pk):
 
 @login_required
 def view_results(request, pk):
+    suma_total = TransportProcess.objects.all().aggregate(Sum('ri_transport'))['ri_transport__sum'] +\
+        ManufactureProcess.objects.all().aggregate(Sum('ri_manufacture'))['ri_manufacture__sum'] +\
+        BuildingProcess.objects.all().aggregate(Sum('ri_building'))['ri_building__sum'] +\
+        GeneralServicesProcess.objects.all().aggregate(Sum('ri_service'))['ri_service__sum'] +\
+        RiskPreventionPersonal.objects.all().aggregate(Sum('ri_prevent'))['ri_prevent__sum'] +\
+        RiskManagement.objects.all().aggregate(Sum('ri_risk'))['ri_risk__sum'] +\
+        ExplosiveControl.objects.all().aggregate(Sum('ri_explosive'))['ri_explosive__sum'] +\
+        ElectricityControl.objects.all().aggregate(Sum('ri_electricity'))['ri_electricity__sum'] +\
+        SubstanceControl.objects.all().aggregate(Sum('ri_substance'))['ri_substance__sum'] +\
+        HeightControl.objects.all().aggregate(Sum('ri_height'))['ri_height__sum'] +\
+        ExplosiveConfirmed.objects.all().aggregate(Sum('value_ri_explosive'))['value_ri_explosive__sum'] +\
+        ElectricityConfirmed.objects.all().aggregate(Sum('value_ri_electricity'))['value_ri_electricity__sum'] +\
+        SubstanceConfirmed.objects.all().aggregate(Sum('value_ri_substance'))['value_ri_substance__sum'] +\
+        HeightConfirmed.objects.all().aggregate(Sum('value_ri_height'))['value_ri_height__sum']
     # [Nombre de la poliza, maximo puntaje, puntaje obtenido, id de la Poliza]
     desgloce = []
     desgloce.clear()
@@ -776,6 +791,7 @@ def view_results(request, pk):
     res_fin = (379 + 19) - res_img
     res_fin = int(res_fin)
     cuartil = (maximo) / 4
+    print("este es el maximo", maximo)
 
     if total < (cuartil):
         color = "VERDE"
