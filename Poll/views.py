@@ -372,8 +372,6 @@ def view_results(request, pk):
         ManufactureProcess.objects.all().aggregate(Sum('ri_manufacture'))['ri_manufacture__sum'] +\
         BuildingProcess.objects.all().aggregate(Sum('ri_building'))['ri_building__sum'] +\
         GeneralServicesProcess.objects.all().aggregate(Sum('ri_service'))['ri_service__sum'] +\
-        RiskPreventionPersonal.objects.all().aggregate(Sum('ri_prevent'))['ri_prevent__sum'] +\
-        RiskManagement.objects.all().aggregate(Sum('ri_risk'))['ri_risk__sum'] +\
         ExplosiveControl.objects.all().aggregate(Sum('ri_explosive'))['ri_explosive__sum'] +\
         ElectricityControl.objects.all().aggregate(Sum('ri_electricity'))['ri_electricity__sum'] +\
         SubstanceControl.objects.all().aggregate(Sum('ri_substance'))['ri_substance__sum'] +\
@@ -382,6 +380,8 @@ def view_results(request, pk):
         ElectricityConfirmed.objects.all().aggregate(Sum('value_ri_electricity'))['value_ri_electricity__sum'] +\
         SubstanceConfirmed.objects.all().aggregate(Sum('value_ri_substance'))['value_ri_substance__sum'] +\
         HeightConfirmed.objects.all().aggregate(Sum('value_ri_height'))['value_ri_height__sum']
+    # RiskPreventionPersonal.objects.all().aggregate(Sum('ri_prevent'))['ri_prevent__sum'] +\
+    # RiskManagement.objects.all().aggregate(Sum('ri_risk'))['ri_risk__sum'] +\
     # [Nombre de la poliza, maximo puntaje, puntaje obtenido, id de la Poliza]
     desgloce = []
     desgloce.clear()
@@ -413,6 +413,42 @@ def view_results(request, pk):
             index4 = i
         i += 1
 
+    for opcion in TransportProcess.objects.all():
+        desgloce[(opcion.poliza - 1)][1] += opcion.ri_transport
+    for opcion in ManufactureProcess.objects.all():
+        desgloce[(opcion.poliza - 1)][1] += opcion.ri_manufacture
+    for opcion in BuildingProcess.objects.all():
+        desgloce[(opcion.poliza - 1)][1] += opcion.ri_building
+    for opcion in GeneralServicesProcess.objects.all():
+        desgloce[(opcion.poliza - 1)][1] += opcion.ri_service
+    for opcion in ExplosiveControl.objects.all():
+        desgloce[(opcion.poliza - 1)][1] += opcion.ri_explosive
+    for opcion in SubstanceControl.objects.all():
+        desgloce[(opcion.poliza - 1)][1] += opcion.ri_substance
+    for opcion in ElectricityControl.objects.all():
+        desgloce[(opcion.poliza - 1)][1] += opcion.ri_electricity
+    for opcion in HeightControl.objects.all():
+        desgloce[(opcion.poliza - 1)][1] += opcion.ri_height
+    max = 0
+    for opcion in ExplosiveConfirmed.objects.all():
+        if opcion.value_ri_explosive > max:
+            max = opcion.value_ri_explosive
+    desgloce[0][1] += max
+    max = 0
+    for opcion in SubstanceConfirmed.objects.all():
+        if opcion.value_ri_substance > max:
+            max = opcion.value_ri_substance
+    desgloce[0][1] += max
+    max = 0
+    for opcion in ElectricityConfirmed.objects.all():
+        if opcion.value_ri_electricity > max:
+            max = opcion.value_ri_electricity
+    desgloce[0][1] += max
+    max = 0
+    for opcion in HeightConfirmed.objects.all():
+        if opcion.value_ri_height > max:
+            max = opcion.value_ri_height
+    desgloce[0][1] += max
     # Se obtiene el usuario del cual se lee la informacion
     user = UserGuiar.objects.get(rut=pk)
 
