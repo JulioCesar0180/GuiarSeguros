@@ -421,21 +421,21 @@ def view_results(request, pk):
         i += 1
 
     for opcion in TransportProcess.objects.all():
-        desgloce[(opcion.poliza - 1)][1] += opcion.ri_transport
+        desgloce[(opcion.poliza.pk - 1)][1] += opcion.ri_transport
     for opcion in ManufactureProcess.objects.all():
-        desgloce[(opcion.poliza - 1)][1] += opcion.ri_manufacture
+        desgloce[(opcion.poliza.pk - 1)][1] += opcion.ri_manufacture
     for opcion in BuildingProcess.objects.all():
-        desgloce[(opcion.poliza - 1)][1] += opcion.ri_building
+        desgloce[(opcion.poliza.pk - 1)][1] += opcion.ri_building
     for opcion in GeneralServicesProcess.objects.all():
-        desgloce[(opcion.poliza - 1)][1] += opcion.ri_service
+        desgloce[(opcion.poliza.pk - 1)][1] += opcion.ri_service
     for opcion in ExplosiveControl.objects.all():
-        desgloce[(opcion.poliza - 1)][1] += opcion.ri_explosive
+        desgloce[(opcion.poliza.pk - 1)][1] += opcion.ri_explosive
     for opcion in SubstanceControl.objects.all():
-        desgloce[(opcion.poliza - 1)][1] += opcion.ri_substance
+        desgloce[(opcion.poliza.pk - 1)][1] += opcion.ri_substance
     for opcion in ElectricityControl.objects.all():
-        desgloce[(opcion.poliza - 1)][1] += opcion.ri_electricity
+        desgloce[(opcion.poliza.pk - 1)][1] += opcion.ri_electricity
     for opcion in HeightControl.objects.all():
-        desgloce[(opcion.poliza - 1)][1] += opcion.ri_height
+        desgloce[(opcion.poliza.pk - 1)][1] += opcion.ri_height
     max = 0
     for opcion in ExplosiveConfirmed.objects.all():
         if opcion.value_ri_explosive > max:
