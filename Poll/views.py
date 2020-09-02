@@ -11,7 +11,11 @@ from django.views.generic import *
 from Poll.forms import *
 from Poll.models import *
 from Home.models import UserGuiar, BusinessManager, ProcessBusiness
-from GuiarSeguros.utils import render_to_pdf
+
+#PDF
+from django.views.generic import View
+from .utils import render_to_pdf
+from django.template.loader import get_template
 
 
 def login_view(request):
@@ -853,19 +857,21 @@ class GeneratePDF(View):
         template = get_template('invoice.html')
         context = {
             "invoice_id": 123,
-            "customer_name": "John Cooper",
-            "amount": 1399.99,
+            "customer_name": "Name",
+            "amount": 1,
             "today": "Today",
         }
         html = template.render(context)
         pdf = render_to_pdf('invoice.html', context)
         if pdf:
             response = HttpResponse(pdf, content_type='application/pdf')
-            filename = "Invoice_%s.pdf" %("12341231")
+            filename = "Reporte.pdf"
             content = "inline; filename='%s'" %(filename)
+            response['Content-Disposition'] = content
+
             download = request.GET.get("download")
             if download:
                 content = "attachment; filename='%s'" %(filename)
             response['Content-Disposition'] = content
             return response
-        return HttpResponse("Not found")
+        return
