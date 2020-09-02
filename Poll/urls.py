@@ -30,4 +30,6 @@ urlpatterns = [
     path('poll-results/<int:pk>', views.view_results, name="poll-results"),
     path('logout', views.logout_view, name="logout"),
     path('pdf', views.GeneratePDF, name="pdf"),
+
+    path('update-manager', views.UpdateManagerView.as_view(), name="update-manager")
 ]

@@ -30,6 +30,7 @@ class ChangeProfileBSPoll(forms.ModelForm):
             'town': forms.TextInput(attrs={'class': 'input'})
         }
 
+
 """
     def __init__(self, city_q, *args, **kwargs):
         super(ChangeProfileBSPoll, self).__init__(*args, **kwargs)

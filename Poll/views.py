@@ -13,6 +13,7 @@ from Poll.models import *
 from Home.models import UserGuiar, BusinessManager, ProcessBusiness
 from GuiarSeguros.utils import render_to_pdf
 
+
 def login_view(request):
     if request.user.is_authenticated:
         return redirect('profile')
@@ -45,7 +46,8 @@ def logout_view(request):
 def profile_view(request):
     user = UserGuiar.objects.get(rut=request.user.rut)
     manager = BusinessManager.objects.get(rut_bm=user.manager.rut_bm)
-    return render(request, 'Poll/profile.html', {'user': user, 'manager': manager})
+    formManager = ChangeProfileBMPoll(instance=manager)
+    return render(request, 'Poll/profile.html', {'user': user, 'manager': manager, 'formManager': formManager})
 
 
 @login_required
@@ -364,6 +366,11 @@ def view_control_height(request, pk):
         else:
             messages.error(request, "Error")
     return render(request, 'Poll/forms/form_control_height.html', context)
+
+
+class UpdateManagerView(UpdateView):
+    model = BusinessManager
+    form_class = ChangeProfileBMPoll
 
 
 @login_required

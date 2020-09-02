@@ -3,6 +3,14 @@ from django.db import models
 # Create your models here.
 
 
+class DotacionInfo(models.Model):
+    cod = models.CharField(max_length=100, unique=True)
+    title = models.CharField(max_length=200)
+    min_value = models.PositiveIntegerField()
+    max_value = models.PositiveIntegerField()
+    poliza = models.ForeignKey('Poliza', models.DO_NOTHING, default=1, null=True, blank=True)
+
+
 class Sales(models.Model):
     title = models.CharField(max_length=100)
 

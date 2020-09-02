@@ -2,6 +2,7 @@
 {% load static %}
 {% block head %}
     <link rel="stylesheet" href="{% static 'css/main.css'%}">
+    <script src="{% static 'js/jquery.js' %}"></script>
 {% endblock %}
 {% block content %}
     <div class="container is-fluid" style="background-color: rgb(0,48,87)">
@@ -23,7 +24,7 @@
             <div class="panel-card uk-width-1-2@m" style="padding: 0!important; margin-top: 25px">
                 <div class="uk-card uk-card-default uk-card-body">
                     <div>
-                        <h5>Datos Representante</h5>
+                        <h5 class="title is-5">Datos Representante</h5>
                     </div>
                     <div class="container-grid-gc" text="left">
                         <div class="uk-grid-small uk-child-width-expand@s" uk-grid>
@@ -49,7 +50,7 @@
             <div class="panel-card uk-width-1-2@m" style="margin-top: 25px">
                 <div class="uk-card uk-card-default uk-card-body">
                     <div>
-                        <h5>Datos de la Empresa</h5>
+                        <h5 class="title is-5">Datos de la Empresa</h5>
                     </div>
                     <div class="container-grid-gc" text="left">
                         <div class="uk-grid-small uk-child-width-expand@s" uk-grid>
@@ -106,48 +107,64 @@
         </div>
     </div>
 
-    <div id="modal-update_manager" class="modal">
+    <div id="modal_update_manager" class="modal">
         <div class="modal-background"></div>
         <div class="modal-card">
             <header class="modal-card-head">
                 <p class="modal-card-title">Modal title</p>
                 <button class="delete" aria-label="close"></button>
             </header>
-            <section class="modal-card-body">
-                <!-- Content ... -->
-            </section>
-            <footer class="modal-card-foot">
-                <button class="button is-success">Save changes</button>
-                <button class="button">Cancel</button>
-            </footer>
+            <form id="form_update_manager" method="post" data-url="{% url 'update-manager' %}">
+                {% csrf_token %}
+                <section class="modal-card-body">
+                    {{ formManager }}
+                </section>
+                <footer class="modal-card-foot">
+                    <button id="save_manager" type="submit" class="button is-success">Guardar Cambios</button>
+                    <button id="cancel-manager" class="button">Cancelar</button>
+                </footer>
+            </form>
         </div>
     </div>
 
 {% endblock %}
 {% block script %}
     <script>
-        var buttonUpdateManager = document.getElementById('button_update_manager');
-        buttonUpdateManager.onclick = function(){
-            var modalUpdateManager = document.getElementById('modal_update_manager');
-            $(modalUpdateManager).addClass('is-active');
-        };
-
-
-
-        $(document).ready(function () {
-            var $form_quantity = $('#id_process');
-            $form_quantity.submit(function (event) {
-                event.preventDefault();
-                var $formData = $(this).serialize();
-                var $thisURL = $form_quantity.attr('data-url');
-                $.ajax({
-                    method: 'POST',
-                    url: $thisURL,
-                    data: $formData,
-                    success: handleFormSuccess,
-                    error: handleFormError,
-                });
-            });
+    $(function () {
+        $("#button_update_manager").click(function () {
+            $("#modal_update_manager").addClass("is-active");
         });
+    });
+
+    $(document).ready(function () {
+        var $form_process = $('#form_update_manager');
+        $form_process.submit(function (event) {
+            event.preventDefault();
+            var $formData = $(this).serialize();
+            var $thisURL = $form_process.attr('data-url');
+            console.log($thisURL);
+            $.ajax({
+                method: 'POST',
+                url: $thisURL,
+                data: $formData,
+                success: handleFormSuccess,
+                error: handleFormError,
+            })
+        });
+        function handleFormSuccess(data, textStatus, jqXHR){
+            console.log(data);
+            console.log(textStatus);
+            console.log(jqXHR);
+        }
+
+        function handleFormError(jqXHR, textStatus, errorThrown){
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
+        }
+    });
+
+
+
     </script>
 {% endblock %}
