@@ -8,39 +8,78 @@
 {% endblock %}
 
 {% block content %}
+<div class="gs-cover" style="background-color: rgb(0,48,87)">
+  <div class="container is-desktop">
+      <div style="margin-bottom: 15px">
+          <p style="color: white">
+            ¡Muchas gracias por tomar el test, según lo respondido el grupo en el que su empresa se encuentra es:
+            <b>{{ color }}</b> y por lo pronto se contactarán con usted para entregar mayor detalles.
+          </p>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div style="margin-bottom: 15px">
+        <p style="color: white">
+          A continuación se darán a conocer los detalles por seccion en valores porcentuales respecto al riesgo potencial según la encuesta:
+        </p>
+      </div>
+      <div class ="bordes">
+        <p style="color: white">
+          {% for d in desgloce %}
+            {{ d.0 }} {{ d.2 }}%
+            <br>
+          {% endfor %}
+        </p>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div class="containerimgs">
+        {% if resultado == total %}
+          <div id="triangulo" style="margin-bottom: -19px;"></div>
+        {% elif resultado == minimo %}
+          <div id="triangulo" style="margin-bottom: 379px;"></div>
+        {% else %}
+          <div id="triangulo" style="margin-bottom: {{res_fin}}px;"></div>
+        {% endif %}
+        <div id="rectangulo"></div>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div style="margin-bottom: 15px">
+        <p style="color: white">
+          Recomendamos fuertemente que, en base al resultado de la encuesta realizada, usted adquiera una poliza de <b>{{ desgloce.0.0 }}</b>.
+        </p>
+      </div>
+      <div style="margin-bottom: 15px">
+        <p style="color: white">
+          Lo tomaremos en consideración cuando nos contactemos con usted. Además, con el siguiente link puede descargar el reporte,
+          en donde podrá ver el resumen de la encuenta respondida.
+        </p>
+      </div>
+  </div>
+</div>
     <div>
       <div class="row">
         <div class="col">
-          ¡Muchas gracias por tomar el test, según lo respondido el grupo en el que su empresa se encuentra es:
-          <b>{{ color }}</b> y por lo pronto se contactarán con usted para entregar mayor detalles.
+          
+          
           <br>
           <br>
           A continuación se darán a conocer los detalles por seccion en valores porcentuales respecto al riesgo potencial según la encuesta:
           <br>
           <br>
-          <div class ="bordes">
-            {% for d in desgloce %}
-                {{ d.0 }} {{ d.2 }}%
-            <br>
-            {% endfor %}
-          </div>
+          
           <br>
-          Recomendamos fuertemente que, en base al resultado de la encuesta realizada, usted adquiera una poliza de <b>{{ desgloce.0.0 }}</b>.
+          
         <br>
         Lo tomaremos en consideración cuando nos contactemos con usted. Además, con el siguiente link puede descargar el reporte,
         en donde podrá ver el resumen de la encuenta respondida.
         </div>
              <a href="{% url 'pdf' %}" id="previous"> Descargar reporte en pdf</a>
-        <div class="containerimgs">
-          {% if resultado == total %}
-            <div id="triangulo" style="margin-bottom: -19px;"></div>
-          {% elif resultado == minimo %}
-            <div id="triangulo" style="margin-bottom: 379px;"></div>
-          {% else %}
-            <div id="triangulo" style="margin-bottom: {{res_fin}}px;"></div>
-          {% endif %}
-          <div id="rectangulo"></div>
-        </div>
+        
       <div>
         <hr>
       </div>
