@@ -11,7 +11,11 @@ from django.views.generic import *
 from Poll.forms import *
 from Poll.models import *
 from Home.models import UserGuiar, BusinessManager, ProcessBusiness
-from GuiarSeguros.utils import render_to_pdf
+
+#PDF
+from django.views.generic import View
+from .utils import render_to_pdf
+from django.template.loader import get_template
 
 
 def login_view(request):
@@ -421,21 +425,21 @@ def view_results(request, pk):
         i += 1
 
     for opcion in TransportProcess.objects.all():
-        desgloce[(opcion.poliza - 1)][1] += opcion.ri_transport
+        desgloce[(opcion.poliza.pk - 1)][1] += opcion.ri_transport
     for opcion in ManufactureProcess.objects.all():
-        desgloce[(opcion.poliza - 1)][1] += opcion.ri_manufacture
+        desgloce[(opcion.poliza.pk - 1)][1] += opcion.ri_manufacture
     for opcion in BuildingProcess.objects.all():
-        desgloce[(opcion.poliza - 1)][1] += opcion.ri_building
+        desgloce[(opcion.poliza.pk - 1)][1] += opcion.ri_building
     for opcion in GeneralServicesProcess.objects.all():
-        desgloce[(opcion.poliza - 1)][1] += opcion.ri_service
+        desgloce[(opcion.poliza.pk - 1)][1] += opcion.ri_service
     for opcion in ExplosiveControl.objects.all():
-        desgloce[(opcion.poliza - 1)][1] += opcion.ri_explosive
+        desgloce[(opcion.poliza.pk - 1)][1] += opcion.ri_explosive
     for opcion in SubstanceControl.objects.all():
-        desgloce[(opcion.poliza - 1)][1] += opcion.ri_substance
+        desgloce[(opcion.poliza.pk - 1)][1] += opcion.ri_substance
     for opcion in ElectricityControl.objects.all():
-        desgloce[(opcion.poliza - 1)][1] += opcion.ri_electricity
+        desgloce[(opcion.poliza.pk - 1)][1] += opcion.ri_electricity
     for opcion in HeightControl.objects.all():
-        desgloce[(opcion.poliza - 1)][1] += opcion.ri_height
+        desgloce[(opcion.poliza.pk - 1)][1] += opcion.ri_height
     max = 0
     for opcion in ExplosiveConfirmed.objects.all():
         if opcion.value_ri_explosive > max:
@@ -853,19 +857,21 @@ class GeneratePDF(View):
         template = get_template('invoice.html')
         context = {
             "invoice_id": 123,
-            "customer_name": "John Cooper",
-            "amount": 1399.99,
+            "customer_name": "Name",
+            "amount": 1,
             "today": "Today",
         }
         html = template.render(context)
         pdf = render_to_pdf('invoice.html', context)
         if pdf:
             response = HttpResponse(pdf, content_type='application/pdf')
-            filename = "Invoice_%s.pdf" %("12341231")
+            filename = "Reporte.pdf"
             content = "inline; filename='%s'" %(filename)
+            response['Content-Disposition'] = content
+
             download = request.GET.get("download")
             if download:
                 content = "attachment; filename='%s'" %(filename)
             response['Content-Disposition'] = content
             return response
-        return HttpResponse("Not found")
+        return
