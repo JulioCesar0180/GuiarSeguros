@@ -7,7 +7,7 @@
 {% block content %}
     <div class="container is-fluid" style="background-color: rgb(0,48,87)">
         <div class="container is-desktop">
-            <h2 class="title is-1" style="color: white">Mideturiesgo</h2>
+            <h2 class="title is-1" style="color: white">Hola, {{ manager.fullname }}</h2>
             <div class="uk-card uk-card-default uk-card-body">
                 <article>
                     <h5 class="title is-5">Nuestra plataforma no solicita datos financieros o de índole privado.</h5>
@@ -70,7 +70,7 @@
                             <input class="form-control" style="text-align: center;" id="antiguedad" value="{{ request.user.seniority }}" disabled>
                         </div>
                     </div>
-                    <a class="button gs-btn-blue update-business">Editar Información</a>
+                    <a id="button_update_user" class="button gs-btn-blue">Editar Información</a>
                 </div>
             </div>
 
@@ -112,7 +112,7 @@
         <div class="modal-card">
             <header class="modal-card-head">
                 <p class="modal-card-title">Modal title</p>
-                <button class="delete" aria-label="close"></button>
+                <button id="close_manager" class="delete" aria-label="close"></button>
             </header>
             <form id="form_update_manager" method="post" data-url="{% url 'update-manager' %}">
                 {% csrf_token %}
@@ -121,7 +121,27 @@
                 </section>
                 <footer class="modal-card-foot">
                     <button id="save_manager" type="submit" class="button is-success">Guardar Cambios</button>
-                    <button id="cancel-manager" class="button">Cancelar</button>
+                    <a id="cancel-manager" class="button">Cancelar</a>
+                </footer>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal_update_user" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title"></p>
+                <button id="close_user" class="delete" aria-label="close"></button>
+            </header>
+            <form id="form_update_user" method="post" data-url="{% url 'update-user' %}">
+                {% csrf_token %}
+                <section class="modal-card-body">
+                    {{ formUser }}
+                </section>
+                <footer class="modal-card-foot">
+                    <button id="save_user" type="submit" class="button is-success">Guardar Cambios</button>
+                    <a id="cancel-user" class="button">Cancelar</a>
                 </footer>
             </form>
         </div>
@@ -129,42 +149,5 @@
 
 {% endblock %}
 {% block script %}
-    <script>
-    $(function () {
-        $("#button_update_manager").click(function () {
-            $("#modal_update_manager").addClass("is-active");
-        });
-    });
-
-    $(document).ready(function () {
-        var $form_process = $('#form_update_manager');
-        $form_process.submit(function (event) {
-            event.preventDefault();
-            var $formData = $(this).serialize();
-            var $thisURL = $form_process.attr('data-url');
-            console.log($thisURL);
-            $.ajax({
-                method: 'POST',
-                url: $thisURL,
-                data: $formData,
-                success: handleFormSuccess,
-                error: handleFormError,
-            })
-        });
-        function handleFormSuccess(data, textStatus, jqXHR){
-            console.log(data);
-            console.log(textStatus);
-            console.log(jqXHR);
-        }
-
-        function handleFormError(jqXHR, textStatus, errorThrown){
-            console.log(jqXHR);
-            console.log(textStatus);
-            console.log(errorThrown);
-        }
-    });
-
-
-
-    </script>
+    <script src="{% static 'js/profile.js' %}"></script>
 {% endblock %}
