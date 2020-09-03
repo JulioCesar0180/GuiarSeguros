@@ -40,7 +40,7 @@ a:link{
     width: 0px;
     height: 0px;
 	border-top: 20px solid transparent;
-	border-left: 30px solid #555;
+	border-left: 30px solid white;
 	/*Maximo margin-bottom 380px*/
 	/*Minimo margin-bottom -19px*/
 	margin-bottom: -19px;
@@ -50,7 +50,7 @@ a:link{
 }
 
 .bordes{
-    border: 1px solid;
+    border: 1px solid white;
     height: auto;
     width: 300px;
 }
