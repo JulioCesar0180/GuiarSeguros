@@ -1,0 +1,19 @@
+<div id="modal_update_user" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title"></p>
+            <button id="close_user" class="delete" aria-label="close"></button>
+        </header>
+        <form id="form_update_user" method="post" data-url="{% url 'update-user' %}">
+            {% csrf_token %}
+            <section class="modal-card-body">
+                {{ formUser }}
+            </section>
+            <footer class="modal-card-foot">
+                <button id="save_user" type="submit" class="button is-success">Guardar Cambios</button>
+                <a id="cancel-user" class="button">Cancelar</a>
+            </footer>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,19 @@
+<div id="modal_update_manager" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Modal title</p>
+            <button id="close_manager" class="delete" aria-label="close"></button>
+        </header>
+        <form id="form_update_manager" method="post" data-url="{% url 'update-manager' %}">
+            {% csrf_token %}
+            <section class="modal-card-body">
+                {{ formManager }}
+            </section>
+            <footer class="modal-card-foot">
+                <button id="save_manager" type="submit" class="button is-success">Guardar Cambios</button>
+                <a id="cancel-manager" class="button">Cancelar</a>
+            </footer>
+        </form>
+    </div>
+</div>

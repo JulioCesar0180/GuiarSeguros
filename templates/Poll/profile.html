@@ -29,22 +29,22 @@
                     <div class="container-grid-gc" text="left">
                         <div class="uk-grid-small uk-child-width-expand@s" uk-grid>
                             <label for="nombre" style="text-align: left">Nombre</label>
-                            <input class="form-control" style="text-align: center; padding-left: 0" id="nombre" value="{{ manager.fullname }}" disabled>
+                            <input class="form-control" style="text-align: center; padding-left: 0" id="name_manager" value="{{ manager.fullname }}" disabled>
                         </div>
                         <div class="uk-grid-small uk-child-width-expand@s" uk-grid>
                             <label for="ciudad" style="text-align: left">Rut</label>
-                            <input class="form-control" style="text-align: center; padding-left: 0" id="ciudad" value="{{ manager.rut_bm }}" disabled>
+                            <input class="form-control" style="text-align: center; padding-left: 0" id="rut_manager" value="{{ manager.rut_bm }}" disabled>
                         </div>
                         <div class="uk-grid-small uk-child-width-expand@s" uk-grid>
                             <label for="comuna" style="text-align: left">Correo</label>
-                            <input class="form-control" style="text-align: center; padding-left: 0" id="comuna" value="{{ manager.email }}" disabled>
+                            <input class="form-control" style="text-align: center; padding-left: 0" id="email_manager" value="{{ manager.email }}" disabled>
                         </div>
                         <div class="uk-grid-small uk-child-width-expand@s" uk-grid>
                             <label for="razon_social" style="text-align: left">Celular</label>
-                            <input class="form-control" style="text-align: center; padding-left: 0" id="razon_social" value="{{ manager.phone }}" disabled>
+                            <input class="form-control" style="text-align: center; padding-left: 0" id="phone_manager" value="{{ manager.phone }}" disabled>
                         </div>
                     </div>
-                    <a class="button gs-btn-blue" id="button_update_manager" data-target="modal_update_manager">Editar Información</a>
+                    <center><a class="button gs-btn-blue" id="button_update_manager" data-target="modal_update_manager" style="margin-top: 20px">Editar Información</a></center>
                 </div>
             </div>
             <div class="panel-card uk-width-1-2@m" style="margin-top: 25px">
@@ -55,22 +55,22 @@
                     <div class="container-grid-gc" text="left">
                         <div class="uk-grid-small uk-child-width-expand@s" uk-grid>
                             <label for="nombre">Nombre</label>
-                            <input class="form-control" style="text-align: center;" id="nombre" value="{{ request.user.name }}" disabled>
+                            <input class="form-control" style="text-align: center;" id="name_bs" value="{{ user.name }}" disabled>
                         </div>
                         <div class="uk-grid-small uk-child-width-expand@s" uk-grid>
                             <label for="ciudad">Ciudad</label>
-                            <input class="form-control" style="text-align: center;" id="ciudad" value="{{ request.user.city }}" disabled>
+                            <input class="form-control" style="text-align: center;" id="city_bs" value="{{ user.city }}" disabled>
                         </div>
                         <div class="uk-grid-small uk-child-width-expand@s" uk-grid>
                             <label for="comuna">Comuna</label>
-                            <input class="form-control" style="text-align: center;" id="comuna" value="{{ request.user.town }}" disabled>
+                            <input class="form-control" style="text-align: center;" id="town_bs" value="{{ user.town }}" disabled>
                         </div>
                         <div class="uk-grid-small uk-child-width-expand@s" uk-grid>
                             <label for="antiguedad">Antigüedad (años)</label>
-                            <input class="form-control" style="text-align: center;" id="antiguedad" value="{{ request.user.seniority }}" disabled>
+                            <input class="form-control" style="text-align: center;" id="seniority_bs" value="{{ user.seniority }}" disabled>
                         </div>
                     </div>
-                    <a id="button_update_user" class="button gs-btn-blue">Editar Información</a>
+                    <center><a id="button_update_user" class="button gs-btn-blue" style="margin-top: 20px">Editar Información</a></center>
                 </div>
             </div>
 
@@ -107,45 +107,9 @@
         </div>
     </div>
 
-    <div id="modal_update_manager" class="modal">
-        <div class="modal-background"></div>
-        <div class="modal-card">
-            <header class="modal-card-head">
-                <p class="modal-card-title">Modal title</p>
-                <button id="close_manager" class="delete" aria-label="close"></button>
-            </header>
-            <form id="form_update_manager" method="post" data-url="{% url 'update-manager' %}">
-                {% csrf_token %}
-                <section class="modal-card-body">
-                    {{ formManager }}
-                </section>
-                <footer class="modal-card-foot">
-                    <button id="save_manager" type="submit" class="button is-success">Guardar Cambios</button>
-                    <a id="cancel-manager" class="button">Cancelar</a>
-                </footer>
-            </form>
-        </div>
-    </div>
+    {% include 'Poll/view_profile/modal_manager.html' %}
 
-    <div id="modal_update_user" class="modal">
-        <div class="modal-background"></div>
-        <div class="modal-card">
-            <header class="modal-card-head">
-                <p class="modal-card-title"></p>
-                <button id="close_user" class="delete" aria-label="close"></button>
-            </header>
-            <form id="form_update_user" method="post" data-url="{% url 'update-user' %}">
-                {% csrf_token %}
-                <section class="modal-card-body">
-                    {{ formUser }}
-                </section>
-                <footer class="modal-card-foot">
-                    <button id="save_user" type="submit" class="button is-success">Guardar Cambios</button>
-                    <a id="cancel-user" class="button">Cancelar</a>
-                </footer>
-            </form>
-        </div>
-    </div>
+    {% include 'Poll/view_profile/modal_user.html' %}
 
 {% endblock %}
 {% block script %}

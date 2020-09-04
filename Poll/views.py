@@ -34,7 +34,7 @@ def login_view(request):
 
             if user:
                 login(request, user)
-                return render(request, 'Poll/profile.html')
+                return redirect('profile')
             else:
                 return render(request, 'Poll/login.html', context)
     return render(request, 'Poll/login.html', context)
