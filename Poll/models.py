@@ -4,11 +4,19 @@ from django.db import models
 
 
 class DotacionInfo(models.Model):
-    cod = models.CharField(max_length=100, unique=True)
+    cod = models.CharField(max_length=100)
     title = models.CharField(max_length=200)
     min_value = models.PositiveIntegerField()
     max_value = models.PositiveIntegerField()
+    ri_value = models.PositiveIntegerField(default=1)
     poliza = models.ForeignKey('Poliza', models.DO_NOTHING, default=1, null=True, blank=True)
+
+    def __str__(self):
+        if self.max_value > self.min_value:
+            return self.cod + " " + self.title + " (" + str(self.min_value) + "-" + str(self.max_value) + ") risk " +\
+               str(self.ri_value)
+        else:
+            return self.cod + " " + self.title + " (" + str(self.min_value) + "+) risk " + str(self.ri_value)
 
 
 class Sales(models.Model):
