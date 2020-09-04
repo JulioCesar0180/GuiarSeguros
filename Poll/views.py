@@ -447,6 +447,8 @@ def view_results(request, pk):
     # coincida con opcion.poliza.pk obteniendo su posicion y utilizando este valor en vez de la referencia directa
     # En esta parte si "Responsabilidad Civil de Empresa" no es la primera poliza en la tabla, entonces esto dejara de
     # funcionar, en tal caso habria que buscar el indice en el que se encuentra esta poliza o su equivalente
+
+    # Se obtienen los maximos de cada poliza revisando cada opcion de cada pregunta
     for opcion in TransportProcess.objects.all():
         pos = opcion.poliza.pk - 1
         if pos != 0:
@@ -544,7 +546,7 @@ def view_results(request, pk):
                 cant = cantidad[0]
                 break
         if dot.min_value > dot.max_value:
-            if cant > dot.min_value:
+            if cant >= dot.min_value:
                 if pos != 0:
                     desgloce[pos][2] += dot.ri_value * dot.min_value
                 desgloce[0][2] += dot.ri_value * dot.min_value
