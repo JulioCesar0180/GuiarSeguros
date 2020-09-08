@@ -62,7 +62,7 @@ def view_welcome(request):
 
 @login_required
 def view_form_profile_bs(request, pk):
-    user = UserGuiar.objects.get(rut=pk)
+    user = UserGuiar.objects.get(pk=pk)
     form = ChangeProfileBSPoll(instance=user)
     context = {'user': user, 'form': form}
     if request.method == "POST":
@@ -77,7 +77,7 @@ def view_form_profile_bs(request, pk):
 
 @login_required
 def view_form_profile_bm(request, pk):
-    manager = BusinessManager.objects.get(userguiar__rut=pk)
+    manager = BusinessManager.objects.get(userguiar__pk=pk)
     form = ChangeProfileBMPoll(instance=manager)
     context = {'manager': manager, 'form': form}
     if request.method == "POST":
@@ -92,7 +92,7 @@ def view_form_profile_bm(request, pk):
 
 @login_required
 def view_form_sales(request, pk):
-    user = UserGuiar.objects.get(rut=pk)
+    user = UserGuiar.objects.get(pk=pk)
     form = ChangeSaleFrom(instance=user)
     context = {'user': user, 'form': form}
     if request.method == "POST":
@@ -107,7 +107,7 @@ def view_form_sales(request, pk):
 
 @login_required
 def view_form_quantity(request, pk):
-    user = UserGuiar.objects.get(rut=pk)
+    user = UserGuiar.objects.get(pk=pk)
     form = QuantityEmpForm(instance=user)
     context = {'user': user, 'form': form}
     if request.method == "POST":
@@ -122,7 +122,7 @@ def view_form_quantity(request, pk):
 
 @login_required
 def view_form_process(request, pk):
-    user = UserGuiar.objects.get(rut=pk)
+    user = UserGuiar.objects.get(pk=pk)
     form = ProcessForm(instance=user)
     context = {'user': user, 'form': form}
     if request.method == "POST":
@@ -137,7 +137,7 @@ def view_form_process(request, pk):
 
 @login_required
 def view_transport_process(request, pk):
-    user = UserGuiar.objects.get(rut=pk)
+    user = UserGuiar.objects.get(pk=pk)
     process = ProcessBusiness.objects.get(title="Transporte")
     if process not in user.process.all():
         user.transport.clear()
@@ -157,7 +157,7 @@ def view_transport_process(request, pk):
 
 @login_required
 def view_manufacture_process(request, pk):
-    user = UserGuiar.objects.get(rut=pk)
+    user = UserGuiar.objects.get(pk=pk)
     process = ProcessBusiness.objects.get(title="Manufactura")
     if process not in user.process.all():
         user.manufacture.clear()
@@ -177,7 +177,7 @@ def view_manufacture_process(request, pk):
 
 @login_required
 def view_building_process(request, pk):
-    user = UserGuiar.objects.get(rut=pk)
+    user = UserGuiar.objects.get(pk=pk)
     process = ProcessBusiness.objects.get(title="Construcción")
     if process not in user.process.all():
         user.building.clear()
@@ -197,7 +197,7 @@ def view_building_process(request, pk):
 
 @login_required
 def view_services_process(request, pk):
-    user = UserGuiar.objects.get(rut=pk)
+    user = UserGuiar.objects.get(pk=pk)
     process = ProcessBusiness.objects.get(title="Servicios Generales")
     if process not in user.process.all():
         user.general_services.clear()
@@ -217,7 +217,7 @@ def view_services_process(request, pk):
 
 @login_required
 def view_control_risk(request, pk):
-    user = UserGuiar.objects.get(rut=pk)
+    user = UserGuiar.objects.get(pk=pk)
     form = ControlRiskForm(instance=user)
     context = {'user': user, 'form': form}
     if request.method == "POST":
@@ -232,7 +232,7 @@ def view_control_risk(request, pk):
 
 @login_required
 def view_prevent_risk(request, pk):
-    user = UserGuiar.objects.get(rut=pk)
+    user = UserGuiar.objects.get(pk=pk)
     form = PreventRiskForm(instance=user)
     context = {'user': user, 'form': form}
     if request.method == "POST":
@@ -247,7 +247,7 @@ def view_prevent_risk(request, pk):
 
 @login_required
 def view_confirmed_control_explosive(request, pk):
-    user = UserGuiar.objects.get(rut=pk)
+    user = UserGuiar.objects.get(pk=pk)
     form = ExplosiveConfirmedForm(instance=user)
     if request.method == "POST":
         form = ExplosiveConfirmedForm(request.POST, instance=user)
@@ -264,7 +264,7 @@ def view_confirmed_control_explosive(request, pk):
 
 @login_required
 def view_control_explosive(request, pk):
-    user = UserGuiar.objects.get(rut=pk)
+    user = UserGuiar.objects.get(pk=pk)
     form = ExplosiveControlForm(instance=user)
     context = {'user': user, 'form': form}
     if request.method == "POST":
@@ -279,7 +279,7 @@ def view_control_explosive(request, pk):
 
 @login_required
 def view_confirmed_control_electricity(request, pk):
-    user = UserGuiar.objects.get(rut=pk)
+    user = UserGuiar.objects.get(pk=pk)
     form = ElectricityConfirmedForm(instance=user)
     if request.method == "POST":
         form = ElectricityConfirmedForm(request.POST, instance=user)
@@ -296,7 +296,7 @@ def view_confirmed_control_electricity(request, pk):
 
 @login_required
 def view_control_electricity(request, pk):
-    user = UserGuiar.objects.get(rut=pk)
+    user = UserGuiar.objects.get(pk=pk)
     form = ElectricityControlForm(instance=user)
     context = {'user': user, 'form': form}
     if request.method == "POST":
@@ -311,7 +311,7 @@ def view_control_electricity(request, pk):
 
 @login_required
 def view_confirmed_substances(request, pk):
-    user = UserGuiar.objects.get(rut=pk)
+    user = UserGuiar.objects.get(pk=pk)
     form = SubstancesConfirmedForm(instance=user)
     if request.method == "POST":
         form = SubstancesConfirmedForm(request.POST, instance=user)
@@ -328,7 +328,7 @@ def view_confirmed_substances(request, pk):
 
 @login_required
 def view_control_substances(request, pk):
-    user = UserGuiar.objects.get(rut=pk)
+    user = UserGuiar.objects.get(pk=pk)
     form = SubstanceControlForm(instance=user)
     context = {'user': user, 'form': form}
     if request.method == "POST":
@@ -343,7 +343,7 @@ def view_control_substances(request, pk):
 
 @login_required
 def view_confirmed_height(request, pk):
-    user = UserGuiar.objects.get(rut=pk)
+    user = UserGuiar.objects.get(pk=pk)
     form = HeightConfirmedForm(instance=user)
     if request.method == "POST":
         form = HeightConfirmedForm(request.POST, instance=user)
@@ -360,7 +360,7 @@ def view_confirmed_height(request, pk):
 
 @login_required
 def view_control_height(request, pk):
-    user = UserGuiar.objects.get(rut=pk)
+    user = UserGuiar.objects.get(pk=pk)
     form = HeightControlForm(instance=user)
     context = {'user': user, 'form': form}
     if request.method == "POST":
@@ -522,7 +522,7 @@ def view_results(request, pk):
     desgloce[0][1] += max
     maximo += max
     # Se obtiene el usuario del cual se lee la informacion
-    user = UserGuiar.objects.get(rut=pk)
+    user = UserGuiar.objects.get(pk=pk)
 
     dotaciones = DotacionInfo.objects.all()
     cantidades = []
