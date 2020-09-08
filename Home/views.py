@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import PasswordResetView
 from django.contrib.messages import get_messages
 from django.http import HttpResponse
@@ -8,7 +9,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views.generic.edit import CreateView
 from .models import BusinessManager, UserGuiar
-from .forms import CreateManagerForm
+from .forms import CreateManagerForm, CreateUserForm
 
 
 def home(request):
@@ -16,21 +17,29 @@ def home(request):
 
 
 def view_register_manager(request):
-    form = CreateManagerForm()
-    context = {'form': form}
+    form_user = CreateUserForm()
+    form_manager = CreateManagerForm()
+    context = {'form_user': form_user, 'form_manager': form_manager}
     if request.method == "POST":
-        form = CreateManagerForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return render(request, 'Home/home.html')
+        form_user = CreateUserForm(request.POST)
+        form_manager = CreateManagerForm(request.POST)
+        print('manager: ', form_manager.is_valid(), 'user: ', form_user.is_valid())
+        if form_user.is_valid() and form_manager.is_valid():
+            form_manager.save()
+            form_user.save()
+            user_query = UserGuiar.objects.get(rut=form_user.cleaned_data['rut'])
+            user_manager = BusinessManager.objects.get(rut_bm=form_manager.cleaned_data['rut_bm'])
+            user_query.manager = user_manager
+            user_query.save()
+
+            user = authenticate(rut=form_user.cleaned_data['rut'], password=form_user.cleaned_data['password1'])
+            print(user)
+            if user:
+                login(request, user)
+                return redirect('profile')
         else:
-            manager = BusinessManager.objects.get(rut_bm=request.POST['rut_bm'])
-            print(manager)
-            user = UserGuiar.objects.get(manager_id=manager.pk)
-            context = {'manager': manager.fullname}
-            messages.add_message(request, messages.INFO, manager.rut_bm)
-            return redirect('manager_error')
-    return render(request, 'Home/forms/manager_create_form.html', context)
+            messages.error(request, "Error")
+    return render(request, 'Home/forms/form_signup.html', context)
 
 
 def view_register_manager_error(request):

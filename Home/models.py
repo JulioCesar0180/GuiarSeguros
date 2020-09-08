@@ -1,4 +1,4 @@
-from django.contrib.auth.base_user import BaseUserManager
+from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
 from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from django.db import models
 
@@ -40,13 +40,13 @@ class UserGuiarManager(BaseUserManager):
         return user
 
 
-class UserGuiar(AbstractUser):
-    rut = models.CharField(max_length=12, primary_key=True, unique=True)
+class UserGuiar(AbstractBaseUser, PermissionsMixin):
+    rut = models.CharField(max_length=12, unique=True)
     name = models.CharField(max_length=100)
     city = models.ForeignKey(City, on_delete=models.DO_NOTHING, null=True)
     town = models.CharField(max_length=50)
     address = models.CharField(max_length=100, default="")
-    seniority = models.PositiveSmallIntegerField(default=0)
+    seniority = models.PositiveSmallIntegerField(null=True, blank=True)
 
     # Datos del representante
     manager = models.OneToOneField('BusinessManager', on_delete=models.CASCADE, null=True, blank=True)
@@ -117,9 +117,9 @@ class UserGuiar(AbstractUser):
 
 
 class BusinessManager(models.Model):
-    rut_bm = models.CharField(max_length=12, primary_key=True)
+    rut_bm = models.CharField(max_length=12, unique=True)
     fullname = models.CharField(max_length=100)
-    email = models.EmailField()
+    email = models.EmailField(unique=True)
     phone = models.PositiveIntegerField()
 
     def __str__(self):

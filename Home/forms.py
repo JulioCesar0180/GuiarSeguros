@@ -9,7 +9,7 @@ class UserGuiarCreationForm(UserCreationForm):
 
     class Meta:
         model = UserGuiar
-        fields = ('username',)
+        fields = ('rut',)
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
@@ -40,4 +40,22 @@ class CreateManagerForm(forms.ModelForm):
                                              'autocomplete': 'off'}),
             'phone': forms.NumberInput(attrs={'class': 'input gs-input', 'placeholder': 'Celular',
                                               'autocomplete': 'off'})
+        }
+
+
+class CreateUserForm(UserCreationForm):
+
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'input gs-input', 'placeholder': 'Contraseña'}))
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'input gs-input', 'placeholder': 'Confirmar Contraseña'}))
+
+    class Meta:
+        model = UserGuiar
+        fields = ['rut', 'name', 'city', 'town', 'address', 'seniority', 'password1', 'password2']
+
+        widgets = {
+            'rut': forms.TextInput(attrs={'class': 'input gs-input', 'placeholder': 'RUT', 'autocomplete': 'off'}),
+            'name': forms.TextInput(attrs={'class': 'input gs-input', 'placeholder': 'Razón Social', 'autocomplete': 'off'}),
+            'seniority': forms.NumberInput(attrs={'class': 'input gs-input', 'placeholder': 'Antigüedad de la empresa', 'autocomplete': 'off'}),
+            'address': forms.TextInput(attrs={'class': 'input gs-input', 'placeholder': 'Dirección', 'autocomplete': 'off'}),
+            'town': forms.TextInput(attrs={'class': 'input gs-input', 'placeholder': 'Comuna', 'autocomplete': 'off'}),
         }
