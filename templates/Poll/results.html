@@ -3,6 +3,7 @@
 {% block head %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/results.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -29,7 +30,7 @@
                         </label>
                         {% endfor %}
                         <div class="panel-block">
-                            <a href="{% url 'pdf' %}" class="button is-link is-outlined is-fullwidth">
+                            <a href="{% url 'pdf' %}" target="_blank" class="button is-link is-outlined is-fullwidth">
                                 Descargar PDF
                             </a>
                         </div>
@@ -47,6 +48,7 @@
                           <div id="triangulo" style="margin-bottom: {{res_fin}}px; background-color: black"></div>
                         {% endif %}
                         <div id="rectangulo"></div>
+                        <meter max="100" value="0" title="Riesgo"></meter>
                     </div>
                 </div>
             </div>
