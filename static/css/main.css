@@ -29,11 +29,12 @@ a:link{
     text-decoration: None;
 }
 
+/* Rectangulo*/
 #rectangulo{
     width: 100px;
     height: 400px;
     border:1px solid #000;
-    background:linear-gradient(green 25%, yellow 25% 50%, orange 50% 75%, red 75% 100%);
+    background:linear-gradient(green 0%, yellow 50%, orange 75%, red 100%);
 }
 
 #triangulo{
@@ -66,3 +67,19 @@ input::-webkit-inner-spin-button{
 input[type=number]{
     -moz-appearance: textfield;
 }
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  grid-gap: 10px;
+  background-color: #2196F3;
+  padding: 10px;
+}
+
+.grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid black;
+  text-align: center;
+  font-size: 30px;
+}
+

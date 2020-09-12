@@ -7,63 +7,91 @@
 {% endblock %}
 
 {% block content %}
-<div class="gs-cover" style="background-color: rgb(0,48,87)">
-    <div class="container is-desktop">
-        <div style="margin-bottom: 15px">
-            <p style="color: white">
-                ¡Muchas gracias por tomar el test, según lo respondido el grupo en el que su empresa se encuentra es:
-                <b>{{ color }}</b> y por lo pronto se contactarán con usted para entregar mayor detalles.
-            </p>
+
+<div class="gs-cover" style="background-color: rgb(0,48,87);" >
+    <div class="container is-desktop" style="margin-top: 80px;">
+
+        <!-cuadro superior->
+        <div class="uk-width-1.5-2@s">
+            <div class="uk-card" style="background-color: white; border-radius: 6px">
+                <nav class="panel">
+                    <p class="panel-block"></p>
+                    <p class="panel-block">
+                        ¡Muchas gracias por nuestra encuesta!, según lo respondido, el grupo en el que su empresa se encuentra es:
+                        {{ color }} y por lo pronto nos contactaremos con usted para entregar mayor detalle.
+                    </p>
+
+                    <p class="panel-block">
+                        A continuación se dan a conocer en orden prioritario las polizas reacomendadas respecto al riesgo potencial según la encuesta respondida:
+                    </p>
+                    <p class="panel-block"></p>
+                </nav>
+            </div>
         </div>
-        <div style="margin-bottom: 15px">
-            <p style="color: white">A continuación se darán a conocer los detalles por seccion en valores porcentuales respecto al riesgo potencial según la encuesta:</p>
-        </div>
-        <div class="uk-text-center" uk-grid>
-            <div class="uk-width-1-2@s">
+
+        <div class="uk-text-center" uk-grid style="margin-top: 40px">
+            <!-Cuadro informacion->
+            <div class="uk-width-1-3@s" style="width: 500px">
                 <div class="uk-card" style="background-color: white; border-radius: 6px">
                     <nav class="panel">
-                        <p class="panel-heading">Resultados</p>
-                        {% for d in desgloce %}
-                        <label class="panel-block">
-                            <input type="checkbox">
-                            {{ d.0 }} {{ d.2 }}%
-                        </label>
-                        {% endfor %}
-                        <div class="panel-block">
-                            <a href="{% url 'pdf' %}" target="_blank" class="button is-link is-outlined is-fullwidth">
-                                Descargar PDF
-                            </a>
-                        </div>
+                        <p class="panel-heading">Importante</p>
+                        <p class="panel-block" align="justify">
+                          Recomendamos que, en base al resultado de la encuesta realizada, usted adquiera la siguiente poliza:
+                        </p>
+                        <p>
+                            <b>{{ desgloce.0.0 }}</b>
+                        </p>
+                        <div class="panel-block"></div>
                     </nav>
                 </div>
             </div>
-            <div class="uk-width-1-2@s">
-                <div class="uk-card uk-card-default uk-card-body">
-                    <div class="containerimgs">
-                        {% if resultado == total %}
-                          <div id="triangulo" style="margin-bottom: -19px; background-color: black"></div>
-                        {% elif resultado == minimo %}
-                          <div id="triangulo" style="margin-bottom: 379px; background-color: black"></div>
-                        {% else %}
-                          <div id="triangulo" style="margin-bottom: {{res_fin}}px; background-color: black"></div>
-                        {% endif %}
-                        <div id="rectangulo"></div>
-                        <meter max="100" value="0" title="Riesgo"></meter>
+
+            <!-Cuadro resultados->
+            <div class="uk-width-1-3@s" style="width: 500px">
+            <div class="uk-card" style="background-color: white; border-radius: 6px">
+                <nav class="panel">
+                    <p class="panel-heading">Resultados</p>
+
+                    {% for d in desgloce %}
+                    <label class="panel-block">
+                        <input type="checkbox">
+                        {{ d.0 }} {{ d.2 }}%
+                    </label>
+                    {% endfor %}
+
+                    <div class="panel-block">
+                        <a href="{% url 'pdf' %}" target="_blank" class="button is-link is-outlined is-fullwidth">
+                            Descargar PDF
+                        </a>
                     </div>
+                </nav>
+            </div>
+        </div>
+
+            <!-Grafico->
+            <div class="uk-width-1-3@s" style="width: 500px">
+                <div class="uk-card" style="background-color: white; border-radius: 6px">
+                    <nav class="panel">
+                        <p class="panel-heading">Gráfico de Riesgo</p>
+                            <div class="uk-card uk-card-default uk-card-body" style="background-color: white; box-shadow: none; ">
+                                <div class="containerimgs">
+                                    {% if resultado == total %}
+                                    <div class="far fa-arrow-alt-circle-right fa-2x" style="margin-bottom: -19px;"></div>
+                                    {% elif resultado == minimo %}
+                                    <div class="far fa-arrow-alt-circle-right fa-2x" style="margin-bottom: 379px;"></div>
+                                    {% else %}
+                                    <div class="far fa-arrow-alt-circle-right fa-2x" style="margin-bottom: {{res_fin}}px;"></div>
+                                    {% endif %}
+                                    <div id="rectangulo"></div>
+                                </div>
+                            </div>
+                        <div class="panel-block"></div>
+                    </nav>
                 </div>
             </div>
         </div>
-        <div style="margin-bottom: 15px">
-            <p style="color: white">
-              Recomendamos fuertemente que, en base al resultado de la encuesta realizada, usted adquiera una poliza de <b>{{ desgloce.0.0 }}</b>.
-            </p>
-        </div>
-        <div style="margin-bottom: 15px">
-            <p style="color: white">
-              Lo tomaremos en consideración cuando nos contactemos con usted. Además, con el siguiente link puede descargar el reporte,
-              en donde podrá ver el resumen de la encuenta respondida.
-            </p>
-        </div>
+
+
     </div>
 </div>
 

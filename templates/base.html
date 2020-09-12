@@ -15,10 +15,29 @@
     {% endblock %}
 </head>
 <body>
+    <nav class="navbar is-fixed-top gs-navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a id="insignia" class="navbar-item" href="{% url 'home' %}">
+                <img src="{% static 'img/logoGC.png' %}">
+            </a>
+
+            <button class="button navbar-burger" type="button" uk-toggle="target: #offcanvas-overlay">
+                <i class="fas fa-bars" style="color: white"></i>
+            </button>
+        </div>
+
+        <div id="navMenu-bar" class="navbar-menu">
+            <div class="navbar-start">
+                <a id="item-about" href="{% url 'profile' %}" class="navbar-item">MideTuRiesgo</a>
+                <a id="item-computer-lab" href="" class="navbar-item">Contacto</a>
+            </div>
+        </div>
+    </nav>
 {% block content %}
 {% endblock %}
 
 {% block script %}
+
 {% endblock %}
 <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 </body>

@@ -33,7 +33,7 @@ a:link{
     width: 100px;
     height: 400px;
     border:1px solid #000;
-    background:linear-gradient(green 25%, yellow 25% 50%, orange 50% 75%, red 75% 100%);
+    background:linear-gradient(green 0%, yellow 50%, orange 75%, red 100%);
 }
 
 #triangulo{
