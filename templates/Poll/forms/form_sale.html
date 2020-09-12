@@ -14,7 +14,7 @@
             <h3 class="title" style="color: white">3.- Ventas anuales</h3>
             <p style="color: white">Asegurese que la información este actualizada</p>
         </div>
-        <form id="id_sales" method="post">
+        <form id="id_sales" method="post" class="gs-form-poll">
             {% csrf_token %}
             <div class="container">
                 {% for i in form.sales %}

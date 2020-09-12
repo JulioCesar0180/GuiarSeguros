@@ -14,7 +14,7 @@
             <h3 class="title" style="color: white">2.- Datos del representante</h3>
             <p style="color: white">Asegurese que la información este actualizada</p>
         </div>
-        <form id="id_personal_BM" method="post">
+        <form id="id_personal_BM" method="post" class="gs-form-poll">
             {% csrf_token %}
             <div class="field">
                 <label for="{{ BM_profile.fullname.id_for_label }}" class="label" style="color: white">Nombre</label>

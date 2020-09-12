@@ -15,7 +15,7 @@
             <h3 class="title" style="color: white">5.- Indique el o los rubros en que participa la empresa</h3>
             <p style="color: white">Asegurese que la información este actualizada</p>
         </div>
-        <form id="id_process" method="post">
+        <form id="id_process" method="post" class="gs-form-poll">
             {% csrf_token %}
             <div class="container">
                 {% for i in form.process %}

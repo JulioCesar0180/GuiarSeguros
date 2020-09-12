@@ -20,7 +20,7 @@
             </div>
         {% endfor %}
         {% endfor %}
-        <form id="id_personal_BS" method="post">
+        <form id="id_personal_BS" method="post" class="gs-form-poll">
             {% csrf_token %}
             <div class="field">
                 <label for="{{ BS_profile.name_BS.id_for_label }}" class="label" style="color: white">Razón Social</label>
