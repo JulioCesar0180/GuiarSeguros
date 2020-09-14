@@ -57,3 +57,5 @@ admin.site.register(ExplosiveConfirmed)
 admin.site.register(ElectricityConfirmed)
 admin.site.register(SubstanceConfirmed)
 admin.site.register(HeightConfirmed)
+
+admin.site.site_header = "Panel de Administración de GuiarSeguros"
