@@ -92,3 +92,13 @@
   from {opacity: .4}
   to {opacity: 1}
 }
+
+@media only screen and (max-width: 360px) {
+  .is-1{
+    font-size: 1.5rem !important;
+  }
+
+  .is-5{
+    font-size: 1rem !important;
+  }
+}

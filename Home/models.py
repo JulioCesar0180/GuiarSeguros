@@ -12,6 +12,10 @@ class Town(models.Model):
     def __str__(self):
         return self.name_town_t
 
+    class Meta:
+        verbose_name = "Comuna"
+        verbose_name_plural = "Comunas"
+
 
 class City(models.Model):
     name_city = models.CharField(max_length=50)
@@ -19,6 +23,10 @@ class City(models.Model):
 
     def __str__(self):
         return self.name_city
+
+    class Meta:
+        verbose_name = "Ciudad"
+        verbose_name_plural = "Ciudades"
 
 
 class UserGuiarManager(BaseUserManager):
@@ -115,6 +123,10 @@ class UserGuiar(AbstractBaseUser, PermissionsMixin):
     def is_staff(self):
         return self.is_admin
 
+    class Meta:
+        verbose_name = "Usuario"
+        verbose_name_plural = "Usuarios"
+
 
 class BusinessManager(models.Model):
     rut_bm = models.CharField(max_length=12, unique=True)
@@ -124,3 +136,7 @@ class BusinessManager(models.Model):
 
     def __str__(self):
         return self.rut_bm
+
+    class Meta:
+        verbose_name = "Representante"
+        verbose_name_plural = "Representantes"
