@@ -18,7 +18,7 @@
                         <p>Para mejorar nuestra atención queremos saber con quien estamos tratando</p>
                         <br>
                         {% csrf_token %}
-                        {% for field in form_manager %}
+                        {% for field in messages %}
                             {{ field.error }}
                         {% endfor %}
                         {{ form_manager.fullname }}
