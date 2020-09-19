@@ -19,7 +19,6 @@ def home(request):
 def view_register_manager(request):
     form_user = CreateUserForm()
     form_manager = CreateManagerForm()
-    context = {'form_user': form_user, 'form_manager': form_manager}
     if request.method == "POST":
         form_user = CreateUserForm(request.POST)
         form_manager = CreateManagerForm(request.POST)
@@ -39,6 +38,7 @@ def view_register_manager(request):
                 return redirect('profile')
         else:
             messages.error(request, "Error")
+    context = {'form_user': form_user, 'form_manager': form_manager}
     return render(request, 'Home/forms/form_signup.html', context)
 
 

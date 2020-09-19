@@ -31,6 +31,15 @@ a:link{
     text-decoration: None;
 }
 
+.gs-card{
+    box-shadow: 0 35px 80px rgba(0,94,184,0.2);
+    border: solid rgb(0,48,87);
+    padding: 15px;
+    border-radius: 20px;
+}
+
+
+
 #rectangulo{
     width: 100px;
     height: 400px;

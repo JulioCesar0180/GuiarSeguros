@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
-from .models import UserGuiar, BusinessManager
+
+from .models import UserGuiar, BusinessManager, City, Town
 
 
 class UserGuiarCreationForm(UserCreationForm):
@@ -45,8 +46,16 @@ class CreateManagerForm(forms.ModelForm):
 
 class CreateUserForm(UserCreationForm):
 
-    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'input gs-input', 'placeholder': 'Contraseña'}))
-    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'input gs-input', 'placeholder': 'Confirmar Contraseña'}))
+    city = forms.ModelChoiceField(
+        queryset=City.objects.all(),
+        empty_label="Seleccione una Ciudad",
+        widget=forms.Select(attrs={'class': 'input gs-input'}))
+
+    town = forms.ModelChoiceField(
+        queryset=Town.objects.all(),
+        empty_label="Seleccione una Comuna",
+        widget=forms.Select(attrs={'class': 'input gs-input'})
+    )
 
     class Meta:
         model = UserGuiar
@@ -59,3 +68,9 @@ class CreateUserForm(UserCreationForm):
             'address': forms.TextInput(attrs={'class': 'input gs-input', 'placeholder': 'Dirección', 'autocomplete': 'off'}),
             'town': forms.TextInput(attrs={'class': 'input gs-input', 'placeholder': 'Comuna', 'autocomplete': 'off'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password1'].widget = forms.PasswordInput(attrs={'class': 'input gs-input', 'placeholder': 'Contraseña'})
+        self.fields['password2'].widget = forms.PasswordInput(attrs={'class': 'input gs-input', 'placeholder': 'Confirmar Contraseña'})
+

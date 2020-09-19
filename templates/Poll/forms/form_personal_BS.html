@@ -8,18 +8,11 @@
 
 {% block content %}
 <div class="gs-cover" style="background-color: rgb(0,48,87)">
-    <div class="container is-desktop">
+    <div class="container is-desktop gs-card">
         <div style="margin-bottom: 15px">
             <h3 class="title" style="color: white">1.- Datos generales de la empresa</h3>
             <p style="color: white">Asegurese que la información este actualizada</p>
         </div>
-        {% for field in form %}
-        {% for error in field.errors %}
-            <div class="alert alert-danger">
-                <strong>{{ error|escape }}</strong>
-            </div>
-        {% endfor %}
-        {% endfor %}
         <form id="id_personal_BS" method="post" class="gs-form-poll">
             {% csrf_token %}
             <div class="field">

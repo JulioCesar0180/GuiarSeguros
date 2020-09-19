@@ -48,11 +48,14 @@ def logout_view(request):
 @login_required
 def profile_view(request):
     user = UserGuiar.objects.get(rut=request.user.rut)
-    manager = BusinessManager.objects.get(rut_bm=user.manager.rut_bm)
-    formManager = ChangeProfileBMPoll(instance=manager)
-    formUser = ChangeProfileBSPoll(instance=user)
-    context = {'user': user, 'manager': manager, 'formManager': formManager, 'formUser': formUser}
-    return render(request, 'Poll/profile.html', context)
+    if user.is_admin:
+        return redirect('/admin/')
+    else:
+        manager = BusinessManager.objects.get(rut_bm=user.manager.rut_bm)
+        formManager = ChangeProfileBMPoll(instance=manager)
+        formUser = ChangeProfileBSPoll(instance=user)
+        context = {'user': user, 'manager': manager, 'formManager': formManager, 'formUser': formUser}
+        return render(request, 'Poll/profile.html', context)
 
 
 @login_required

@@ -27,7 +27,6 @@ class ChangeProfileBSPoll(forms.ModelForm):
             'rut': forms.TextInput(attrs={'class': 'input'}),
             'seniority': forms.TextInput(attrs={'class': 'input'}),
             'address': forms.TextInput(attrs={'class': 'input'}),
-            'town': forms.TextInput(attrs={'class': 'input'})
         }
 
 

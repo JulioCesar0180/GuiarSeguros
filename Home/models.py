@@ -19,7 +19,6 @@ class Town(models.Model):
 
 class City(models.Model):
     name_city = models.CharField(max_length=50)
-    name_town = models.ForeignKey(Town, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name_city
@@ -52,8 +51,8 @@ class UserGuiar(AbstractBaseUser, PermissionsMixin):
     rut = models.CharField(max_length=12, unique=True)
     name = models.CharField(max_length=100)
     city = models.ForeignKey(City, on_delete=models.DO_NOTHING, null=True)
-    town = models.CharField(max_length=50)
-    address = models.CharField(max_length=100, default="")
+    town = models.ForeignKey(Town, on_delete=models.DO_NOTHING, null=True)
+    address = models.CharField(max_length=100, null=True)
     seniority = models.PositiveSmallIntegerField(null=True, blank=True)
 
     # Datos del representante
