@@ -107,6 +107,8 @@ class UserGuiar(AbstractBaseUser, PermissionsMixin):
     height_confirmed = models.ForeignKey(HeightConfirmed, on_delete=models.DO_NOTHING, null=True)
 
     is_admin = models.BooleanField(default=False)
+
+    enable_poll = models.BooleanField(default=True)
     objects = UserGuiarManager()
     USERNAME_FIELD = 'rut'
     EMAIL_FIELD = 'manager'
