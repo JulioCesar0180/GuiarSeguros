@@ -65,7 +65,7 @@
         <div class="container is-desktop" style="padding: 0">
             <h1 class="title is-1" style="text-align: center; margin-top: 100px; color: white">Bienvenido(a)</h1>
             <div class="hero-body">
-                <div class="uk-text-center" uk-grid>
+                <div class="uk-text-center" uk-grid uk-height-match="target: > div > .card">
                     <div class="uk-width-1-3@s">
                         <div class="card">
                             <div class="card-image">
@@ -120,7 +120,7 @@
     <section id="service" class="hero is-fullheight">
         <div class="container is-desktop">
             <h1 class="title is-1" style="text-align: center; margin-top: 100px; color: rgb(0,48,87)">Servicios</h1>
-            <div class="uk-text-center" uk-grid>
+            <div class="uk-text-center" uk-grid uk-height-match="target: > div > .card">
                 <div class="uk-width-1-3@s">
                     <div class="card">
                         <div class="card-image">
@@ -200,13 +200,6 @@
             </div>
         </div>
     </section>
-    <div class="container is-fluid">
-        <div class="container is-desktop">
-            <footer>
-                GuiarSeguros
-            </footer>
-        </div>
-    </div>
 {% endblock %}
 
 {% block script %}
