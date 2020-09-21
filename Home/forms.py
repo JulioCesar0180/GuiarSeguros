@@ -1,4 +1,5 @@
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import password_validation
+from django.contrib.auth.forms import UserCreationForm, PasswordResetForm, SetPasswordForm
 from django import forms
 
 from .models import UserGuiar, BusinessManager, City, Town
@@ -74,3 +75,32 @@ class CreateUserForm(UserCreationForm):
         self.fields['password1'].widget = forms.PasswordInput(attrs={'class': 'input gs-input', 'placeholder': 'Contraseña'})
         self.fields['password2'].widget = forms.PasswordInput(attrs={'class': 'input gs-input', 'placeholder': 'Confirmar Contraseña'})
 
+
+class PasswordResetFormGS(PasswordResetForm):
+    email = forms.EmailField(
+        label="",
+        max_length=254,
+        widget=forms.EmailInput(attrs={
+            'class': 'input',
+            'placeholder': 'email'
+        })
+    )
+
+
+class SetPasswordFormGS(SetPasswordForm):
+    new_password1 = forms.CharField(
+        label="",
+        widget=forms.PasswordInput(attrs={
+            'class': 'input'
+        }),
+        strip=False,
+        help_text=password_validation.password_validators_help_text_html(),
+    )
+
+    new_password2 = forms.CharField(
+        label="",
+        widget=forms.PasswordInput(attrs={
+            'class': 'input'
+        }),
+        strip=False,
+    )
