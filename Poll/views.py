@@ -392,6 +392,9 @@ class UpdateManagerView(UpdateView):
         response = super(UpdateManagerView, self).form_valid(form)
         if self.request.is_ajax():
             form.save()
+            user = UserGuiar.objects.get(pk=self.request.user.pk)
+            user.email_manager = form.cleaned_data['email']
+            user.save()
             data = {
                 'message': "Successfully submitted form data."
             }

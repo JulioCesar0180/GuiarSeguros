@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, \
-    PasswordResetCompleteView
+    PasswordResetCompleteView, PasswordChangeView
 from django.contrib.messages import get_messages
 from django.core.mail import send_mail, BadHeaderError
 from django.db.models import Q
@@ -74,3 +74,14 @@ class PasswordResetConfirmViewGS(PasswordResetConfirmView):
 class PasswordResetCompleteViewGS(PasswordResetCompleteView):
     template_name = 'Home/auth_reset_password/password_reset_complete.html'
 
+
+class PasswordChangeViewGS(PasswordChangeView):
+    template_name = ''
+    form_class = ''
+    success_url = 'form/success'
+
+    def get(self, request, *args, **kwargs):
+        pass
+
+    def post(self, request, *args, **kwargs):
+        pass

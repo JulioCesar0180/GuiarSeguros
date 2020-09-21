@@ -22,7 +22,7 @@ class UserGuiarAdmin(UserAdmin):
 
     fieldsets = (
         (None, {'fields': ('rut', 'password')}),
-        ('Datos de la empresa', {'fields': ('name', 'address', 'city', 'town', 'seniority')}),
+        ('Datos de la empresa', {'fields': ('name', 'address', 'city', 'town', 'seniority', 'email_manager')}),
         ('Datos del representante', {'fields': ('manager',)}),
         ('Ventas Anuales', {'fields': ('sales',)}),
         ('Dotación Empresa', {'fields': ('n_emp_hired', 'n_cont_emp', 'n_veh_com_light', 'n_veh_com_cont',
