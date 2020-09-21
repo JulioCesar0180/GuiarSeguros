@@ -1,5 +1,7 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.hashers import check_password
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, \
     PasswordResetCompleteView, PasswordChangeView
@@ -18,7 +20,7 @@ from django.views.generic.edit import CreateView
 
 from GuiarSeguros import settings
 from .models import BusinessManager, UserGuiar
-from .forms import CreateManagerForm, CreateUserForm, PasswordResetFormGS, SetPasswordFormGS
+from .forms import CreateManagerForm, CreateUserForm, PasswordResetFormGS, SetPasswordFormGS, UserChangePassword
 
 
 def home(request):
@@ -75,13 +77,18 @@ class PasswordResetCompleteViewGS(PasswordResetCompleteView):
     template_name = 'Home/auth_reset_password/password_reset_complete.html'
 
 
-class PasswordChangeViewGS(PasswordChangeView):
-    template_name = ''
-    form_class = ''
-    success_url = 'form/success'
-
-    def get(self, request, *args, **kwargs):
-        pass
-
-    def post(self, request, *args, **kwargs):
-        pass
+def change_password_view(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('change_password')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'Home/auth_reset_password/password_change.html', {
+        'form': form
+    })

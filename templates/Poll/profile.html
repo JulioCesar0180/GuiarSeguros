@@ -78,7 +78,7 @@
                         <h5>Cambiar Contraseña</h5>
                     </div>
                     <div style="background: rgba(25,25,112, 0.2);padding: 30px 35px;" text="left">
-                        <a href="" class="button gs-btn-blue">Cambiar Contraseña</a>
+                        <a href="{% url 'change_password' %}" class="button gs-btn-blue">Cambiar Contraseña</a>
                     </div>
                 </div>
             </div>
@@ -88,7 +88,7 @@
                         <h5>Resultados</h5>
                     </div>
                     <div style="background: rgba(25,25,112, 0.2);padding: 30px 35px;" text="left">
-                        <a href="{% url 'poll-results' user.pk %}" class="button gs-btn-blue">Ver resultados</a>
+                        <a href="{% url 'poll-results' %}" class="button gs-btn-blue">Ver resultados</a>
                     </div>
                 </div>
             </div>

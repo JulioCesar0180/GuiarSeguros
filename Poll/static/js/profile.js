@@ -81,3 +81,17 @@ $(document).ready(function () {
         console.log(errorThrown);
     }
 });
+
+
+$(function () {
+    $("#button_change_password").click(function () {
+        console.log("HEllo");
+        $("#modal_change_password").addClass("is-active");
+    });
+    $("#cancel_change_password").click(function () {
+        $("#modal_change_password").removeClass("is-active");
+    });
+    $("#close_change_password").click(function () {
+        $("#modal_change_password").removeClass("is-active");
+    })
+});

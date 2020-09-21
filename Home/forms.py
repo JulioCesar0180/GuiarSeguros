@@ -1,5 +1,5 @@
 from django.contrib.auth import password_validation
-from django.contrib.auth.forms import UserCreationForm, PasswordResetForm, SetPasswordForm
+from django.contrib.auth.forms import UserCreationForm, PasswordResetForm, SetPasswordForm, PasswordChangeForm
 from django import forms
 
 from .models import UserGuiar, BusinessManager, City, Town
@@ -103,4 +103,33 @@ class SetPasswordFormGS(SetPasswordForm):
             'class': 'input'
         }),
         strip=False,
+    )
+
+
+class UserChangePassword(PasswordChangeForm):
+    old_password = forms.CharField(
+        label="",
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'input'
+            }
+        )
+    )
+
+    new_password = forms.CharField(
+        label="",
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'input'
+            }
+        )
+    )
+
+    confirm_password = forms.CharField(
+        label="",
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'input'
+            }
+        )
     )
