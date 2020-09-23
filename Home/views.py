@@ -22,6 +22,7 @@ from GuiarSeguros import settings
 from .models import BusinessManager, UserGuiar
 from .forms import CreateManagerForm, CreateUserForm, PasswordResetFormGS, SetPasswordFormGS, UserChangePassword
 
+from .utils import validate_rut
 
 def home(request):
     return render(request, 'Home/home.html')
@@ -33,8 +34,8 @@ def view_register_manager(request):
     if request.method == "POST":
         form_user = CreateUserForm(request.POST)
         form_manager = CreateManagerForm(request.POST)
-        print('manager: ', form_manager.is_valid(), 'user: ', form_user.is_valid())
-        if form_user.is_valid() and form_manager.is_valid():
+        if form_user.is_valid() and form_manager.is_valid() and validate_rut(form_manager.cleaned_data['rut_bm'])\
+                and validate_rut(form_user.cleaned_data['rut']):
             form_manager.save()
             form_user.save()
             user_query = UserGuiar.objects.get(rut=form_user.cleaned_data['rut'])

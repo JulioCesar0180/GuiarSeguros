@@ -177,15 +177,15 @@
         </div>
     </section>
     <section id="contacto" class="hero is-fullheight" style="background-color: rgb(0,48,87)">
-        <div class="container is-desktop">
+        <div class="container is-fluid">
             <h1 class="title is-1" style="text-align: center; margin-top: 100px; color: white">Contacto</h1>
             <div class="uk-text-center" uk-grid>
-                <div class="uk-width-1-3" style="width: 500px">
+                <div class="uk-width-1-2@s" style="width: 500px">
                     <div class="card">
                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3654.848873101681!2d-70.40320428532488!3d-23.645582684641138!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x96afd53dfa6ed039%3A0x2aafadae66d4d962!2sGral.%20Manuel%20Baquedano%2050%2C%20Antofagasta!5e0!3m2!1ses-419!2scl!4v1600300647216!5m2!1ses-419!2scl" width="100%" height="380" style=""  allowfullscreen></iframe>
                     </div>
                 </div>
-                 <div class="uk-width-1-3" style="width: 500px">
+                 <div class="uk-width-1-2@s" style="width: 500px">
                     <div class="card">
                         <div class="card-content">
                             <div class="content" style="text-align: left">
@@ -204,25 +204,4 @@
 
 {% block script %}
     <script src="{% static 'js/home.js' %}"></script>
-    <script>
-    var buttons = document.querySelectorAll('a[data-target]');
-
-    // Check if there are any nav burgers
-    [].forEach.call(buttons, function(button) {
-      button.addEventListener('click', function(e) {
-        e.preventDefault();
-
-
-        var pageloader = document.getElementById(e.currentTarget.dataset.target);
-        console.log(pageloader);
-        if (pageloader) {
-          pageloader.classList.toggle('is-active');
-          var pageloaderTimeout = setTimeout( function() {
-            pageloader.classList.toggle('is-active');
-            clearTimeout(pageloaderTimeout);
-          }, 3000 );
-        }
-      } );
-    });
-    </script>
 {% endblock %}
