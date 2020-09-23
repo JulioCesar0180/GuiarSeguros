@@ -4,6 +4,7 @@
 {% block head %}
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <script src="{% static 'js/jquery.js' %}"></script>
     <title>Iniciar Sesión - GuiarSeguros</title>
 {% endblock %}
 
@@ -16,7 +17,7 @@
                 </figure>
             </center>
             <div class="card-content" style="background-color: darkgray; border-top-left-radius: 5px; border-top-right-radius: 5px">
-                <form method="post" name="frm">
+                <form id="validacion-live" method="post" name="frm">
                     {% csrf_token %}
                     <div class="field">
                         <p class="control has-icons-left has-icons-right">
@@ -49,5 +50,16 @@
 {% block script %}
     <script>
         document.getElementById('id_rut').focus();
+    </script>
+    <script src="{% static 'js/rut_validate.js' %}"></script>
+    <script>
+        $("form#validacion-live #id_rut")
+            .rut({formatOn: 'keyup', validateOn: 'keyup'})
+            .on('rutInvalido', function(){
+                $(this).addClass("is-danger")
+            })
+            .on('rutValido', function(){
+                $(this).removeClass("is-danger")
+            });
     </script>
 {% endblock %}
