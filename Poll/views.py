@@ -607,103 +607,115 @@ def view_results(request):
                     desgloce[0][2] += proceso.ri_service
 
     # Se lleva la cuenta de los resultados de Manejo de Riesgo
-    manejo_riesgo = user.risk_management.ri_risk
-    print(manejo_riesgo)            
+    manejo_riesgo = 0
+    if user.risk_management:
+        manejo_riesgo = user.risk_management.ri_risk
     # Se lleva la cuenta de los resultados de Prevencionista de Riesgo
-    prevencionista = user.risk_prevent.ri_prevent
-    print(prevencionista)
+    prevencionista = 0
+    if user.risk_prevent:
+        prevencionista = user.risk_prevent.ri_prevent
 
     # Se obtiene el total de amortiguacion de riesgo en %, aqui no hay un valor maximo que aumente el riesgo
     amortiguacion = (manejo_riesgo + prevencionista)/100
 
     # Se lleva la cuenta de los resultados de Explosivos
-    riesgo = user.explosive_confirmed.value_ri_explosive
-    if user.explosive_confirmed.option_explosive == "Sí":
-        total += riesgo
-        desgloce[0][2] += riesgo
-        for proceso in user.explosive_control.all():
-            total += proceso.ri_explosive
-            for des in desgloce:
-                if proceso.poliza.id == des[3]:
-                    des[2] += proceso.ri_explosive
-                    if not proceso.poliza.id == 1:
-                        desgloce[0][2] += proceso.ri_explosive
+    if user.explosive_confirmed:
+        riesgo = user.explosive_confirmed.value_ri_explosive
+        if user.explosive_confirmed.option_explosive == "Sí":
+            total += riesgo
+            desgloce[0][2] += riesgo
+            for proceso in user.explosive_control.all():
+                total += proceso.ri_explosive
+                for des in desgloce:
+                    if proceso.poliza.id == des[3]:
+                        des[2] += proceso.ri_explosive
+                        if not proceso.poliza.id == 1:
+                            desgloce[0][2] += proceso.ri_explosive
 
     # Se lleva la cuenta de los resultados de Electricidad
-    riesgo = user.electricity_confirmed.value_ri_electricity
-    if user.electricity_confirmed.option_electricity == "Sí":
-        total += riesgo
-        desgloce[0][2] += riesgo
-        for proceso in user.electricity_control.all():
-            total += proceso.ri_electricity
-            for des in desgloce:
-                if proceso.poliza.id == des[3]:
-                    des[2] += proceso.ri_electricity
-                    if not proceso.poliza.id == 1:
-                        desgloce[0][2] += proceso.ri_electricity
+    if user.electricity_confirmed:
+        riesgo = user.electricity_confirmed.value_ri_electricity
+        if user.electricity_confirmed.option_electricity == "Sí":
+            total += riesgo
+            desgloce[0][2] += riesgo
+            for proceso in user.electricity_control.all():
+                total += proceso.ri_electricity
+                for des in desgloce:
+                    if proceso.poliza.id == des[3]:
+                        des[2] += proceso.ri_electricity
+                        if not proceso.poliza.id == 1:
+                            desgloce[0][2] += proceso.ri_electricity
 
     # Se lleva la cuenta de los resultados de Sustancias Peligrosas
-    riesgo = user.substance_confirmed.value_ri_substance
-    if user.substance_confirmed.option_substance == "Sí":
-        total += riesgo
-        desgloce[0][2] += riesgo
-        for proceso in user.substance_control.all():
-            total += proceso.ri_substance
-            for des in desgloce:
-                if proceso.poliza.id == des[3]:
-                    des[2] += proceso.ri_substance
-                    if not proceso.poliza.id == 1:
-                        desgloce[0][2] += proceso.ri_substance
+    if user.substance_confirmed:
+        riesgo = user.substance_confirmed.value_ri_substance
+        if user.substance_confirmed.option_substance == "Sí":
+            total += riesgo
+            desgloce[0][2] += riesgo
+            for proceso in user.substance_control.all():
+                total += proceso.ri_substance
+                for des in desgloce:
+                    if proceso.poliza.id == des[3]:
+                        des[2] += proceso.ri_substance
+                        if not proceso.poliza.id == 1:
+                            desgloce[0][2] += proceso.ri_substance
 
     # Se lleva la cuenta de los resultados de Altura
-    riesgo = user.height_confirmed.value_ri_height
-    if user.height_confirmed.option_height == "Sí":
-        total += riesgo
-        desgloce[0][2] += riesgo
-        for proceso in user.height_control.all():
-            total += proceso.ri_height
-            for des in desgloce:
-                if proceso.poliza.id == des[3]:
-                    des[2] += proceso.ri_height
-                    if not proceso.poliza.id == 1:
-                        desgloce[0][2] += proceso.ri_height
+    if user.height_confirmed:
+        riesgo = user.height_confirmed.value_ri_height
+        if user.height_confirmed.option_height == "Sí":
+            total += riesgo
+            desgloce[0][2] += riesgo
+            for proceso in user.height_control.all():
+                total += proceso.ri_height
+                for des in desgloce:
+                    if proceso.poliza.id == des[3]:
+                        des[2] += proceso.ri_height
+                        if not proceso.poliza.id == 1:
+                            desgloce[0][2] += proceso.ri_height
 
+    is_empty = 0
     for d in desgloce:
+        if d[2] == 0:
+            is_empty = 1
         d[2] = d[2] * (1 - amortiguacion)
 
-    for d in desgloce:
-        print(d[0], d[1], d[2], d[3])
-
-    desgloce_ordenado = []
-    desgloce_ordenado.clear()
-    for des in desgloce:
-        # Se filtran los resultados nulos
-        if des[2] != 0:
-            # Este nuevo arreglo tiene [Nombre Poliza, Maximo Poliza, Resultado Poliza, ID Poliza]
-            desgloce_ordenado.append([des[0], des[1], round((des[2]/des[1])*100,2), des[3]])
-
-    desgloce_ordenado.sort(key=lambda array: array[2], reverse=True)
-    for d in desgloce_ordenado:
-        print(d[0], d[1], d[2], d[3])
-
-    res_por = ((total) / (maximo))
-    res_img = (379 + 19) * res_por
-    res_fin = (379 + 19) - res_img
-    res_fin = int(res_fin)
-    cuartil = (maximo) / 4
-    print("este es el maximo", maximo)
-
-    if total < (cuartil):
-        color = "VERDE"
-    elif (cuartil) <= total < (2 * cuartil):
-        color = "AMARILLO"
-    elif (2 * cuartil) <= total <= (3 * cuartil):
-        color = "ANARANJADO"
+    if is_empty == 1:
+        return redirect('home')
     else:
-        color = "ROJO"
+        for d in desgloce:
+            print(d[0], d[1], d[2], d[3])
 
-    return render(request, 'Poll/results.html',
-                  {'maximo': maximo, 'minimo': minimo, 'total': total, 'res_fin': res_fin, 'color': color, 'desgloce': desgloce_ordenado})
+        desgloce_ordenado = []
+        desgloce_ordenado.clear()
+        for des in desgloce:
+            # Se filtran los resultados nulos
+            if des[2] != 0:
+                # Este nuevo arreglo tiene [Nombre Poliza, Maximo Poliza, Resultado Poliza, ID Poliza]
+                desgloce_ordenado.append([des[0], des[1], round((des[2]/des[1])*100,2), des[3]])
+
+        desgloce_ordenado.sort(key=lambda array: array[2], reverse=True)
+        for d in desgloce_ordenado:
+            print(d[0], d[1], d[2], d[3])
+
+        res_por = ((total) / (maximo))
+        res_img = (379 + 19) * res_por
+        res_fin = (379 + 19) - res_img
+        res_fin = int(res_fin)
+        cuartil = (maximo) / 4
+        print("este es el maximo", maximo)
+
+        if total < (cuartil):
+            color = "VERDE"
+        elif (cuartil) <= total < (2 * cuartil):
+            color = "AMARILLO"
+        elif (2 * cuartil) <= total <= (3 * cuartil):
+            color = "ANARANJADO"
+        else:
+            color = "ROJO"
+
+        return render(request, 'Poll/results.html',
+                      {'maximo': maximo, 'minimo': minimo, 'total': total, 'res_fin': res_fin, 'color': color, 'desgloce': desgloce_ordenado})
 
 
 class GeneratePDF(View):
