@@ -3,7 +3,7 @@
   <!-- Full-width images with number and caption text -->
   <div class="mySlides fade">
     <div class="container is-fluid gs-cover" style="background-image: url('{% static 'img/carousel-3.jpg' %}')" >
-        <div class="box" style="background-color: rgba(0,0,0,0.7);">
+        <div class="box" style="background-color: rgba(0,0,0,0.7); margin-left: 1.25rem;">
             <article class="media">
                 <div class="media-content">
                     <h1 class="title is-1" style="color: white; padding: 12px;">SEGUROS A LA MEDIDA<br>PARA TU EMPRESA O NEGOCIO</h1>
@@ -15,51 +15,35 @@
   </div>
   <div class="mySlides fade">
     <div class="container is-fluid gs-cover" style="background-image: url('{% static 'img/carousel-1.jpg' %}')" >
-        <div style="background-color: rgba(0,0,0,.7); width: 100%" uk-grid>
-            <div class="uk-width-1-2@s">
-                <div>
-                    <h1 class="title is-1" style="color: white; padding: 12px;">CONOCE NUESTRA INNOVADORA PLATAFORMA</h1>
-                    <h1 class="title is-5" style="bottom: 35%; color: white; padding: 12px;">Ingresa a MideTuRiesgo <br>y podrás
-                        identificar a través de un informe, <br>los seguros que debe contar tu empresa y tus trabajadores.</h1>
-                </div>
-            </div>
-            <div class="uk-width-1-2@s">
-                <div>
-                    <div class="card" style="background-color: rgba(0,0,0,.7)">
-                        <header class="card-header">
-                            <p class="card-header-title" style="color: white">¡Conocerás!</p>
-                        </header>
-                        <div class="card-content">
-                            <div class="content">
-                                <ol type="1" style="color: white">
-                                    <li><p>El Índice de Riesgo de tu empresa según la actividad de tu negocio e industria.</p></li>
-                                    <li><p>Te mostramos todas las Coberturas, condiciones y tarifas preferentes.</p></li>
-                                    <li><p>Podrás elegir tus pólizas en las opciones asociadas a tu actividad.</p></li>
-                                </ol>
-                            </div>
-                        </div>
-                        <footer class="card-footer" style="border-top: none">
-                            <a href="{% url 'profile' %}" class="card-footer-item button gs-btn-blue">Ir a Mideturiesgo</a>
-                        </footer>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-  </div>
-
-  <div class="mySlides fade">
-      <div class="container is-fluid gs-cover" style="background-image: url('{% static 'img/carousel-2.jpg' %}')" >
-        <div class="box" style="background-color: rgba(0,0,0,0.7);">
+        <div class ="box" style="background-color: rgba(0,0,0,.7); margin-left: 1.25rem;">
             <article class="media">
                 <div class="media-content">
-                    <h1 class="title is-1" style="color: white; padding: 12px;">ADMINISTRAMOS DE MANERA INTEGRAL<br> Y EFICIENTE TUS RIESGOS</h1>
-                    <h1 class="title is-5" style="bottom: 35%; color: white; padding: 12px;">Te apoyamos en la administración
-                        de los riesgos de tu Empresa en terreno y de manera virtual,<br>te apoyamos en cada etapa de tus siniestros, buscamos
-                        las mejores ofertas en el mercado para bajar tus costos<br> y facilitar tus procesos administrativos.</h1>
+                    <h1 class="title is-1" style="color: white; padding: 12px;">INGRESA A NUESTRA<br>INNOVADORA PLATAFORMA</h1>
+                    <h1 class="title is-5" style="bottom: 35%; color: white; padding: 12px;">Descubre los seguros que debe contar tu empresa y tus trabajadores.</h1>
                 </div>
             </article>
         </div>
     </div>
   </div>
+
+    <div class="mySlides fade">
+        <div class="container is-fluid gs-cover" style="background-image: url('{% static 'img/carousel-2.jpg' %}')" >
+            <div class="box" style="background-color: rgba(0,0,0,0.7); margin-left: 1.25rem;">
+                <article class="media">
+                    <div class="media-content">
+                        <h1 class="title is-1" style="color: white; padding: 12px;">ADMINISTRAMOS DE MANERA<br>INTEGRAL Y EFICIENTE TUS RIESGOS</h1>
+                        <h1 class="title is-5" style="bottom: 35%; color: white; padding: 12px;">
+                            Te apoyamos en la administración de los riesgos de tu Empresa facilitando tus procesos administrativos.</h1>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+</div>
+<div style="text-align:center">
+    <span class="dot" onclick="currentSlide(1)"></span>
+    <span class="dot" onclick="currentSlide(2)"></span>
+    <span class="dot" onclick="currentSlide(3)"></span>
 </div>

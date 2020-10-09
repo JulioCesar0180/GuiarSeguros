@@ -57,7 +57,6 @@ class UserGuiar(AbstractBaseUser, PermissionsMixin):
 
     # Datos del representante
     manager = models.OneToOneField('BusinessManager', on_delete=models.CASCADE, null=True, blank=True)
-    email_manager = models.EmailField(max_length=254)
 
     # Ventas Anuales
     sales = models.ForeignKey(Sales, on_delete=models.CASCADE, null=True)
@@ -110,12 +109,9 @@ class UserGuiar(AbstractBaseUser, PermissionsMixin):
     is_admin = models.BooleanField(default=False)
 
     enable_poll = models.BooleanField(default=True)
-
-    is_active = models.BooleanField(default=True)
-
     objects = UserGuiarManager()
     USERNAME_FIELD = 'rut'
-    EMAIL_FIELD = 'email_manager'
+    EMAIL_FIELD = 'manager'
     REQUIRED_FIELDS = ['name']
 
     def has_perm(self, perm, obj=None):
@@ -138,10 +134,9 @@ class BusinessManager(models.Model):
     fullname = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     phone = models.PositiveIntegerField()
-    last_login = models.DateField(auto_now=True)
 
     def __str__(self):
-        return self.email
+        return self.rut_bm
 
     class Meta:
         verbose_name = "Representante"
