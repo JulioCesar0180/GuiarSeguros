@@ -676,11 +676,11 @@ def view_results(request):
 
     is_empty = 0
     for d in desgloce:
-        if d[2] == 0:
+        if d[2] != 0:
             is_empty = 1
         d[2] = d[2] * (1 - amortiguacion)
 
-    if is_empty == 1:
+    if is_empty == 0:
         return redirect('home')
     else:
         for d in desgloce:
