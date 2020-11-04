@@ -8,47 +8,49 @@
 {% endblock %}
 
 {% block content %}
-<div class="gs-cover" style="background-color: rgb(0,48,87)">
-    <div class="container is-desktop" style="margin-top: 80px;">
-        <div style="margin-bottom: 15px">
-            <h3 class="title" style="color: white">2.- Datos del representante</h3>
+<section id="formulario" class="hero is-fullheight" style="background-color: rgb(0,48,87)">
+    <div class="container is-desktop" style="padding: 0;">
+        <div id="titulo" style="padding: 0 1.5rem">
+            <h1 class="title is-1" style="margin-top: 100px; color: white">2.- Datos del representante</h1>
             <p style="color: white">Asegurese que la información este actualizada</p>
         </div>
-        <form id="id_personal_BM" method="post" class="gs-form-poll">
-            {% csrf_token %}
-            <div class="field">
-                <label for="{{ BM_profile.fullname.id_for_label }}" class="label" style="color: white">Nombre</label>
-                <div class="control">
-                    {{ form.fullname }}
+        <div class="hero-body">
+            <form id="id_personal_BM" method="post" style="width: 100%;">
+                {% csrf_token %}
+                <div class="field">
+                    <label for="{{ BM_profile.fullname.id_for_label }}" class="label" style="color: white">Nombre</label>
+                    <div class="control">
+                        {{ form.fullname }}
+                    </div>
                 </div>
-            </div>
-            <div class="field">
-                <label for="{{ form.rut_bm.id_for_label }}" class="label" style="color: white">RUN</label>
-                <div class="control">
-                    {{ form.rut_bm }}
+                <div class="field">
+                    <label for="{{ form.rut_bm.id_for_label }}" class="label" style="color: white">RUN</label>
+                    <div class="control">
+                        {{ form.rut_bm }}
+                    </div>
                 </div>
-            </div>
-            <div class="field">
-                <label for="{{ BM_profile.email.id_for_label }}" class="label" style="color: white">email</label>
-                <div class="control">
-                    {{ form.email }}
+                <div class="field">
+                    <label for="{{ BM_profile.email.id_for_label }}" class="label" style="color: white">email</label>
+                    <div class="control">
+                        {{ form.email }}
+                    </div>
                 </div>
-            </div>
-
-            <label for="{{ BM_profile.phone.id_for_label }}" class="label" style="color: white">Celular</label>
-            <div class="field has-addons">
-                <p class="control">
-                    <a class="button is-static">
-                        +56
-                    </a>
-                </p>
-                <p class="control">
-                    {{ form.phone }}
-                </p>
-            </div>
-            <button class="button" type="button" id="previous" onclick="history.go(-1)" style="background-color: rgb(0,94,184); color: white; border: none">Anterior</button>
-            <button type="submit" class="button" style="background-color: rgb(0,94,184); color: white; border: none">Siguiente</button>
-        </form>
+    
+                <label for="{{ BM_profile.phone.id_for_label }}" class="label" style="color: white">Celular</label>
+                <div class="field has-addons">
+                    <p class="control">
+                        <a class="button is-static">
+                            +56
+                        </a>
+                    </p>
+                    <p class="control">
+                        {{ form.phone }}
+                    </p>
+                </div>
+                <button class="button" type="button" id="previous" onclick="history.go(-1)" style="background-color: rgb(0,94,184); color: white; border: none">Anterior</button>
+                <button type="submit" class="button" style="background-color: rgb(0,94,184); color: white; border: none">Siguiente</button>
+            </form>
+        </div>
     </div>
-</div>
+</section>
 {% endblock %}

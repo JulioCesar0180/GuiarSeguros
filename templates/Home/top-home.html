@@ -1,71 +1,49 @@
 {% load static %}
-<div class="slideshow-container container is-fluid" style="padding: 0">
-    <!-- Full-width images with number and caption text -->
-    <div class="mySlides fade">
-        <div class="container is-fluid gs-cover" style="background-image: url('{% static 'img/carousel-3.jpg' %}')">
-            <div class="box" style="background-color: rgba(0,0,0,0.7); margin-left: 1.25rem;">
-                <article class="media">
-                    <div class="media-content">
-                        <h1 class="title is-1" style="color: white; padding: 12px;">SEGUROS A LA MEDIDA<br>PARA TU
-                            EMPRESA O NEGOCIO</h1>
-                        <h1 class="title is-5" style="bottom: 35%; color: white; padding: 12px;">Diseñamos tu perfil de
-                            riesgo asociado según la actividad operacional o servicio</h1>
-                    </div>
-                </article>
-            </div>
-        </div>
-    </div>
-    <div class="mySlides fade">
-        <div class="container is-fluid gs-cover" style="background-image: url('{% static 'img/carousel-1.jpg' %}')">
-            <div class="box" style="background-color: rgba(0,0,0,.7); margin-left: 1.25rem;">
-                <article class="media">
-                    <div class="media-content">
-                        <h1 class="title is-1" style="color: white; padding: 12px;">INGRESA A NUESTRA<br>INNOVADORA
-                            PLATAFORMA</h1>
-                        <h1 class="title is-5" style="bottom: 35%; color: white; padding: 12px;">Descubre los seguros
-                            que debe contar tu empresa y tus trabajadores.</h1>
-                    </div>
-                </article>
-            </div>
-        </div>
-    </div>
-    <div class="mySlides fade">
-        <div class="container is-fluid gs-cover" style="background-image: url('{% static 'img/carousel-2.jpg' %}')">
-            <div class="box" style="background-color: rgba(0,0,0,0.7); margin-left: 1.25rem;">
-                <article class="media">
-                    <div class="media-content">
-                        <h1 class="title is-1" style="color: white; padding: 12px;">ADMINISTRAMOS DE MANERA<br>INTEGRAL
-                            Y EFICIENTE TUS RIESGOS</h1>
+<section id="slideshows" class="hero is-fullheight">
+    <div uk-slideshow="autoplay: true autoplay-interval: 3000">
+        <ul class="uk-slideshow-items" uk-height-viewport="min-height: 100vh">
+            <li>
+                <img src="static\img\carousel-3.jpg" alt="Placeholder" uk-cover>
+                <div class="uk-overlay uk-overlay-primary uk-position-center-left uk-light">
+                    <h1 class="title is-1" style="color: white; padding: 12px;">SEGUROS A LA MEDIDA<br>PARA TU
+                        EMPRESA O NEGOCIO</h1>
+                    <h1 class="title is-5" style="bottom: 35%; color: white; padding: 12px;">Diseñamos tu perfil de
+                        riesgo asociado según la actividad operacional o servicio</h1>          
+                </div>
+            </li>
+            <li>
+                <img src="static\img\carousel-1.jpg" alt="Placeholder" uk-cover>
+                <div class="uk-overlay uk-overlay-primary uk-position-center-left uk-light">
+                    <h1 class="title is-1" style="color: white; padding: 12px;">INGRESA A NUESTRA<br>INNOVADORA
+                        PLATAFORMA</h1>
+                    <h1 class="title is-5" style="bottom: 35%; color: white; padding: 12px;">Descubre los seguros
+                        que debe contar tu empresa y tus trabajadores.</h1>        
+                </div>
+            </li>
+            <li>
+                <img src="static\img\carousel-2.jpg" alt="Placeholder" uk-cover>
+                <div class="uk-overlay uk-overlay-primary uk-position-center-left uk-light">
+                    <h1 class="title is-1" style="color: white; padding: 12px;">ADMINISTRAMOS DE MANERA<br>INTEGRAL
+                        Y EFICIENTE TUS RIESGOS</h1>
+                    <h1 class="title is-5" style="bottom: 35%; color: white; padding: 12px;">
+                        Te apoyamos en la administración de los riesgos de tu Empresa facilitando tus procesos
+                        administrativos.</h1>   
+                </div>
+            </li>
+            <li>
+                <img src="static\img\carousel-4.jpg" alt="Placeholder" uk-cover>
+                <div class="uk-overlay uk-overlay-primary uk-position-center-left uk-light">
+                    <a href="https://www.hdi.cl/amsa/cotizador-web/soap/home.aspx" target="_blank">
+                        <h1 class="title is-1" style="color: white; padding: 12px;">COMPRA TU SEGURO<br>OBLIGATORIO
+                            2020</h1>
                         <h1 class="title is-5" style="bottom: 35%; color: white; padding: 12px;">
-                            Te apoyamos en la administración de los riesgos de tu Empresa facilitando tus procesos
-                            administrativos.</h1>
-                    </div>
-                </article>
-            </div>
-        </div>
-    </div>
-    <div class="mySlides fade">
-        <div class="container is-fluid gs-cover" style="background-image: url('{% static 'img/carousel-4.jpg' %}')">
-            <div class="box" style="background-color: rgba(0,0,0,0.7); margin-left: 1.25rem;">
-                <a href="https://www.hdi.cl/amsa/cotizador-web/soap/home.aspx" target="_blank">
-                    <article class="media">
-                        <div class="media-content">
-                            <h1 class="title is-1" style="color: white; padding: 12px;">COMPRA TU SEGURO<br>OBLIGATORIO
-                                2020</h1>
-                            <h1 class="title is-5" style="bottom: 35%; color: white; padding: 12px;">
-                                Ingresa a HDI para comprar tu SOAP 2020.</h1>
-                        </div>
-                    </article>
-                </a>
-            </div>
-        </div>
-    </div>
-    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-    <a class="next" onclick="plusSlides(1)">&#10095;</a>
-</div>
-<div style="text-align:center">
-    <span class="dot" onclick="currentSlide(1)"></span>
-    <span class="dot" onclick="currentSlide(2)"></span>
-    <span class="dot" onclick="currentSlide(3)"></span>
-    <span class="dot" onclick="currentSlide(4)"></span>
-</div>
+                            Ingresa a HDI para comprar tu SOAP 2020.</h1>
+                        </a>
+                </div>
+            </li>
+        </ul>
+        <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous" style="color: white"></a>
+        <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next" style="color: white"></a>
+        <ul class="uk-slideshow-nav uk-dotnav uk-flex-center uk-margin"></ul>
+    </div>    
+</section>

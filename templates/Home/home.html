@@ -9,99 +9,8 @@
 {% endblock %}
 
 {% block content %}
-<nav class="navbar is-fixed-top gs-navbar" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
-        <a id="insignia" class="navbar-item" href="{% url 'home' %}">
-            <img src="{% static 'img/logoGC.png' %}">
-        </a>
 
-        <button class="button navbar-burger" type="button" uk-toggle="target: #offcanvas-overlay">
-            <i class="fas fa-bars" style="color: black"></i>
-        </button>
-    </div>
-
-    <div id="navMenu-bar" class="navbar-menu">
-        <div class="navbar-start">
-            <a id="item-about" href="#mideturiesgo" class="navbar-item">Mide tu riesgo</a>
-            <a id="item-computer-lab" href="#welcome" class="navbar-item">Acerca de</a>
-            <a id="item-computer-lab" href="#service" class="navbar-item">Servicios</a>
-            <a id="item-computer-lab" href="#partners" class="navbar-item">Alianzas</a>
-            <div class="navbar-item has-dropdown is-hoverable">
-                <a class="navbar-link">
-                    Paga tu seguro
-                </a>
-                <div class="navbar-dropdown">
-                    <a class="navbar-item" href="https://www.bciseguros.cl/" target="_blank">BCI Seguros</a>
-                    <a class="navbar-item" href="https://www.bicevida.cl/pago-online/" target="_blank">BICE vida</a>
-                    <a class="navbar-item" href="https://www14.chilena.cl/es-cl/pago-de-cuotas-con-pago-express"
-                        target="_blank">Chilena Consolidada</a>
-                    <a class="navbar-item" href="https://www.consorcio.cl/pago/pago-express"
-                        target="_blank">Consorcio</a>
-                    <a class="navbar-item" href="https://www.hdi.cl/" target="_blank">HDI Seguros</a>
-                    <a class="navbar-item" href="https://www.liberty.cl/pago-en-linea.html#Suscripcion-PAT/PAC"
-                        target="_blank">Liberty Seguros</a>
-                    <a class="navbar-item" href="https://aplicacion.mapfre.cl/PagoCuotas/" target="_blank">MAPFRE</a>
-                    <a class="navbar-item" href="https://www.rentanacional.cl/pago-en-linea.php" target="_blank">Renta
-                        Nacional</a>
-                    <a class="navbar-item" href="https://pagos.vidasecurity.cl/" target="_blank">Vida Security</a>
-                </div>
-            </div>
-            <div class="navbar-item has-dropdown is-hoverable">
-                <a class="navbar-link">Denuncia tu siniestro</a>
-                <div class="navbar-dropdown">
-                    <a class="navbar-item" href="https://www.bciseguros.cl/servicios_en_linea/denuncio-de-siniestros/"
-                        target="_blank">BCI Seguros</a>
-                    <a class="navbar-item" href="https://www.bicevida.cl/siniestros/" target="_blank">BICE vida</a>
-                    <a class="navbar-item" href="https://www14.chilena.cl/es-cl/siniestro-denuncia"
-                        target="_blank">Chilena Consolidada</a>
-                    <a class="navbar-item" href="https://web.consorcio.cl/sitio/denuncia-tu-siniestro"
-                        target="_blank">Consorcio</a>
-                    <a class="navbar-item" href="https://www.hdi.cl/hdi-seguros-home/denunciar-siniestro/"
-                        target="_blank">HDI Seguros</a>
-                    <a class="navbar-item" href="https://www.liberty.cl/denuncio-hogar-y-otros.html"
-                        target="_blank">Liberty Seguros</a>
-                    <a class="navbar-item" href="https://www.mapfre.cl/seguros-cl/servicios/denuncia-de-siniestros/"
-                        target="_blank">MAPFRE</a>
-                    <a class="navbar-item" href="https://www.rentanacional.cl/denuncie-su-siniestro.php"
-                        target="_blank">Renta Nacional</a>
-                    <a class="navbar-item" href="https://www.vidasecurity.cl/denuncio-de-siniestros"
-                        target="_blank">Vida Security</a>
-                </div>
-            </div>
-            <a id="item-computer-lab" href="#contacto" class="navbar-item">Contacto</a>
-        </div>
-
-        <div class="navbar-end">
-            <div class="navbar-item">
-                <div class="buttons">
-                    {% if request.user.is_authenticated %}
-                    <a href="{% url 'profile' %}" class="button gs-btn-blue"><strong>Mi cuenta</strong></a>
-                    <a href="{% url 'logout' %}" class="button gs-btn-blue"><strong>Salir</strong></a>
-                    {% else %}
-                    <a href="{% url 'login' %}" class="button gs-btn-blue"><strong>Ingresar</strong></a>
-                    <a href="{% url 'signUp' %}" class="button gs-btn-blue"><strong>Registrarte</strong></a>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-    </div>
-</nav>
-
-<div id="offcanvas-overlay" uk-offcanvas="overlay: true; flip: true; mode: push">
-    <div class="uk-offcanvas-bar">
-        <button class="uk-offcanvas-close" type="button" uk-close></button>
-        <h3>Title</h3>
-        <ul>
-            <li>
-                <button class="button" style="width: 100%">Inicio</button>
-            </li>
-            <li>
-                <button class="button" style="width: 100%">Mideturiesgo</button>
-            </li>
-        </ul>
-    </div>
-</div>
-{% include 'Home/top-home.html' %}
+{% include "Home/top-home.html" %}
 
 <section id="welcome" class="hero is-fullheight" style="background-color: rgb(0,48,87)">
     <div class="container is-desktop" style="padding: 0">
@@ -236,16 +145,14 @@
                 <div class="uk-width-1-1@s">
                     <div class="card">
                         <div class="card-image">
-                            <figure class="image is-5by3">
+                            <figure class="image is-4by3">
                                 <img src="static\img\1280px-Pipe_installation_2.jpg" alt="Placeholder image">
                             </figure>
                         </div>
                         <div class="card-content">
                             <div class="content" style="text-align: justify">
-                                Mide Tu Riesgo es la innovadora encuesta que permitirá conocer el nivel de seguridad de
-                                tu empresa<br>
-                                junto con las polizas de seguro compatibles con tus necesidades.<br>
-                                <strong>¡Conoce tu poliza y ahorra tiempo aquí!</strong>
+                                <strong>¡Conoce tu poliza y ahorra tu tiempo con nosotros!</strong>
+                                <div><br></div>
                                 <a href="{% url 'profile' %}" class="card-footer-item button gs-btn-blue">Ir a
                                     Mideturiesgo</a>
                             </div>
@@ -256,74 +163,73 @@
         </div>
     </div>
 </section>
-<section id="partners" class="hero is-medium">
+<section id="partners" class="hero is-medium" style=" background-color:rgb(171,171,171)">
     <div class="container is-desktop" style="padding: 0">
         <h1 class="title is-1" style="text-align: center; margin-top: 100px; color: rgb(0,48,87)">Nuestras Alianzas</h1>
         <div class="hero-body" style="padding: 3rem;">
-            <div class="uk-text-center" uk-grid uk-height-match="target: > div > .card">
-                <div class="uk-width-1-5@s">
-                    <figure class="image">
+            <div class="uk-grid-small" uk-grid>
+                <div>
+                    <div class="uk-card uk-card-body">
                         <a href="https://www.bciseguros.cl/" target="_blank">
-                            <img src="static\img\logo-bci.svg" alt="Placeholder image">
+                            <img width="180" height="90" src="static\img\logos\BCI Seguros.png" alt="Placeholder image">
                         </a>
-                    </figure>
-
+                    </div>
                 </div>
-                <div class="uk-width-1-5@s">
-                    <figure class="image">
+                <div>
+                    <div class="uk-card uk-card-body">
                         <a href="https://www.bicevida.cl/" target="_blank">
-                            <img src="static\img\logo-bicevida.svg" alt="Placeholder image">
+                            <img width="180" height="90" src="static\img\logos\Bicevida.png" alt="Placeholder image">
                         </a>
-                    </figure>
+                    </div>
                 </div>
-                <div class="uk-width-1-5@s">
-                    <figure class="image">
+                <div>
+                    <div class="uk-card uk-card-body">
                         <a href="https://www14.chilena.cl/es-cl" target="_blank">
-                            <img src="static\img\logo-chilena.jpg" alt="Placeholder image">
+                            <img width="180" height="90" src="static\img\logos\Chilena Consolidada.png" alt="Placeholder image">
                         </a>
-                    </figure>
+                    </div>
                 </div>
-                <div class="uk-width-1-5@s">
-                    <figure class="image">
+                <div>
+                    <div class="uk-card uk-card-body">
                         <a href="https://web.consorcio.cl/home" target="_blank">
-                            <img src="static\img\logo-consorcio.svg" alt="Placeholder image">
+                            <img width="180" height="90" src="static\img\logos\Consorcio.png" alt="Placeholder image">
                         </a>
-                    </figure>
+                    </div>
                 </div>
-                <div class="uk-width-1-6@s">
-                    <figure class="image">
+                <div>
+                    <div class="uk-card uk-card-body">
                         <a href="https://www.hdi.cl/" target="_blank">
-                            <img src="static\img\logo-hdi.png" alt="Placeholder image">
+                            <img width="170" height="90" src="static\img\logos\HDI Seguros.png" alt="Placeholder image">
                         </a>
-                    </figure>
+                    </div>
                 </div>
-                <div class="uk-width-1-5@s">
-                    <figure class="image">
+                <div>
+                    <div class="uk-card uk-card-body">
                         <a href="https://www.liberty.cl/" target="_blank">
-                            <img src="static\img\logo-liberty.svg" alt="Placeholder image">
+                            <img width="180" height="90" src="static\img\logos\Liberty Seguros.png" alt="Placeholder image">
                         </a>
-                    </figure>
+                    </div>
                 </div>
-                <div class="uk-width-1-5@s">
-                    <figure class="image">
+                <div>
+                    <div class="uk-card uk-card-body">
                         <a href="https://www.mapfre.cl/seguros-cl/" target="_blank">
-                            <img src="static\img\logo-mapfre.png" alt="Placeholder image">
+                            <img width="180" height="90" src="static\img\logos\Mapfre.png" alt="Placeholder image">
                         </a>
-                    </figure>
+                    </div>
                 </div>
-                <div class="uk-width-1-6@s">
-                    <figure class="image">
+                <div>
+                    <div class="uk-card uk-card-body">
                         <a href="https://www.rentanacional.cl/home.php" target="_blank">
-                            <img src="static\img\logo-renta.png" alt="Placeholder image">
+                            <img width="180" height="90" src="static\img\logos\Renta Nacional.png" alt="Placeholder image">
                         </a>
-                    </figure>
+                    </div>
                 </div>
-                <div class="uk-width-1-5@s">
-                    <figure class="image">
+                <div>
+                    <div class="uk-card uk-card-body">
                         <a href="https://www.vidasecurity.cl/" target="_blank">
-                            <img src="static\img\logo-vida.svg" alt="Placeholder image">
+                            <img width="180" height="90" src="static\img\logos\Vida Security.png" alt="Placeholder image">
                         </a>
-                    </figure>
+                    </div>
                 </div>
             </div>
         </div>
@@ -331,7 +237,7 @@
 </section>
 <section id="contacto" class="hero is-medium" style="background-color: rgb(0,48,87);">
     <div class="container is-fluid">
-        <h1 class="title is-1" style="text-align: center; margin-top: 100px; color: white">Contacto</h1>
+        <h1 class="title is-1" id="check" style="text-align: center; margin-top: 100px; color: white">Contacto</h1>
         <div class="uk-text-center" uk-grid>
             <div class="uk-width-1-2@s" style="width: 450px; margin: auto;">
                 <div class="card">
@@ -340,9 +246,12 @@
                         width="100%" height="380" allowfullscreen></iframe>
                     <div class="card-content">
                         <div class="content" style="text-align: left;">
-                            <li><i class="fa fa-home fa-2x" aria-hidden="true" style="color:rgb(0,48,87)"></i> Baquedano #50, Edificio Singular, Oficina 811</li>
-                            <li><i class="fa fa-envelope fa-2x" aria-hidden="true" style="color:rgb(0,48,87)"></i> contacto@guiarseguros.cl</li>
-                            <li><i class="fa fa-phone fa-2x " aria-hidden="true" style="color:rgb(0,48,87)"></i> Fono: (+56)987654321 - (+56) 55 2654321</li>
+                            <li><i class="fa fa-home fa-2x" aria-hidden="true" style="color:rgb(0,48,87)"></i> Baquedano
+                                #50, Edificio Singular, Oficina 811</li>
+                            <li><i class="fa fa-envelope fa-2x" aria-hidden="true" style="color:rgb(0,48,87)"></i>
+                                contacto@guiarseguros.cl</li>
+                            <li><i class="fa fa-phone fa-2x " aria-hidden="true" style="color:rgb(0,48,87)"></i> Fono:
+                                +56974788719 - +56973520746</li>
                         </div>
                     </div>
                 </div>

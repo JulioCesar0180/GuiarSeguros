@@ -7,72 +7,74 @@
 {% endblock %}
 
 {% block content %}
-<div class="gs-cover" style="background-color: rgb(0,48,87)">
-    <div class="container is-desktop" style="margin-top: 80px;">
-        <div style="margin-bottom: 15px">
-            <h3 class="title" style="color: white">4.- Indique la dotación de cada elemento que tiene la empresa a ser evaluada</h3>
+<section id="formulario" class="hero is-fullheight" style="background-color: rgb(0,48,87)">
+    <div class="container is-desktop" style="padding: 0;">
+        <div id="titulo" style="padding: 0 1.5rem">
+            <h1 class="title is-1" style="margin-top: 100px; color: white">4.- Indique la dotación de cada elemento que tiene la empresa a ser evaluada</h1>
             <p style="color: white">Asegurese que la información este actualizada</p>
         </div>
-        <form id="id_quantity" method="post" class="gs-form-poll">
-            {% csrf_token %}
-            <div class="field">
-                <label class="label" style="color: white">Cantidad de empleados contratados</label>
-                <div class="control">
-                    {{ form.n_emp_hired }}
+        <div class="hero-body">
+            <form id="id_quantity" method="post" style="width: 100%;">
+                {% csrf_token %}
+                <div class="field">
+                    <label class="label" style="color: white">Cantidad de empleados contratados</label>
+                    <div class="control">
+                        {{ form.n_emp_hired }}
+                    </div>
                 </div>
-            </div>
-
-            <div class="field">
-                <label class="label" style="color: white">Cantidad de empleados contratistas</label>
-                <div class="control">
-                    {{ form.n_cont_emp }}
+    
+                <div class="field">
+                    <label class="label" style="color: white">Cantidad de empleados contratistas</label>
+                    <div class="control">
+                        {{ form.n_cont_emp }}
+                    </div>
                 </div>
-            </div>
-
-            <div class="field">
-                <label class="label" style="color: white">Cantidad de vehículos comerciales livianos de la empresa</label>
-                <div class="control">
-                    {{ form.n_veh_com_light }}
+    
+                <div class="field">
+                    <label class="label" style="color: white">Cantidad de vehículos comerciales livianos de la empresa</label>
+                    <div class="control">
+                        {{ form.n_veh_com_light }}
+                    </div>
                 </div>
-            </div>
-
-            <div class="field">
-                <label class="label" style="color: white">Cantidad de vehículos comerciales de contratistas</label>
-                <div class="control">
-                    {{ form.n_veh_com_cont }}
+    
+                <div class="field">
+                    <label class="label" style="color: white">Cantidad de vehículos comerciales de contratistas</label>
+                    <div class="control">
+                        {{ form.n_veh_com_cont }}
+                    </div>
                 </div>
-            </div>
-
-            <div class="field">
-                <label class="label" style="color: white">Cantidad de vehículos comerciales pesados de la empresa</label>
-                <div class="control">
-                    {{ form.n_veh_com_heavy }}
+    
+                <div class="field">
+                    <label class="label" style="color: white">Cantidad de vehículos comerciales pesados de la empresa</label>
+                    <div class="control">
+                        {{ form.n_veh_com_heavy }}
+                    </div>
                 </div>
-            </div>
-
-            <div class="field">
-                <label class="label" style="color: white">Cantidad de vehículos comerciales pesados de contratistas</label>
-                <div class="control">
-                    {{ form.n_veh_com_heavy_cont }}
+    
+                <div class="field">
+                    <label class="label" style="color: white">Cantidad de vehículos comerciales pesados de contratistas</label>
+                    <div class="control">
+                        {{ form.n_veh_com_heavy_cont }}
+                    </div>
                 </div>
-            </div>
-            <div class="field">
-                <label class="label" style="color: white">Cantidad de maquinaria pesada de la empresa</label>
-                <div class="control">
-                    {{ form.n_mach_heavy }}
+                <div class="field">
+                    <label class="label" style="color: white">Cantidad de maquinaria pesada de la empresa</label>
+                    <div class="control">
+                        {{ form.n_mach_heavy }}
+                    </div>
                 </div>
-            </div>
-            <div class="field">
-                <label class="label" style="color: white">Cantidad de maquinaria pesada de contratista</label>
-                <div class="control">
-                    {{ form.n_mach_heavy_cont }}
+                <div class="field">
+                    <label class="label" style="color: white">Cantidad de maquinaria pesada de contratista</label>
+                    <div class="control">
+                        {{ form.n_mach_heavy_cont }}
+                    </div>
                 </div>
-            </div>
-            <div>
-                <button class="button" type="button" id="previous" onclick="history.go(-1)" style="background-color: rgb(0,94,184); color: white; border: none">Anterior</button>
-                <button type="submit" class="button" style="background-color: rgb(0,94,184); color: white; border: none">Siguiente</button>
-            </div>
-        </form>
+                <div>
+                    <button class="button" type="button" id="previous" onclick="history.go(-1)" style="background-color: rgb(0,94,184); color: white; border: none">Anterior</button>
+                    <button type="submit" class="button" style="background-color: rgb(0,94,184); color: white; border: none">Siguiente</button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
+</section>
 {% endblock %}
