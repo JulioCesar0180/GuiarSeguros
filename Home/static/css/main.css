@@ -22,7 +22,7 @@
 }
 
 .gs-btn-blue:hover{
-    background-color: rgb(0,94,184);!important;
+    background-color: rgb(0,94,184)!important;
     color: white;
     border: rgb(0,94,184);
 }
@@ -82,3 +82,9 @@ input[type=number]{
 .gs-form-poll{
     padding: 0 200px;
 }
+
+@media screen and (max-width: 1023px) {
+
+    #middle {padding: 0 0;}
+    
+  }

@@ -1,7 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.db.models import Sum
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
@@ -15,7 +14,6 @@ from Home.models import UserGuiar, BusinessManager, ProcessBusiness, Dotacion, D
 from django.views.generic import View
 from .utils import render_to_pdf
 from django.template.loader import get_template
-from django.forms import formset_factory, inlineformset_factory
 
 
 def login_view(request):
@@ -120,15 +118,12 @@ def view_form_quantity(request):
     values.clear()
     for dot in dotaciones:
         campo = DotacionEmpresarial.objects.get_or_create(user=user, dotacion=dot)
-        #print(campo[0].cantidad)
         campos.append([dot.title, campo[0].cantidad, i])
         values.append(campo[0].cantidad)
         i = i + 1
     formset = DotacionForm(n=i-1, values=values)
-    # DotacionFormSet = inlineformset_factory(UserGuiar, DotacionEmpresarial, fields=('cantidad',))
     if request.method == "POST":
         formset = DotacionForm(request.POST, n=i-1, values=values)
-        #formset = DotacionForm(request.POST, instance=formset)
         if formset.is_valid():
             cantidad = []
             cantidad.clear()
@@ -140,20 +135,10 @@ def view_form_quantity(request):
                 campo[0].cantidad = cantidad[k]
                 campo[0].save()
                 k = k + 1
-        '''formset = DotacionFormSet(request.POST, request.FILES, instance=user)
-        i = 1
-        for form in formset:
-            form.save()
-            i = i + 1'''
-        #if form.is_valid():
-         #   form.save()
         print(formset.errors)
         return redirect('poll-process')
         #else:
          #   messages.error(request, "Error")
-    else:
-        # formset = DotacionFormSet(instance=user)
-        formset = DotacionForm(n=i-1, values=values)
     context = {'user': user, 'campos': campos, 'formset': formset}
     return render(request, 'Poll/forms/form_dotacion.html', context)
 
@@ -573,7 +558,6 @@ def view_results(request):
 
     # dotaciones = DotacionEmpresarial.objects.get(user=user)
         rangos = RangosDotacion.objects.filter(dotacion=dotacion)
-        #TODO: Corregir obtencion de rangos de dotacion
         for rango in rangos:
             pos = rango.poliza.pk - 1
             if rango.min_value > rango.max_value:

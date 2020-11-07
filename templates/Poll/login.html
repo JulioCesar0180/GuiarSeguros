@@ -9,8 +9,10 @@
 {% endblock %}
 
 {% block content %}
-    <div class="gs-cover" style="background-image: url('https://images7.alphacoders.com/311/311578.jpg');">
-        <div class="card" style="margin: 0 auto; background-color: transparent">
+<section id="login" class="hero is-fullheight" style="background-image: url('https://images7.alphacoders.com/311/311578.jpg');">
+    <div class="container is-desktop">
+        <div class="hero-body" style="margin-top:9rem">
+            <div class="card" style="margin: 0 auto; background-color: transparent">
             <center style="background-color: rgba(255,255,255,.7)">
                 <figure class="image" style="margin: 0!important; border: none">
                     <img src="{% static 'img/logoGC.png' %}" alt="" style="margin: 0; border: none">
@@ -44,7 +46,9 @@
                 <a href="{% url 'signUp' %}" class="button gs-btn-register">Registrarse</a>
             </footer>
         </div>
+        </div>
     </div>
+</section>
 {% endblock %}
 
 {% block script %}

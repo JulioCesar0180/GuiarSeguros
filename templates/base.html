@@ -1,9 +1,11 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/home.css'%}">
 
     <!-- UIkit CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.5.5/dist/css/uikit.min.css" />
@@ -14,6 +16,7 @@
     {% block head %}
     {% endblock %}
 </head>
+
 <body>
     <nav class="navbar is-fixed-top gs-navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
@@ -21,24 +24,107 @@
                 <img src="{% static 'img/logoGC.png' %}">
             </a>
 
-            <button class="button navbar-burger" type="button" uk-toggle="target: #offcanvas-overlay">
-                <i class="fas fa-bars" style="color: white"></i>
+            <div class="navbar-burger">
+                <a href="{% url 'profile' %}"><i class="fas fa-user"
+                        style="color: rgb(0,48,87); width:90%; height: 90%; padding-top: 0.3rem;"></i></a>
+            </div>
+            <button class="button navbar-burger" type="button" uk-toggle="target: #offcanvas-overlay"
+                style="margin-left:0;">
+                <i class="fas fa-bars" style="color: black"></i>
             </button>
         </div>
 
         <div id="navMenu-bar" class="navbar-menu">
             <div class="navbar-start">
-                <a id="item-about" href="{% url 'profile' %}" class="navbar-item">MideTuRiesgo</a>
-                <a id="item-computer-lab" href="" class="navbar-item">Contacto</a>
+                <a id="item-about" href="#mideturiesgo" class="navbar-item">Mide tu riesgo</a>
+                <a id="item-computer-lab" href="#welcome" class="navbar-item">Acerca de</a>
+                <a id="item-computer-lab" href="#service" class="navbar-item">Servicios</a>
+                <a id="item-computer-lab" href="#partners" class="navbar-item">Alianzas</a>
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                        Paga tu seguro
+                    </a>
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item" href="https://www.bciseguros.cl/" target="_blank">BCI Seguros</a>
+                        <a class="navbar-item" href="https://www.bicevida.cl/pago-online/" target="_blank">BICE vida</a>
+                        <a class="navbar-item" href="https://www14.chilena.cl/es-cl/pago-de-cuotas-con-pago-express"
+                            target="_blank">Chilena Consolidada</a>
+                        <a class="navbar-item" href="https://www.consorcio.cl/pago/pago-express"
+                            target="_blank">Consorcio</a>
+                        <a class="navbar-item" href="https://www.hdi.cl/" target="_blank">HDI Seguros</a>
+                        <a class="navbar-item" href="https://www.liberty.cl/pago-en-linea.html#Suscripcion-PAT/PAC"
+                            target="_blank">Liberty Seguros</a>
+                        <a class="navbar-item" href="https://aplicacion.mapfre.cl/PagoCuotas/"
+                            target="_blank">MAPFRE</a>
+                        <a class="navbar-item" href="https://www.rentanacional.cl/pago-en-linea.php"
+                            target="_blank">Renta
+                            Nacional</a>
+                        <a class="navbar-item" href="https://pagos.vidasecurity.cl/" target="_blank">Vida Security</a>
+                    </div>
+                </div>
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">Denuncia tu siniestro</a>
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item"
+                            href="https://www.bciseguros.cl/servicios_en_linea/denuncio-de-siniestros/"
+                            target="_blank">BCI Seguros</a>
+                        <a class="navbar-item" href="https://www.bicevida.cl/siniestros/" target="_blank">BICE vida</a>
+                        <a class="navbar-item" href="https://www14.chilena.cl/es-cl/siniestro-denuncia"
+                            target="_blank">Chilena Consolidada</a>
+                        <a class="navbar-item" href="https://web.consorcio.cl/sitio/denuncia-tu-siniestro"
+                            target="_blank">Consorcio</a>
+                        <a class="navbar-item" href="https://www.hdi.cl/hdi-seguros-home/denunciar-siniestro/"
+                            target="_blank">HDI Seguros</a>
+                        <a class="navbar-item" href="https://www.liberty.cl/denuncio-hogar-y-otros.html"
+                            target="_blank">Liberty Seguros</a>
+                        <a class="navbar-item" href="https://www.mapfre.cl/seguros-cl/servicios/denuncia-de-siniestros/"
+                            target="_blank">MAPFRE</a>
+                        <a class="navbar-item" href="https://www.rentanacional.cl/denuncie-su-siniestro.php"
+                            target="_blank">Renta Nacional</a>
+                        <a class="navbar-item" href="https://www.vidasecurity.cl/denuncio-de-siniestros"
+                            target="_blank">Vida Security</a>
+                    </div>
+                </div>
+                <a id="item-computer-lab" href="#contacto" class="navbar-item">Contacto</a>
+            </div>
+
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+                        {% if request.user.is_authenticated %}
+                        <a href="{% url 'profile' %}" class="button gs-btn-blue"><strong>Mi cuenta</strong></a>
+                        <a href="{% url 'logout' %}" class="button gs-btn-blue"><strong>Salir</strong></a>
+                        {% else %}
+                        <a href="{% url 'login' %}" class="button gs-btn-blue"><strong>Ingresar</strong></a>
+                        <a href="{% url 'signUp' %}" class="button gs-btn-blue"><strong>Registrarte</strong></a>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
-{% block content %}
-{% endblock %}
 
-{% block script %}
-
-{% endblock %}
-<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <div id="offcanvas-overlay" uk-offcanvas="overlay: true; flip: true; mode: push">
+        <div class="uk-offcanvas-bar">
+            <button class="uk-offcanvas-close" type="button" uk-close></button>
+            <ul>
+                <li>
+                    <a id="item-computer-lab" href="#welcome" class="navbar-item">Acerca de</a>
+                </li>
+                <li>
+                    <a id="item-computer-lab" href="#service" class="navbar-item">Servicios</a>
+                </li>
+                <li>
+                    <a id="item-about" href="#mideturiesgo" class="navbar-item">Mide tu riesgo</a>
+                </li>
+                <li>
+                    <a id="item-computer-lab" href="#contacto" class="navbar-item">Contacto</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    {% block content %}
+    {% endblock %}
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 </body>
 </html>

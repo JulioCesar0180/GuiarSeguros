@@ -102,3 +102,13 @@
     font-size: 1rem !important;
   }
 }
+#textobase{
+  padding-top: 25vh;
+}
+@media screen and (max-width: 1023px) {
+
+  #partners {display: none;}
+  #contacto {background-color: white !important;}
+  #check{color:rgb(0,48,87) !important;}
+  #textobase{padding-top: 2vh;}
+}
