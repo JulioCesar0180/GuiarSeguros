@@ -6,6 +6,13 @@
     <link rel="stylesheet" href="{% static 'css/design_option.css' %}">
 {% endblock %}
 
+<style>
+    div.centered      { width: 900px; }
+    div.columns       { width: 600px;  margin: 0 auto;}
+    div.columns div   { width: 300px; height: 100px; float: left; }
+    div.clear         { clear: both; }
+</style>
+
 {% block content %}
 <div class="gs-cover" style="background-color: rgb(0,48,87)">
     <div class="container is-desktop" style="margin-top: 80px;">
@@ -15,58 +22,23 @@
         </div>
         <form id="id_quantity" method="post" class="gs-form-poll">
             {% csrf_token %}
-            <div class="field">
-                <label class="label" style="color: white">Cantidad de empleados contratados</label>
-                <div class="control">
-                    {{ form.n_emp_hired }}
-                </div>
+            <div class="centered">
+            <div class="columns">
+                <div></div>
+                {% for campo in campos %}
+                    <br>
+                        {{ campo.0 }}
+                    </br>
+                {% endfor %}
+                <div></div>
+                <div class="clear"></div>
+                {% for field in formset.visible_fields %}
+                    <div>
+                    <br>{{ field }}
+                    </br>
+                {% endfor %}
             </div>
-
-            <div class="field">
-                <label class="label" style="color: white">Cantidad de empleados contratistas</label>
-                <div class="control">
-                    {{ form.n_cont_emp }}
-                </div>
             </div>
-
-            <div class="field">
-                <label class="label" style="color: white">Cantidad de vehículos comerciales livianos de la empresa</label>
-                <div class="control">
-                    {{ form.n_veh_com_light }}
-                </div>
-            </div>
-
-            <div class="field">
-                <label class="label" style="color: white">Cantidad de vehículos comerciales de contratistas</label>
-                <div class="control">
-                    {{ form.n_veh_com_cont }}
-                </div>
-            </div>
-
-            <div class="field">
-                <label class="label" style="color: white">Cantidad de vehículos comerciales pesados de la empresa</label>
-                <div class="control">
-                    {{ form.n_veh_com_heavy }}
-                </div>
-            </div>
-
-            <div class="field">
-                <label class="label" style="color: white">Cantidad de vehículos comerciales pesados de contratistas</label>
-                <div class="control">
-                    {{ form.n_veh_com_heavy_cont }}
-                </div>
-            </div>
-            <div class="field">
-                <label class="label" style="color: white">Cantidad de maquinaria pesada de la empresa</label>
-                <div class="control">
-                    {{ form.n_mach_heavy }}
-                </div>
-            </div>
-            <div class="field">
-                <label class="label" style="color: white">Cantidad de maquinaria pesada de contratista</label>
-                <div class="control">
-                    {{ form.n_mach_heavy_cont }}
-                </div>
             </div>
             <div>
                 <button class="button" type="button" id="previous" onclick="history.go(-1)" style="background-color: rgb(0,94,184); color: white; border: none">Anterior</button>

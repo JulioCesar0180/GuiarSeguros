@@ -1,6 +1,7 @@
 from django import forms
+from reportlab import xrange
 
-from Home.models import UserGuiar, City, Town, BusinessManager
+from Home.models import UserGuiar, City, Town, BusinessManager, Dotacion, DotacionEmpresarial
 from Poll.models import Sales
 
 
@@ -60,23 +61,34 @@ class ChangeSaleFrom(forms.ModelForm):
         }
 
 
-class QuantityEmpForm(forms.ModelForm):
+class DotacionForm(forms.Form):
+
+    def __init__(self, *args, **kwargs):
+        n = kwargs.pop('n', int)
+        values = kwargs.pop('values', list)
+        super(DotacionForm, self).__init__(*args, **kwargs)
+        for i in xrange(n):
+            self.fields['cantidad%d' % i] = forms.IntegerField(min_value=0, initial=values[i])
+
+
+'''    def is_valid(self, **kwargs):
+        n = kwargs.pop('n', int)
+        for i in xrange(n):
+            if self.data['cantidad%d' % i] < 0:
+                return False
+        return True'''
+
+
+'''class DotacionForm(forms.ModelForm):
+
     class Meta:
-        model = UserGuiar
-        fields = ['n_emp_hired', 'n_cont_emp', 'n_veh_com_light',
-                  'n_veh_com_cont', 'n_veh_com_heavy', 'n_veh_com_heavy_cont',
-                  'n_mach_heavy', 'n_mach_heavy_cont']
+        model = DotacionEmpresarial
+        fields = ['cantidad']
+        extra = 0
 
         widgets = {
-            'n_emp_hired': forms.NumberInput(attrs={'class': 'input'}),
-            'n_cont_emp': forms.NumberInput(attrs={'class': 'input'}),
-            'n_veh_com_light': forms.NumberInput(attrs={'class': 'input'}),
-            'n_veh_com_cont': forms.NumberInput(attrs={'class': 'input'}),
-            'n_veh_com_heavy': forms.NumberInput(attrs={'class': 'input'}),
-            'n_veh_com_heavy_cont': forms.NumberInput(attrs={'class': 'input'}),
-            'n_mach_heavy': forms.NumberInput(attrs={'class': 'input'}),
-            'n_mach_heavy_cont': forms.NumberInput(attrs={'class': 'input'})
-        }
+            'cantidad': forms.NumberInput
+        }'''
 
 
 class ProcessForm(forms.ModelForm):

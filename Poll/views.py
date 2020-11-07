@@ -10,11 +10,12 @@ from django.views.generic import *
 
 from Poll.forms import *
 from Poll.models import *
-from Home.models import UserGuiar, BusinessManager, ProcessBusiness, DotacionInfo
+from Home.models import UserGuiar, BusinessManager, ProcessBusiness, Dotacion, DotacionEmpresarial, RangosDotacion
 #PDF
 from django.views.generic import View
 from .utils import render_to_pdf
 from django.template.loader import get_template
+from django.forms import formset_factory, inlineformset_factory
 
 
 def login_view(request):
@@ -111,15 +112,49 @@ def view_form_sales(request):
 @login_required
 def view_form_quantity(request):
     user = UserGuiar.objects.get(pk=request.user.pk)
-    form = QuantityEmpForm(instance=user)
-    context = {'user': user, 'form': form}
+    dotaciones = Dotacion.objects.all()
+    campos = []
+    campos.clear()
+    i = 1
+    values = []
+    values.clear()
+    for dot in dotaciones:
+        campo = DotacionEmpresarial.objects.get_or_create(user=user, dotacion=dot)
+        #print(campo[0].cantidad)
+        campos.append([dot.title, campo[0].cantidad, i])
+        values.append(campo[0].cantidad)
+        i = i + 1
+    formset = DotacionForm(n=i-1, values=values)
+    # DotacionFormSet = inlineformset_factory(UserGuiar, DotacionEmpresarial, fields=('cantidad',))
     if request.method == "POST":
-        form = QuantityEmpForm(request.POST, instance=user)
-        if form.is_valid():
+        formset = DotacionForm(request.POST, n=i-1, values=values)
+        #formset = DotacionForm(request.POST, instance=formset)
+        if formset.is_valid():
+            cantidad = []
+            cantidad.clear()
+            for j in range(i-1):
+                cantidad.append(formset.cleaned_data['cantidad%d' % j])
+            k = 0
+            for dot in dotaciones:
+                campo = DotacionEmpresarial.objects.get_or_create(user=user, dotacion=dot)
+                campo[0].cantidad = cantidad[k]
+                campo[0].save()
+                k = k + 1
+        '''formset = DotacionFormSet(request.POST, request.FILES, instance=user)
+        i = 1
+        for form in formset:
             form.save()
-            return redirect('poll-process')
-        else:
-            messages.error(request, "Error")
+            i = i + 1'''
+        #if form.is_valid():
+         #   form.save()
+        print(formset.errors)
+        return redirect('poll-process')
+        #else:
+         #   messages.error(request, "Error")
+    else:
+        # formset = DotacionFormSet(instance=user)
+        formset = DotacionForm(n=i-1, values=values)
+    context = {'user': user, 'campos': campos, 'formset': formset}
     return render(request, 'Poll/forms/form_dotacion.html', context)
 
 
@@ -447,7 +482,7 @@ def view_results(request):
     maximo = 0
     minimo = 0
     # Se generan las categorias a considerar en los resultados
-    polizas = Poliza.objects.all()
+    polizas = SubPoliza.objects.all()
     for pol in polizas:
         desgloce.append([pol.name, 0, 0, pol.id])
     # Este codigo no funcionara si una poliza es eliminada, en tal caso habria que buscar entre las polizas la que
@@ -531,44 +566,35 @@ def view_results(request):
     # Se obtiene el usuario del cual se lee la informacion
     user = UserGuiar.objects.get(pk=pk)
 
-    dotaciones = DotacionInfo.objects.all()
-    cantidades = []
-    cantidades.clear()
-    # Aqui se asigna el codigo de las dotaciones a cada campo. Esto significa que si se cambia el codigo en la BD, esto
-    # dejara de funcionar, por lo cual el codigo en si no debe ser modificado y quedara oculto en el admin al final
-    cantidades.append([user.n_emp_hired, "DOT1"])
-    cantidades.append([user.n_cont_emp, "DOT2"])
-    cantidades.append([user.n_veh_com_light, "DOT3"])
-    cantidades.append([user.n_veh_com_cont, "DOT4"])
-    cantidades.append([user.n_veh_com_heavy, "DOT5"])
-    cantidades.append([user.n_veh_com_heavy_cont, "DOT6"])
-    cantidades.append([user.n_mach_heavy, "DOT7"])
-    cantidades.append([user.n_mach_heavy_cont, "DOT8"])
-    for dot in dotaciones:
-        pos = dot.poliza.pk - 1
-        codigo = dot.cod
-        cant = 0
-        for cantidad in cantidades:
-            if cantidad[1] == codigo:
-                cant = cantidad[0]
-                break
-        if dot.min_value > dot.max_value:
-            if cant >= dot.min_value:
-                if pos != 0:
-                    desgloce[pos][2] += dot.ri_value * dot.min_value
-                desgloce[0][2] += dot.ri_value * dot.min_value
-                total += dot.ri_value * dot.min_value
-            if pos != 0:
-                desgloce[pos][1] += dot.ri_value * dot.min_value
-            desgloce[0][1] += dot.ri_value * dot.min_value
-            maximo += dot.ri_value * dot.min_value
-        else:
-            if cant >= dot.min_value:
-                if cant < dot.max_value:
+    dotaciones = Dotacion.objects.all()
+    for dotacion in dotaciones:
+        campo = DotacionEmpresarial.objects.get_or_create(user=user, dotacion=dotacion)
+        cantidad = campo[0].cantidad
+
+    # dotaciones = DotacionEmpresarial.objects.get(user=user)
+        rangos = RangosDotacion.objects.filter(dotacion=dotacion)
+        #TODO: Corregir obtencion de rangos de dotacion
+        for rango in rangos:
+            pos = rango.poliza.pk - 1
+            if rango.min_value > rango.max_value:
+                if cantidad >= rango.min_value:  # caso valor en el ultimo rango
+                    # Se agrega el resultado correspondiente al riesgo de la poliza vinculada
                     if pos != 0:
-                        desgloce[pos][2] += dot.ri_value * cant
-                    desgloce[0][2] += dot.ri_value * cant
-                    total += dot.ri_value * cant
+                        desgloce[pos][2] += rango.ri_value * rango.min_value
+                    desgloce[0][2] += rango.ri_value * rango.min_value
+                    total += rango.ri_value * rango.min_value
+                # Se agrega el maximo correspondiente independiente si se encuentra o no dentro del rango asociado
+                if pos != 0:
+                    desgloce[pos][1] += rango.ri_value * rango.min_value
+                desgloce[0][1] += rango.ri_value * rango.min_value
+                maximo += rango.ri_value * rango.min_value
+            elif cantidad >= rango.min_value:
+                if cantidad < rango.max_value:  # caso valor dentro del rango
+                    # Se agrega el resultado correspondiente al riesgo de la poliza vinculada
+                    if pos != 0:
+                        desgloce[pos][2] += rango.ri_value * cantidad
+                    desgloce[0][2] += rango.ri_value * cantidad
+                    total += rango.ri_value * cantidad
 
     # Se lleva la cuenta de los resultados de Transporte
     for proceso in user.transport.all():
@@ -676,11 +702,11 @@ def view_results(request):
 
     is_empty = 0
     for d in desgloce:
-        if d[2] == 0:
+        if d[2] != 0:
             is_empty = 1
         d[2] = d[2] * (1 - amortiguacion)
-
-    if is_empty == 1:
+    total = total * (1 - amortiguacion)
+    if is_empty == 0:
         return redirect('home')
     else:
         for d in desgloce:
@@ -692,7 +718,7 @@ def view_results(request):
             # Se filtran los resultados nulos
             if des[2] != 0:
                 # Este nuevo arreglo tiene [Nombre Poliza, Maximo Poliza, Resultado Poliza, ID Poliza]
-                desgloce_ordenado.append([des[0], des[1], round((des[2]/des[1])*100,2), des[3]])
+                desgloce_ordenado.append([des[0], des[1], round((des[2]/des[1])*100, 2), des[3]])
 
         desgloce_ordenado.sort(key=lambda array: array[2], reverse=True)
         for d in desgloce_ordenado:

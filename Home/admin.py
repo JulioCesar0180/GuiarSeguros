@@ -22,11 +22,12 @@ class UserGuiarAdmin(UserAdmin):
 
     fieldsets = (
         (None, {'fields': ('rut', 'password')}),
-        ('Datos de la empresa', {'fields': ('name', 'address', 'city', 'town', 'seniority', 'email_manager')}),
+        ('Datos de la empresa', {'fields': ('name', 'address', 'city', 'town', 'seniority')}),
+        # ('Datos de la empresa', {'fields': ('name', 'address', 'city', 'town', 'seniority', 'email_manager')}),
         ('Datos del representante', {'fields': ('manager',)}),
         ('Ventas Anuales', {'fields': ('sales',)}),
-        ('Dotación Empresa', {'fields': ('n_emp_hired', 'n_cont_emp', 'n_veh_com_light', 'n_veh_com_cont',
-                                         'n_veh_com_heavy', 'n_veh_com_heavy_cont', 'n_mach_heavy', 'n_mach_heavy_cont')}),
+        # ('Dotación Empresa', {'fields': ('n_emp_hired', 'n_cont_emp', 'n_veh_com_light', 'n_veh_com_cont',
+        # 'n_veh_com_heavy', 'n_veh_com_heavy_cont', 'n_mach_heavy', 'n_mach_heavy_cont')}),
         ('Procesos', {'fields': ('process',)}),
         ('Trabajos realizados', {'fields': ('transport', 'manufacture', 'building', 'general_services')}),
         ('Control de Riesgos', {'fields': ('risk_management',)}),
@@ -57,5 +58,8 @@ admin.site.register(ExplosiveConfirmed)
 admin.site.register(ElectricityConfirmed)
 admin.site.register(SubstanceConfirmed)
 admin.site.register(HeightConfirmed)
+admin.site.register(Dotacion)
+admin.site.register(DotacionEmpresarial)
+admin.site.register(RangosDotacion)
 
 admin.site.site_header = "Panel de Administración de GuiarSeguros"

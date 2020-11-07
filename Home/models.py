@@ -3,7 +3,9 @@ from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from django.db import models
 
 # Create your models here.
-from Poll.models import *
+from Poll.models import Sales, ProcessBusiness, TransportProcess, ManufactureProcess, GeneralServicesProcess,\
+    BuildingProcess, RiskManagement, RiskPreventionPersonal, HeightConfirmed, ExplosiveConfirmed, ElectricityConfirmed,\
+    SubstanceConfirmed, ElectricityControl, ExplosiveControl, HeightControl, SubstanceControl, SubPoliza
 
 
 class Town(models.Model):
@@ -60,16 +62,6 @@ class UserGuiar(AbstractBaseUser, PermissionsMixin):
 
     # Ventas Anuales
     sales = models.ForeignKey(Sales, on_delete=models.CASCADE, null=True)
-
-    # Dotacion Empresa
-    n_emp_hired = models.PositiveIntegerField(null=True, default=0)
-    n_cont_emp = models.PositiveIntegerField(null=True, default=0)
-    n_veh_com_light = models.PositiveIntegerField(null=True, default=0)
-    n_veh_com_cont = models.PositiveIntegerField(null=True, default=0)
-    n_veh_com_heavy = models.PositiveIntegerField(null=True, default=0)
-    n_veh_com_heavy_cont = models.PositiveIntegerField(null=True, default=0)
-    n_mach_heavy = models.PositiveIntegerField(null=True, default=0)
-    n_mach_heavy_cont = models.PositiveIntegerField(null=True, default=0)
 
     # Procesos de la Empresa
     process = models.ManyToManyField(ProcessBusiness)
@@ -141,3 +133,46 @@ class BusinessManager(models.Model):
     class Meta:
         verbose_name = "Representante"
         verbose_name_plural = "Representantes"
+
+
+class DotacionEmpresarial(models.Model):
+    cantidad = models.IntegerField(default=0)
+    user = models.ForeignKey('UserGuiar', models.DO_NOTHING)
+    dotacion = models.ForeignKey('Dotacion', models.DO_NOTHING)
+
+    def __str__(self):
+        return self.user.rut + " " + self.dotacion.title
+
+    class Meta:
+        verbose_name = "Dotacion Empresa"
+        verbose_name_plural = "Dotaciones Empresariales"
+
+
+class Dotacion(models.Model):
+    title = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = "Dotacion"
+        verbose_name_plural = "Dotaciones"
+
+
+class RangosDotacion(models.Model):
+    dotacion = models.ForeignKey('Dotacion', models.DO_NOTHING)
+    min_value = models.PositiveIntegerField()
+    max_value = models.PositiveIntegerField()
+    ri_value = models.PositiveIntegerField(default=1)
+    poliza = models.ForeignKey(SubPoliza, models.DO_NOTHING, null=True, blank=True)
+
+    def __str__(self):
+        if self.max_value > self.min_value:
+            return self.dotacion.title + " (" + str(self.min_value) + "-" + str(self.max_value) + ") risk " +\
+               str(self.ri_value)
+        else:
+            return self.dotacion.title + " (" + str(self.min_value) + "+) risk " + str(self.ri_value)
+
+    class Meta:
+        verbose_name = "Rango Dotacion"
+        verbose_name_plural = "Rangos Dotaciones"
