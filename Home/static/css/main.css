@@ -88,3 +88,16 @@ input[type=number]{
     #middle {padding: 0 0;}
     
   }
+
+.spinput{
+    padding: 15px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    text-align: left;
+    transition: 0.2s;
+    width: 100%;
+    font-family: Grotesque,Arial,sans-serif;
+    font-size: 16px;
+    background: #f3f5f6;
+    border-color: #f3f5f6;
+}

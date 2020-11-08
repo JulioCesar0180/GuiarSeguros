@@ -69,27 +69,7 @@ class DotacionForm(forms.Form):
         super(DotacionForm, self).__init__(*args, **kwargs)
         for i in xrange(n):
             self.fields['cantidad%d' % i] = forms.IntegerField(min_value=0, initial=values[i])
-
-
-'''    def is_valid(self, **kwargs):
-        n = kwargs.pop('n', int)
-        for i in xrange(n):
-            if self.data['cantidad%d' % i] < 0:
-                return False
-        return True'''
-
-
-'''class DotacionForm(forms.ModelForm):
-
-    class Meta:
-        model = DotacionEmpresarial
-        fields = ['cantidad']
-        extra = 0
-
-        widgets = {
-            'cantidad': forms.NumberInput
-        }'''
-
+            
 
 class ProcessForm(forms.ModelForm):
     class Meta:

@@ -8,7 +8,7 @@
 
 {% block content %}
 
-<section id="intro" class="hero is-large" style="background-color: rgb(0,48,87)">
+<section id="intro" class="hero is-medium" style="background-color: rgb(0,48,87)">
     <div class="container is-desktop" style="padding: 0 1.5rem; ">
         <center>
             <h1 class="title is-1" style="margin-top: 100px; color: white">Resultado de la encuesta</h1>
@@ -38,159 +38,73 @@
 </section>
 
 <section id="graphic" class="hero is-large" style="background-color: rgb(0,48,87)">
-    <div class="container is-desktop" style="padding: 0 1.5rem; ">
-        <center>
-            <h1 class="title is-1" style="margin-top: 100px; color: white">Gráfico de riesgo</h1>
-        </center>
-        <div class="uk-card" style="background-color: white; border-radius: 6px;">
-            <div class="card">
-                <div class="card-content">
-                    <div class="content">
+    <div uk-grid>
+        <div class="container is-desktop" style="padding: 0 1.5rem; padding-left: 3.5rem">
+            <center>
+                <h1 class="title is-1" style="margin-top: 100px; color: white">Pólizas</h1>
+            </center>
+            <div class="uk-card" style="background-color: white; border-radius: 6px;">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="content">
+                            <p align="justify">
+                                En base a lo entregado, estas son las pólizas más convenientes para lo que buscas. <br>
+                                Selecciona una varias pólizas para crear un documento PDF con toda la información
+                                correspondiente sobre estas:
+                            </p>
+                        </div>
+                        <center style="border-style: solid; border-width: 1px;">
+                            {% for d in desgloce %}
+                            <label class="panel-block">
+                                <input type="checkbox">
+                                {{ d.0 }} {{ d.2 }}%
+                            </label>
+                            {% endfor %}
+                        </center>
+                        <div class="panel-block">
+                            <a href="{% url 'pdf' %}" target="_blank" class="button is-link is-outlined is-fullwidth">
+                                Descargar PDF
+                            </a>
+                        </div>
                         <p align="justify">
-                            Según lo respondido, el grupo en el que su empresa se
-                            encuentra es: {{ color }}
+                            Una vez seleccionada la póliza que deseas, nos contacteremos contigo a la brevedad para
+                            hablar en mayor detalle de lo elegido. <br>
+                            Se te enviará un correo con todos los detalles de contacto para reunirnos.
                         </p>
                     </div>
-                    <center>
-                        <div class="containerimgs">
-                            {% if resultado == total %}
-                            <div class="far fa-arrow-alt-circle-right fa-2x" style="margin-bottom: -19px;"></div>
-                            {% elif resultado == minimo %}
-                            <div class="far fa-arrow-alt-circle-right fa-2x" style="margin-bottom: 379px;"></div>
-                            {% else %}
-                            <div class="far fa-arrow-alt-circle-right fa-2x" style="margin-bottom: {{res_fin}}px;">
-                            </div>
-                            {% endif %}
-                            <div id="rectangulo"></div>
-                        </div>
-                    </center>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-
-<section id="percent" class="hero is-large" style="background-color: rgb(0,48,87)">
-    <div class="container is-desktop" style="padding: 0 1.5rem; ">
-        <center>
-            <h1 class="title is-1" style="margin-top: 100px; color: white">Pólizas</h1>
-        </center>
-        <div class="uk-card" style="background-color: white; border-radius: 6px;">
-            <div class="card">
-                <div class="card-content">
-                    <div class="content">
-                        <p align="justify">
-                            En base a lo entregado, estas son las pólizas más convenientes para lo que buscas. <br>
-                            Selecciona una varias pólizas para crear un documento PDF con toda la información
-                            correspondiente sobre estas:
-                        </p>
-                    </div>
-                    <center style="border-style: solid; border-width: 1px;">
-                        {% for d in desgloce %}
-                        <label class="panel-block">
-                            <input type="checkbox">
-                            {{ d.0 }} {{ d.2 }}%
-                        </label>
-                        {% endfor %}
-                    </center>
-                    <div class="panel-block">
-                        <a href="{% url 'pdf' %}" target="_blank" class="button is-link is-outlined is-fullwidth">
-                            Descargar PDF
-                        </a>
-                    </div>
-                    <p align="justify">
-                        Una vez seleccionada la póliza que deseas, nos contacteremos contigo a la brevedad para hablar en mayor detalle de lo elegido. <br>
-                        Se te enviará un correo con todos los detalles de contacto para reunirnos.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!--<div class="gs-cover" style="background-color: rgb(0,48,87);">
-    <div class="container is-desktop" style="margin-top: 80px;">
-        <!-cuadro superior->
-            <div class="uk-card" style="background-color: white; border-radius: 6px">
-                <nav class="panel">
-                    <p class="panel-block"></p>
-                    <p class="panel-block">
-                        ¡Muchas gracias por nuestra encuesta!, según lo respondido, el grupo en el que su empresa se
-                        encuentra es:
-                        {{ color }} y por lo pronto nos contactaremos con usted para entregar mayor detalle.
-                    </p>
-
-                    <p class="panel-block">
-                        A continuación se dan a conocer en orden prioritario las polizas reacomendadas respecto al
-                        riesgo potencial según la encuesta respondida:
-                    </p>
-                    <p class="panel-block"></p>
-                </nav>
-            </div>
-
-            <div uk-grid style="margin: 40px 60px; text-align-last: center; align-items: center">
-                <!-Cuadro informacion->
-                    <div class="uk-width-1-2@s" style="padding: 0">
-                        <div class="uk-card" style="background-color: white; border-radius: 6px">
-                            <nav class="panel">
-                                <p class="panel-heading">Importante</p>
-                                <p class="panel-block" align="justify">
-                                    Recomendamos que, en base al resultado de la encuesta realizada, usted adquiera la
-                                    siguiente poliza:
-                                </p>
-                                <p>
-                                    <b>{{ desgloce.0.0 }}</b>
-                                </p>
-                                <div class="panel-block"></div>
-                            </nav>
+        <div class="container is-desktop" style="padding: 0 1.5rem; padding-left: 3.5rem">
+            <center>
+                <h1 class="title is-1" style="margin-top: 100px; color: white">Gráfico de riesgo</h1>
+            </center>
+            <div class="uk-card" style="background-color: white; border-radius: 6px;">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="content">
+                            <p align="justify">
+                                Según lo respondido, el grupo en el que su empresa se
+                                encuentra es: {{ color }}
+                            </p>
                         </div>
-                        <div class="uk-card" style="background-color: white; border-radius: 6px; margin-top: 40px">
-                            <nav class="panel">
-                                <p class="panel-heading">Resultados</p>
-
-                                {% for d in desgloce %}
-                                <label class="panel-block">
-                                    <input type="checkbox">
-                                    {{ d.0 }} {{ d.2 }}%
-                                </label>
-                                {% endfor %}
-
-                                <div class="panel-block">
-                                    <a href="{% url 'pdf' %}" target="_blank"
-                                        class="button is-link is-outlined is-fullwidth">
-                                        Descargar PDF
-                                    </a>
+                        <center>
+                            <div class="containerimgs">
+                                {% if resultado == total %}
+                                <div class="far fa-arrow-alt-circle-right fa-2x" style="margin-bottom: -19px;"></div>
+                                {% elif resultado == minimo %}
+                                <div class="far fa-arrow-alt-circle-right fa-2x" style="margin-bottom: 379px;"></div>
+                                {% else %}
+                                <div class="far fa-arrow-alt-circle-right fa-2x" style="margin-bottom: {{res_fin}}px;">
                                 </div>
-                            </nav>
-                        </div>
-                    </div>
-                    <!-Grafico->
-                        <div class="uk-width-1-2@s">
-                            <div class="uk-card" style="background-color: white; border-radius: 6px">
-                                <nav class="panel">
-                                    <p class="panel-heading">Gráfico de Riesgo</p>
-                                    <div class="uk-card uk-card-default uk-card-body"
-                                        style="background-color: white; box-shadow: none; ">
-                                        <div class="containerimgs">
-                                            {% if resultado == total %}
-                                            <div class="far fa-arrow-alt-circle-right fa-2x"
-                                                style="margin-bottom: -19px;"></div>
-                                            {% elif resultado == minimo %}
-                                            <div class="far fa-arrow-alt-circle-right fa-2x"
-                                                style="margin-bottom: 379px;"></div>
-                                            {% else %}
-                                            <div class="far fa-arrow-alt-circle-right fa-2x"
-                                                style="margin-bottom: {{res_fin}}px;"></div>
-                                            {% endif %}
-                                            <div id="rectangulo"></div>
-                                        </div>
-                                    </div>
-                                    <div class="panel-block"></div>
-                                </nav>
+                                {% endif %}
+                                <div id="rectangulo"></div>
                             </div>
-                        </div>
+                        </center>
+                    </div>
+                </div>
             </div>
+        </div>
     </div>
-</div>-->
-
+</section>
 {% endblock %}
