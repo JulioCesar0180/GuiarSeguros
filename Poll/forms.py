@@ -69,6 +69,7 @@ class DotacionForm(forms.Form):
         super(DotacionForm, self).__init__(*args, **kwargs)
         for i in xrange(n):
             self.fields['cantidad%d' % i] = forms.IntegerField(min_value=0, initial=values[i])
+            self.fields['cantidad%d' % i].widget.attrs.update({'class': 'input'})
             
 
 class ProcessForm(forms.ModelForm):
