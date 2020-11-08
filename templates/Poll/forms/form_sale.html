@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block head %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
-    <link rel="stylesheet" href="{% static 'css/slideform.css' %}">
-    <link rel="stylesheet" href="{% static 'css/design_option.css' %}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+<link rel="stylesheet" href="{% static 'css/slideform.css' %}">
+<link rel="stylesheet" href="{% static 'css/design_option.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -17,18 +17,20 @@
         <div class="hero-body">
             <form id="id_sales" method="post" style="width: 100%;">
                 {% csrf_token %}
-            <div class="container">
-                {% for i in form.sales %}
+                <div class="container">
+                    {% for i in form.sales %}
                     <div class="input-radio">
                         {{ i.tag }}
                         <label for="{{ i.id_for_label }}">{{ i.choice_label }}</label>
                     </div>
-                {% endfor %}
-            </div>
-            <div>
-                <button class="button" type="button" id="previous" onclick="history.go(-1)" style="background-color: rgb(0,94,184); color: white; border: none">Anterior</button>
-                <button type="submit" class="button" style="background-color: rgb(0,94,184); color: white; border: none">Siguiente</button>
-            </div>
+                    {% endfor %}
+                </div>
+                <div>
+                    <button class="button" type="button" id="previous" onclick="history.go(-1)"
+                        style="background-color: rgb(0,94,184); color: white; border: none">Anterior</button>
+                    <button type="submit" class="button"
+                        style="background-color: rgb(0,94,184); color: white; border: none">Siguiente</button>
+                </div>
             </form>
         </div>
     </div>
