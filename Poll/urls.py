@@ -31,6 +31,8 @@ urlpatterns = [
     path('logout', views.logout_view, name="logout"),
     path('pdf', views.GeneratePDF.as_view(), name="pdf"),
 
+    path('poll-A/', views.view_activity, name="poll-actividad"),
+
     path('update-manager', views.UpdateManagerView.as_view(), name="update-manager"),
     path('update-user', views.UpdateUserView.as_view(), name="update-user")
 ]
