@@ -179,6 +179,68 @@ class SubPoliza(models.Model):
         verbose_name_plural = "Sub-Polizas"
 
 
+class PolizaDotacion(models.Model):
+    poliza = models.ForeignKey('SubPoliza', models.DO_NOTHING, null=True, blank=True)
+    dotacion = models.ForeignKey(to='Home.Dotacion', on_delete=models.DO_NOTHING, null=True, blank=True)
+
+    def __str__(self):
+        return self.poliza.name + " --- " + self.dotacion.title
+
+    class Meta:
+        verbose_name = "Intermedia Poliza-Dotacion"
+        verbose_name_plural = "Intermedia Polizas-Dotaciones"
+
+
+class PolizaPregunta(models.Model):
+    poliza = models.ForeignKey('SubPoliza', models.DO_NOTHING, null=True, blank=True)
+    pregunta = models.ForeignKey('Pregunta', models.DO_NOTHING, null=True, blank=True)
+
+    def __str__(self):
+        return self.poliza.name + " --- " + str(self.pregunta.pk)
+
+    class Meta:
+        verbose_name = "Intermedia Poliza-Pregunta"
+        verbose_name_plural = "Intermedia Polizas-Preguntas"
+
+
+class Pregunta(models.Model):
+    tipo = models.ForeignKey('Tipo', models.DO_NOTHING, null=True, blank=True)
+    texto = models.CharField(max_length=200)
+    # abreviacion = models.CharField(max_length=50)
+
+    def __str__(self):
+        return str(self.tipo.pk) + " - " + self.texto
+
+    class Meta:
+        verbose_name = "Pregunta"
+        verbose_name_plural = "Preguntas"
+
+
+class Opcion(models.Model):
+    texto = models.CharField(max_length=200)
+    riesgo = models.DecimalField(max_digits=5, decimal_places=2)
+    pregunta = models.ForeignKey('Pregunta', models.DO_NOTHING, null=True, blank=True)
+
+    def __str__(self):
+        return str(self.pregunta.tipo.pk)+": "+self.pregunta.texto+" --- "+self.texto+" ("+str(self.riesgo)+")"
+        # return str(self.pregunta.tipo.pk)+": "+self.pregunta.abreviacion+" --- "+self.texto+" ("+str(self.riesgo)+")"
+
+    class Meta:
+        verbose_name = "Opcion"
+        verbose_name_plural = "Opciones"
+
+
+class Tipo(models.Model):
+    nombre = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.nombre
+
+    class Meta:
+        verbose_name = "Tipo de Pregunta"
+        verbose_name_plural = "Tipos de Preguntas"
+
+
 class ExplosiveConfirmed(models.Model):
     option_explosive = models.CharField(max_length=10)
     value_ri_explosive = models.DecimalField(max_digits=5, decimal_places=2)

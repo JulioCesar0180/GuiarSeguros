@@ -153,9 +153,16 @@ def view_form_process(request):
         if form.is_valid():
             form.save()
             return redirect('poll-transport')
+            # return redirect('poll-actividad')
         else:
             messages.error(request, "Error")
     return render(request, 'Poll/forms/form_process.html', context)
+
+
+@login_required
+def view_activity(request):
+    user = UserGuiar.objects.get(pk=request.user.pk)
+    #formset = algo
 
 
 @login_required
@@ -469,7 +476,7 @@ def view_results(request):
     # Se generan las categorias a considerar en los resultados
     polizas = SubPoliza.objects.all()
     for pol in polizas:
-        desgloce.append([pol.name, 0, 0, pol.id])
+        desgloce.append([pol.name, 0, 0, pol.id, pol.categoria.name])
     # Este codigo no funcionara si una poliza es eliminada, en tal caso habria que buscar entre las polizas la que
     # coincida con opcion.poliza.pk obteniendo su posicion y utilizando este valor en vez de la referencia directa
     # En esta parte si "Responsabilidad Civil de Empresa" no es la primera poliza en la tabla, entonces esto dejara de
