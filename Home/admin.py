@@ -30,6 +30,7 @@ class UserGuiarAdmin(UserAdmin):
         # 'n_veh_com_heavy', 'n_veh_com_heavy_cont', 'n_mach_heavy', 'n_mach_heavy_cont')}),
         ('Procesos', {'fields': ('process',)}),
         ('Trabajos realizados', {'fields': ('transport', 'manufacture', 'building', 'general_services')}),
+        ('Actividades', {'fields': ('opciones',)}),
         ('Control de Riesgos', {'fields': ('risk_management',)}),
         ('Prevencion de Riesgos', {'fields': ('risk_prevent',)}),
         ('procedimientos', {'fields': ('explosive_confirmed', 'electricity_confirmed', 'substance_confirmed', 'height_confirmed')}),
@@ -61,5 +62,6 @@ admin.site.register(HeightConfirmed)
 admin.site.register(Dotacion)
 admin.site.register(DotacionEmpresarial)
 admin.site.register(RangosDotacion)
+admin.site.register(IntermediaUserOpcion)
 
 admin.site.site_header = "Panel de Administración de GuiarSeguros"

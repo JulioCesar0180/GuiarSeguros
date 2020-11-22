@@ -206,6 +206,7 @@ class PolizaPregunta(models.Model):
 class Pregunta(models.Model):
     tipo = models.ForeignKey('Tipo', models.DO_NOTHING, null=True, blank=True)
     texto = models.CharField(max_length=200)
+    dependencia = models.ForeignKey('Dependencia', models.DO_NOTHING, null=True, blank=True)
     # abreviacion = models.CharField(max_length=50)
 
     def __str__(self):
@@ -222,7 +223,8 @@ class Opcion(models.Model):
     pregunta = models.ForeignKey('Pregunta', models.DO_NOTHING, null=True, blank=True)
 
     def __str__(self):
-        return str(self.pregunta.tipo.pk)+": "+self.pregunta.texto+" --- "+self.texto+" ("+str(self.riesgo)+")"
+        return self.texto
+        # return str(self.pregunta.tipo.pk)+": "+self.pregunta.texto+" --- "+self.texto+" ("+str(self.riesgo)+")"
         # return str(self.pregunta.tipo.pk)+": "+self.pregunta.abreviacion+" --- "+self.texto+" ("+str(self.riesgo)+")"
 
     class Meta:
@@ -239,6 +241,19 @@ class Tipo(models.Model):
     class Meta:
         verbose_name = "Tipo de Pregunta"
         verbose_name_plural = "Tipos de Preguntas"
+
+
+class Dependencia(models.Model):
+    nombre = models.CharField(max_length=100)
+    riesgo = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    tipo = models.CharField(choices=[("1", "Procesos"), ("2", "Actividades")], max_length=20)
+
+    def __str__(self):
+        return self.nombre
+
+    class Meta:
+        verbose_name = "Dependencia"
+        verbose_name_plural = "Dependencias"
 
 
 class ExplosiveConfirmed(models.Model):

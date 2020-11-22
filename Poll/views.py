@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.forms import inlineformset_factory
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
@@ -152,8 +153,8 @@ def view_form_process(request):
         form = ProcessForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
-            return redirect('poll-transport')
-            # return redirect('poll-actividad')
+            # return redirect('poll-transport')
+            return redirect('poll-actividad')
         else:
             messages.error(request, "Error")
     return render(request, 'Poll/forms/form_process.html', context)
@@ -162,7 +163,21 @@ def view_form_process(request):
 @login_required
 def view_activity(request):
     user = UserGuiar.objects.get(pk=request.user.pk)
-    #formset = algo
+    pregunta = Pregunta.objects.filter(tipo=3)
+    pregunta2 = Pregunta.objects.filter(tipo=3).first()
+    n = pregunta.count()
+    form = PreguntaForm(n=n, p=pregunta)
+    if request.method == "POST":
+        form = PreguntaForm(request.POST, n=n, p=pregunta)
+        # form = ActivityForm(request.POST, n=i-1, p=pre)
+
+        print(form.errors)
+        return redirect('poll-control-risk')
+        # else:
+        #   messages.error(request, "Error")
+    #context = {'user': user, 'preg': preg, 'form': form}
+    context = {'user': user, 'form': form}
+    return render(request, 'Poll/forms/form_activity.html', context)
 
 
 @login_required

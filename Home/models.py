@@ -5,7 +5,7 @@ from django.db import models
 # Create your models here.
 from Poll.models import Sales, ProcessBusiness, TransportProcess, ManufactureProcess, GeneralServicesProcess,\
     BuildingProcess, RiskManagement, RiskPreventionPersonal, HeightConfirmed, ExplosiveConfirmed, ElectricityConfirmed,\
-    SubstanceConfirmed, ElectricityControl, ExplosiveControl, HeightControl, SubstanceControl, SubPoliza
+    SubstanceConfirmed, ElectricityControl, ExplosiveControl, HeightControl, SubstanceControl, SubPoliza, Opcion
 
 
 class Town(models.Model):
@@ -74,6 +74,9 @@ class UserGuiar(AbstractBaseUser, PermissionsMixin):
 
     # Construccion
     building = models.ManyToManyField(BuildingProcess, blank=True)
+
+    # Actividad
+    opciones = models.ManyToManyField(Opcion, blank=True)
 
     # Servicios Generales
     general_services = models.ManyToManyField(GeneralServicesProcess, blank=True)
@@ -176,3 +179,15 @@ class RangosDotacion(models.Model):
     class Meta:
         verbose_name = "Rango Dotacion"
         verbose_name_plural = "Rangos Dotaciones"
+
+
+class IntermediaUserOpcion(models.Model):
+    user = models.ForeignKey('UserGuiar', models.DO_NOTHING)
+    opcion = models.ForeignKey(to='Poll.Opcion', on_delete=models.DO_NOTHING)
+
+    def __str__(self):
+        return self.user.rut + " --- " + self.opcion.pregunta.texto + ": " + self.opcion.texto
+
+    class Meta:
+        verbose_name = "Intermedia User Opcion"
+        verbose_name_plural = "Intermedia Users Opciones"
