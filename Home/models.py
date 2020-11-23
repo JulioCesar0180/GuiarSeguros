@@ -184,9 +184,11 @@ class RangosDotacion(models.Model):
 class IntermediaUserOpcion(models.Model):
     user = models.ForeignKey('UserGuiar', models.DO_NOTHING)
     opcion = models.ForeignKey(to='Poll.Opcion', on_delete=models.DO_NOTHING)
+    selected = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.user.rut + " --- " + self.opcion.pregunta.texto + ": " + self.opcion.texto
+        return self.user.rut + " --- (" + str(self.selected) + ") --- " + str(self.opcion.pregunta.tipo.pk) + ".- " +\
+               self.opcion.pregunta.texto + ": " + self.opcion.texto
 
     class Meta:
         verbose_name = "Intermedia User Opcion"

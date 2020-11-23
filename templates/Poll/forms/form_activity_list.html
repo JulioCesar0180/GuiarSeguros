@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/slideform.css' %}">
+    <link rel="stylesheet" href="{% static 'css/design_option.css' %}">
+{% endblock %}
+
+{% block content %}
+<section id="formulario" class="hero is-fullheight" style="background-color: rgb(0,48,87)">
+    <div class="container is-desktop" style="padding: 0;">
+        <div id="titulo" style="padding: 0 1.5rem">
+            <h1 class="title is-1" style="margin-top: 100px; color: white">5.- Indique el o los rubros en que participa la empresa</h1>
+            <p style="color: white">Asegurese que la información este actualizada</p>
+        </div>
+        <div class="hero-body">
+            <form id="id_process" method="post" style="width: 100%;">
+                {% csrf_token %}
+                <div class="container">
+                    {% for i in form.nombre %}
+                        <div class="input-radio">
+                            {{ i.tag }}
+                            <label for="{{ i.id_for_label }}" class="unselectable">{{ i.choice_label }}</label>
+                        </div>
+                    {% endfor %}
+                </div>
+            <div>
+                <button class="button" type="button" id="previous" onclick="history.go(-1)" style="background-color: rgb(0,94,184); color: white; border: none">Anterior</button>
+                <button type="submit" class="button" style="background-color: rgb(0,94,184); color: white; border: none">Siguiente</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

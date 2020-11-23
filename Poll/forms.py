@@ -2,7 +2,7 @@ from django import forms
 from reportlab import xrange
 
 from Home.models import UserGuiar, City, Town, BusinessManager, Dotacion, DotacionEmpresarial
-from Poll.models import Sales, Opcion, Pregunta
+from Poll.models import Sales, Opcion, Pregunta, Dependencia
 
 
 class LoginForm(forms.Form):
@@ -80,6 +80,15 @@ class ProcessForm(forms.ModelForm):
         widgets = {
             'process': forms.CheckboxSelectMultiple
         }
+
+
+class ProcessActivityForm(forms.Form):
+
+    def __init__(self, *args, **kwargs):
+        t = kwargs.pop('t', int)
+        super(ProcessActivityForm, self).__init__(*args, **kwargs)
+        self.fields['nombre'] = forms.ModelMultipleChoiceField(queryset=Dependencia.objects.filter(tipo=t),
+                                                               widget=forms.CheckboxSelectMultiple)
 
 
 class ActivityForm(forms.Form):

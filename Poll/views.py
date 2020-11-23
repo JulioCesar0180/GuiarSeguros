@@ -10,7 +10,8 @@ from django.views.generic import *
 
 from Poll.forms import *
 from Poll.models import *
-from Home.models import UserGuiar, BusinessManager, ProcessBusiness, Dotacion, DotacionEmpresarial, RangosDotacion
+from Home.models import UserGuiar, BusinessManager, ProcessBusiness, Dotacion, DotacionEmpresarial, RangosDotacion,\
+    IntermediaUserOpcion
 #PDF
 from django.views.generic import View
 from .utils import render_to_pdf
@@ -137,7 +138,7 @@ def view_form_quantity(request):
                 campo[0].save()
                 k = k + 1
         print(formset.errors)
-        return redirect('poll-process')
+        return redirect('poll-process-list')
         #else:
          #   messages.error(request, "Error")
     context = {'user': user, 'campos': campos, 'formset': formset}
@@ -145,39 +146,94 @@ def view_form_quantity(request):
 
 
 @login_required
-def view_form_process(request):
+def view_form_process_list(request):
     user = UserGuiar.objects.get(pk=request.user.pk)
-    form = ProcessForm(instance=user)
+    form = ProcessActivityForm(t="1")
     context = {'user': user, 'form': form}
     if request.method == "POST":
-        form = ProcessForm(request.POST, instance=user)
+        form = ProcessActivityForm(request.POST, t="1")
         if form.is_valid():
-            form.save()
+            dependencias = IntermediaDependenciaUser.objects.filter(user=user)
+            if not dependencias:
+                for d in Dependencia.objects.all():
+                    IntermediaDependenciaUser.objects.get_or_create(user=user, dependencia=d)
+                dependencias = IntermediaDependenciaUser.objects.filter(user=user)
+            textos = []
+            textos.clear()
+            for campo in form.cleaned_data['nombre']:
+                cambio = IntermediaDependenciaUser.objects.get(user=user, dependencia=campo.pk)
+                cambio.selected = True
+                cambio.save()
+                textos.append(campo.nombre)
+            for dep in dependencias:
+                if dep.dependencia.tipo == "1":
+                    if dep.dependencia.nombre not in textos:
+                        dep.selected = False
+                        dep.save()
+            textos.clear()
             # return redirect('poll-transport')
-            return redirect('poll-actividad')
+            return redirect('poll-process')
         else:
             messages.error(request, "Error")
-    return render(request, 'Poll/forms/form_process.html', context)
+    return render(request, 'Poll/forms/form_process_list.html', context)
 
 
 @login_required
-def view_activity(request):
+def view_process(request):
     user = UserGuiar.objects.get(pk=request.user.pk)
-    pregunta = Pregunta.objects.filter(tipo=3)
-    pregunta2 = Pregunta.objects.filter(tipo=3).first()
-    n = pregunta.count()
-    form = PreguntaForm(n=n, p=pregunta)
+    grupo_preguntas = Pregunta.objects.filter(tipo=3)
+    grupo_dependencias = IntermediaDependenciaUser.objects.filter(user=user)
+    dependencias = []
+    dependencias.clear()
+    for dep in grupo_dependencias:
+        if dep.dependencia.tipo == "1":
+            if dep.selected:
+                dependencias.append(dep.dependencia.nombre)
+    preguntas = []
+    preguntas.clear()
+    for preg in grupo_preguntas:
+        if preg.dependencia.nombre in dependencias:
+            preguntas.append(preg)
+    n = len(preguntas)
+    form = PreguntaForm(n=n, p=preguntas)
+    error = False
+    context = {'user': user, 'form': form, 'errors': error, 'error_list': []}
     if request.method == "POST":
-        form = PreguntaForm(request.POST, n=n, p=pregunta)
-        # form = ActivityForm(request.POST, n=i-1, p=pre)
-
-        print(form.errors)
-        return redirect('poll-control-risk')
-        # else:
-        #   messages.error(request, "Error")
+        form = PreguntaForm(request.POST, n=n, p=preguntas)
+        if form.is_valid():
+            # form = ActivityForm(request.POST, n=i-1, p=pre)
+            grupo_opciones = IntermediaUserOpcion.objects.filter(user=user)
+            if not grupo_opciones:
+                opciones = Opcion.objects.all()
+                for op in opciones:
+                    IntermediaUserOpcion.objects.get_or_create(user=user, opcion=op)
+                grupo_opciones = IntermediaUserOpcion.objects.filter(user=user)
+            else:
+                for opcion in grupo_opciones:
+                    if opcion.selected:
+                        opcion.selected = False
+                        opcion.save()
+            for i in range(n):
+                campo = 'opciones' + str(i)
+                for o in form.cleaned_data[campo]:
+                    if o not in grupo_opciones:
+                        opcion = IntermediaUserOpcion.objects.get(user=user, opcion=o)
+                        opcion.selected = True
+                        opcion.save()
+                        print(o)
+                print("")
+            print(form.errors)
+            # return redirect('poll-control-risk')
+            return redirect('poll-control')
+        else:
+            print("Hi")
+            error = True
+            context = {'user': user, 'form': form, 'errors': error, 'error_list': messages.error(request, "Error")}
+            return render(request, 'Poll/forms/form_process.html', context)
+            #   messages.error(request, "Error")
+            # TODO: Generar correctamente mensajes de error en caso que se requiera
     #context = {'user': user, 'preg': preg, 'form': form}
-    context = {'user': user, 'form': form}
-    return render(request, 'Poll/forms/form_activity.html', context)
+    return render(request, 'Poll/forms/form_process.html', context)
 
 
 @login_required
@@ -261,6 +317,48 @@ def view_services_process(request):
 
 
 @login_required
+def view_control(request):
+    user = UserGuiar.objects.get(pk=request.user.pk)
+    preguntas = Pregunta.objects.filter(tipo=1)
+    n = len(preguntas)
+    form = PreguntaForm(n=n, p=preguntas)
+    context = {'user': user, 'form': form}
+    if request.method == "POST":
+        form = PreguntaForm(request.POST, n=n, p=preguntas)
+        if form.is_valid():
+            # form = ActivityForm(request.POST, n=i-1, p=pre)
+            grupo_opciones = IntermediaUserOpcion.objects.filter(user=user)
+            if not grupo_opciones:
+                opciones = Opcion.objects.all()
+                for op in opciones:
+                    IntermediaUserOpcion.objects.get_or_create(user=user, opcion=op)
+                grupo_opciones = IntermediaUserOpcion.objects.filter(user=user)
+            else:
+                for opcion in grupo_opciones:
+                    if opcion.selected:
+                        opcion.selected = False
+                        opcion.save()
+            for i in range(n):
+                campo = 'opciones' + str(i)
+                for o in form.cleaned_data[campo]:
+                    if o not in grupo_opciones:
+                        opcion = IntermediaUserOpcion.objects.get(user=user, opcion=o)
+                        opcion.selected = True
+                        opcion.save()
+                        print(o)
+                print("")
+            print(form.errors)
+            return redirect('poll-activity-list')
+        else:
+            print("Hi")
+            return render(request, 'Poll/forms/form_control.html', context)
+            #   messages.error(request, "Error")
+            # TODO: Generar correctamente mensajes de error en caso que se requiera
+    #context = {'user': user, 'preg': preg, 'form': form}
+    return render(request, 'Poll/forms/form_control.html', context)
+
+
+@login_required
 def view_control_risk(request):
     user = UserGuiar.objects.get(pk=request.user.pk)
     form = ControlRiskForm(instance=user)
@@ -284,10 +382,108 @@ def view_prevent_risk(request):
         form = PreventRiskForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
-            return redirect('poll-confirmed-explosive')
+            # return redirect('poll-confirmed-explosive')
+            return redirect('poll-activity-list')
         else:
             messages.error(request, "Error")
     return render(request, 'Poll/forms/form_prevnet_risk.html', context)
+
+
+@login_required
+def view_form_activity_list(request):
+    user = UserGuiar.objects.get(pk=request.user.pk)
+    form = ProcessActivityForm(t="2")
+    context = {'user': user, 'form': form}
+    if request.method == "POST":
+        form = ProcessActivityForm(request.POST, t="2")
+        if form.is_valid():
+            dependencias = IntermediaDependenciaUser.objects.filter(user=user)
+            if not dependencias:
+                for d in Dependencia.objects.all():
+                    IntermediaDependenciaUser.objects.get_or_create(user=user, dependencia=d)
+                dependencias = IntermediaDependenciaUser.objects.filter(user=user)
+            textos = []
+            textos.clear()
+            for campo in form.cleaned_data['nombre']:
+                cambio = IntermediaDependenciaUser.objects.get(user=user, dependencia=campo.pk)
+                cambio.selected = True
+                cambio.save()
+                textos.append(campo.nombre)
+            for dep in dependencias:
+                if dep.dependencia.tipo == "2":
+                    if dep.dependencia.nombre not in textos:
+                        dep.selected = False
+                        dep.save()
+            textos.clear()
+            # return redirect('poll-transport')
+            return redirect('poll-activity')
+        else:
+            messages.error(request, "Error")
+    return render(request, 'Poll/forms/form_activity_list.html', context)
+
+
+@login_required
+def view_activity(request):
+    user = UserGuiar.objects.get(pk=request.user.pk)
+    grupo_preguntas = Pregunta.objects.filter(tipo=2)
+    grupo_dependencias = IntermediaDependenciaUser.objects.filter(user=user)
+    dependencias = []
+    dependencias.clear()
+    for dep in grupo_dependencias:
+        if dep.dependencia.tipo == "2":
+            if dep.selected:
+                dependencias.append(dep.dependencia.nombre)
+    preguntas = []
+    preguntas.clear()
+    for preg in grupo_preguntas:
+        if preg.dependencia.nombre in dependencias:
+            preguntas.append(preg)
+    n = len(preguntas)
+    form = PreguntaForm(n=n, p=preguntas)
+    context = {'user': user, 'form': form}
+    if request.method == "POST":
+        form = PreguntaForm(request.POST, n=n, p=preguntas)
+        if form.is_valid():
+            # form = ActivityForm(request.POST, n=i-1, p=pre)
+            grupo_opciones = IntermediaUserOpcion.objects.filter(user=user)
+            if not grupo_opciones:
+                opciones = Opcion.objects.all()
+                for op in opciones:
+                    IntermediaUserOpcion.objects.get_or_create(user=user, opcion=op)
+                grupo_opciones = IntermediaUserOpcion.objects.filter(user=user)
+            else:
+                for opcion in grupo_opciones:
+                    if opcion.selected:
+                        opcion.selected = False
+                        opcion.save()
+            # print(grupo_opciones)
+            print("")
+            for i in range(n):
+                campo = 'opciones' + str(i)
+                print(form.cleaned_data[campo])
+                for o in form.cleaned_data[campo]:
+                    print(o)
+                print("")
+            for i in range(n):
+                campo = 'opciones' + str(i)
+                for o in form.cleaned_data[campo]:
+                    if o not in grupo_opciones:
+                        print(o)
+                        opcion = IntermediaUserOpcion.objects.get(user=user, opcion=o)
+                        opcion.selected = True
+                        opcion.save()
+                        print("")
+                print("")
+            print(form.errors)
+            # return redirect('poll-control-risk')
+            return redirect('poll-results')
+        else:
+            print("Hi")
+            return render(request, 'Poll/forms/form_activity.html', context)
+            #   messages.error(request, "Error")
+            # TODO: Generar correctamente mensajes de error en caso que se requiera
+    #context = {'user': user, 'preg': preg, 'form': form}
+    return render(request, 'Poll/forms/form_activity.html', context)
 
 
 @login_required

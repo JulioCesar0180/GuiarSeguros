@@ -12,6 +12,7 @@ admin.site.register(Tipo)
 admin.site.register(PolizaPregunta)
 admin.site.register(PolizaDotacion)
 admin.site.register(Dependencia)
+admin.site.register(IntermediaDependenciaUser)
 
 # admin.site.register(RiskManagement)
 # admin.site.register(RiskPreventionPersonal)

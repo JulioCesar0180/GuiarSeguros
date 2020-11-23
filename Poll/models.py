@@ -256,6 +256,19 @@ class Dependencia(models.Model):
         verbose_name_plural = "Dependencias"
 
 
+class IntermediaDependenciaUser(models.Model):
+    user = models.ForeignKey(to='Home.UserGuiar', on_delete=models.DO_NOTHING)
+    dependencia = models.ForeignKey('Dependencia', models.DO_NOTHING)
+    selected = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.user.rut + " --- " + self.dependencia.nombre + " (" + str(self.selected) + ")"
+
+    class Meta:
+        verbose_name = "Intermedia User Dependencia"
+        verbose_name_plural = "Intermedia Users Dependencias"
+
+
 class ExplosiveConfirmed(models.Model):
     option_explosive = models.CharField(max_length=10)
     value_ri_explosive = models.DecimalField(max_digits=5, decimal_places=2)
