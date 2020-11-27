@@ -13,11 +13,6 @@
         <div class="hero-body">
             <form id="id_process" method="post" style="width: 100%;">
                 {% csrf_token %}
-
-                    {% if errors %}
-                        <a>error_list</a>
-                    {% endif %}
-
                     {% for f in form %}
                         {% if not f.field.required %}
                             <div id="titulo" style="padding: 0 1.5rem">

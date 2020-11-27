@@ -92,32 +92,13 @@ class ProcessActivityForm(forms.Form):
 
 
 class ActivityForm(forms.Form):
-    '''    class Meta:
-            model = Opcion
-            fields = ['opcion']
 
-            widgets = {
-                'opcion': forms.CheckboxSelectMultiple
-            }
-    '''
     def __init__(self, *args, **kwargs):
         n = kwargs.pop('n', int)
         p = kwargs.pop('p', object)
         super(ActivityForm, self).__init__(*args, **kwargs)
         for i in xrange(n):
             self.fields['opcion%d' % i] = forms.ModelMultipleChoiceField(queryset=Opcion.objects.filter(pregunta=p[i]))
-            # self.fields['titulo%d' % i] = forms.CharField()
-
-
-'''class PreguntaForm(forms.ModelForm):
-    class Meta:
-        model = Pregunta
-        fields = ['opcion']
-        readonly = ['titulo']
-
-        widgets = {
-            'opcion': forms.CheckboxSelectMultiple
-        }'''
 
 
 class PreguntaForm(forms.Form):
@@ -125,14 +106,6 @@ class PreguntaForm(forms.Form):
         n = kwargs.pop('n', int)
         p = kwargs.pop('p', list)
         super(PreguntaForm, self).__init__(*args, **kwargs)
-        '''self.fields['enunciado'] = forms.CharField(
-            initial=p.texto, required=False,
-            widget=forms.HiddenInput(attrs={'readonly': 'readonly'})
-        )
-        self.fields['opciones'] = forms.ModelMultipleChoiceField(
-            queryset=Opcion.objects.filter(pregunta=p), required=True,
-            widget=forms.CheckboxSelectMultiple,
-        )'''
         for i in range(n):
             self.fields['titulo%d' % i] = forms.CharField(
                 initial=p[i].texto, required=False,
@@ -142,7 +115,6 @@ class PreguntaForm(forms.Form):
                 queryset=Opcion.objects.filter(pregunta=p[i]), required=True,
                 widget=forms.CheckboxSelectMultiple,
             )
-        # self.order_fields(sorted(self.fields.keys()))
 
 
 class TransportProcessForm(forms.ModelForm):

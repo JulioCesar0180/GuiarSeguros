@@ -154,23 +154,19 @@ def view_form_process_list(request):
         form = ProcessActivityForm(request.POST, t="1")
         if form.is_valid():
             dependencias = IntermediaDependenciaUser.objects.filter(user=user)
-            if not dependencias:
-                for d in Dependencia.objects.all():
+            grupo_dependencias = Dependencia.objects.all()
+            if dependencias.count() != grupo_dependencias.count():
+                for d in grupo_dependencias:
                     IntermediaDependenciaUser.objects.get_or_create(user=user, dependencia=d)
-                dependencias = IntermediaDependenciaUser.objects.filter(user=user)
-            textos = []
-            textos.clear()
+            else:
+                for dep in dependencias:
+                    if dep.dependencia.tipo == "1":
+                        dep.selected = False
+                        dep.save()
             for campo in form.cleaned_data['nombre']:
                 cambio = IntermediaDependenciaUser.objects.get(user=user, dependencia=campo.pk)
                 cambio.selected = True
                 cambio.save()
-                textos.append(campo.nombre)
-            for dep in dependencias:
-                if dep.dependencia.tipo == "1":
-                    if dep.dependencia.nombre not in textos:
-                        dep.selected = False
-                        dep.save()
-            textos.clear()
             # return redirect('poll-transport')
             return redirect('poll-process')
         else:
@@ -196,39 +192,35 @@ def view_process(request):
             preguntas.append(preg)
     n = len(preguntas)
     form = PreguntaForm(n=n, p=preguntas)
-    error = False
-    context = {'user': user, 'form': form, 'errors': error, 'error_list': []}
+    context = {'user': user, 'form': form}
     if request.method == "POST":
         form = PreguntaForm(request.POST, n=n, p=preguntas)
+        dependencias.clear()
+        preguntas.clear()
         if form.is_valid():
             # form = ActivityForm(request.POST, n=i-1, p=pre)
             grupo_opciones = IntermediaUserOpcion.objects.filter(user=user)
-            if not grupo_opciones:
-                opciones = Opcion.objects.all()
+            opciones = Opcion.objects.all()
+            if grupo_opciones.count() != opciones.count():
                 for op in opciones:
                     IntermediaUserOpcion.objects.get_or_create(user=user, opcion=op)
-                grupo_opciones = IntermediaUserOpcion.objects.filter(user=user)
             else:
                 for opcion in grupo_opciones:
-                    if opcion.selected:
+                    if opcion.opcion.pregunta.tipo.pk == 3:
                         opcion.selected = False
                         opcion.save()
             for i in range(n):
                 campo = 'opciones' + str(i)
                 for o in form.cleaned_data[campo]:
-                    if o not in grupo_opciones:
-                        opcion = IntermediaUserOpcion.objects.get(user=user, opcion=o)
-                        opcion.selected = True
-                        opcion.save()
-                        print(o)
-                print("")
-            print(form.errors)
+                    opcion = IntermediaUserOpcion.objects.get(user=user, opcion=o)
+                    opcion.selected = True
+                    opcion.save()
             # return redirect('poll-control-risk')
             return redirect('poll-control')
         else:
-            print("Hi")
-            error = True
-            context = {'user': user, 'form': form, 'errors': error, 'error_list': messages.error(request, "Error")}
+            # print("Hi")
+            print(form.errors)
+            context = {'user': user, 'form': form}
             return render(request, 'Poll/forms/form_process.html', context)
             #   messages.error(request, "Error")
             # TODO: Generar correctamente mensajes de error en caso que se requiera
@@ -328,29 +320,25 @@ def view_control(request):
         if form.is_valid():
             # form = ActivityForm(request.POST, n=i-1, p=pre)
             grupo_opciones = IntermediaUserOpcion.objects.filter(user=user)
-            if not grupo_opciones:
-                opciones = Opcion.objects.all()
+            opciones = Opcion.objects.all()
+            if grupo_opciones.count() != opciones.count():
                 for op in opciones:
                     IntermediaUserOpcion.objects.get_or_create(user=user, opcion=op)
-                grupo_opciones = IntermediaUserOpcion.objects.filter(user=user)
             else:
                 for opcion in grupo_opciones:
-                    if opcion.selected:
+                    if opcion.opcion.pregunta.tipo.pk == 1:
                         opcion.selected = False
                         opcion.save()
             for i in range(n):
                 campo = 'opciones' + str(i)
                 for o in form.cleaned_data[campo]:
-                    if o not in grupo_opciones:
-                        opcion = IntermediaUserOpcion.objects.get(user=user, opcion=o)
-                        opcion.selected = True
-                        opcion.save()
-                        print(o)
-                print("")
-            print(form.errors)
+                    opcion = IntermediaUserOpcion.objects.get(user=user, opcion=o)
+                    opcion.selected = True
+                    opcion.save()
             return redirect('poll-activity-list')
         else:
             print("Hi")
+            print(form.errors)
             return render(request, 'Poll/forms/form_control.html', context)
             #   messages.error(request, "Error")
             # TODO: Generar correctamente mensajes de error en caso que se requiera
@@ -398,23 +386,19 @@ def view_form_activity_list(request):
         form = ProcessActivityForm(request.POST, t="2")
         if form.is_valid():
             dependencias = IntermediaDependenciaUser.objects.filter(user=user)
-            if not dependencias:
-                for d in Dependencia.objects.all():
+            grupo_dependencias = Dependencia.objects.all()
+            if dependencias.count() != grupo_dependencias.count():
+                for d in grupo_dependencias:
                     IntermediaDependenciaUser.objects.get_or_create(user=user, dependencia=d)
-                dependencias = IntermediaDependenciaUser.objects.filter(user=user)
-            textos = []
-            textos.clear()
+            else:
+                for dep in dependencias:
+                    if dep.dependencia.tipo == "2":
+                        dep.selected = False
+                        dep.save()
             for campo in form.cleaned_data['nombre']:
                 cambio = IntermediaDependenciaUser.objects.get(user=user, dependencia=campo.pk)
                 cambio.selected = True
                 cambio.save()
-                textos.append(campo.nombre)
-            for dep in dependencias:
-                if dep.dependencia.tipo == "2":
-                    if dep.dependencia.nombre not in textos:
-                        dep.selected = False
-                        dep.save()
-            textos.clear()
             # return redirect('poll-transport')
             return redirect('poll-activity')
         else:
@@ -446,39 +430,26 @@ def view_activity(request):
         if form.is_valid():
             # form = ActivityForm(request.POST, n=i-1, p=pre)
             grupo_opciones = IntermediaUserOpcion.objects.filter(user=user)
-            if not grupo_opciones:
-                opciones = Opcion.objects.all()
+            opciones = Opcion.objects.all()
+            if grupo_opciones.count() != opciones.count():
                 for op in opciones:
                     IntermediaUserOpcion.objects.get_or_create(user=user, opcion=op)
-                grupo_opciones = IntermediaUserOpcion.objects.filter(user=user)
             else:
                 for opcion in grupo_opciones:
-                    if opcion.selected:
+                    if opcion.opcion.pregunta.tipo.pk == 2:
                         opcion.selected = False
                         opcion.save()
-            # print(grupo_opciones)
-            print("")
-            for i in range(n):
-                campo = 'opciones' + str(i)
-                print(form.cleaned_data[campo])
-                for o in form.cleaned_data[campo]:
-                    print(o)
-                print("")
             for i in range(n):
                 campo = 'opciones' + str(i)
                 for o in form.cleaned_data[campo]:
-                    if o not in grupo_opciones:
-                        print(o)
-                        opcion = IntermediaUserOpcion.objects.get(user=user, opcion=o)
-                        opcion.selected = True
-                        opcion.save()
-                        print("")
-                print("")
-            print(form.errors)
+                    opcion = IntermediaUserOpcion.objects.get(user=user, opcion=o)
+                    opcion.selected = True
+                    opcion.save()
             # return redirect('poll-control-risk')
             return redirect('poll-results')
         else:
             print("Hi")
+            print(form.errors)
             return render(request, 'Poll/forms/form_activity.html', context)
             #   messages.error(request, "Error")
             # TODO: Generar correctamente mensajes de error en caso que se requiera
@@ -673,6 +644,13 @@ class UpdateUserView(UpdateView):
         return obj
 
 
+def buscar_indice(n, lista):
+    for i in range(len(lista)):
+        if n == lista[i][3]:
+            return i
+    return -1
+
+
 @login_required
 def view_results(request):
     pk = request.user.pk
@@ -687,14 +665,10 @@ def view_results(request):
     # Se generan las categorias a considerar en los resultados
     polizas = SubPoliza.objects.all()
     for pol in polizas:
-        desgloce.append([pol.name, 0, 0, pol.id, pol.categoria.name])
-    # Este codigo no funcionara si una poliza es eliminada, en tal caso habria que buscar entre las polizas la que
-    # coincida con opcion.poliza.pk obteniendo su posicion y utilizando este valor en vez de la referencia directa
-    # En esta parte si "Responsabilidad Civil de Empresa" no es la primera poliza en la tabla, entonces esto dejara de
-    # funcionar, en tal caso habria que buscar el indice en el que se encuentra esta poliza o su equivalente
+        desgloce.append([pol.name, 0, 0, pol.pk, pol.categoria.name])
 
     # Se obtienen los maximos de cada poliza revisando cada opcion de cada pregunta
-    for opcion in TransportProcess.objects.all():
+    '''for opcion in TransportProcess.objects.all():
         pos = opcion.poliza.pk - 1
         if pos != 0:
             desgloce[pos][1] += opcion.ri_transport
@@ -765,7 +739,8 @@ def view_results(request):
         if opcion.value_ri_height > max:
             max = opcion.value_ri_height
     desgloce[0][1] += max
-    maximo += max
+    maximo += max'''
+
     # Se obtiene el usuario del cual se lee la informacion
     user = UserGuiar.objects.get(pk=pk)
 
@@ -798,7 +773,27 @@ def view_results(request):
                     desgloce[0][2] += rango.ri_value * cantidad
                     total += rango.ri_value * cantidad
 
-    # Se lleva la cuenta de los resultados de Transporte
+    # Se obtiene el listado de todas las dependencias marcadas
+    procesos = IntermediaDependenciaUser.objects.filter(user=user)
+    '''for p in procesos:
+        index = buscar_indice("indice poliza", desgloce)'''
+    # TODO: habilitar esta funcionalidad
+    preguntas = PolizaPregunta.objects.all()
+    opciones = IntermediaUserOpcion.objects.filter(user=user)
+    amortiguacion = 0
+    for o in opciones:
+        if o.opcion.pregunta.tipo != 1:
+            for preg in preguntas:
+                if preg.pregunta == o.opcion.pregunta:
+                    index = buscar_indice(preg.poliza.pk, desgloce)
+                    if o.selected:
+                        desgloce[index][2] += o.opcion.riesgo
+                    desgloce[index][1] += o.opcion.riesgo
+        else:
+            amortiguacion += o.opcion.riesgo
+
+
+    '''# Se lleva la cuenta de los resultados de Transporte
     for proceso in user.transport.all():
         total += proceso.ri_transport
         for des in desgloce:
@@ -832,8 +827,9 @@ def view_results(request):
             if proceso.poliza.id == des[3]:
                 des[2] += proceso.ri_service
                 if not proceso.poliza.id == 1:
-                    desgloce[0][2] += proceso.ri_service
+                    desgloce[0][2] += proceso.ri_service'''
 
+    '''
     # Se lleva la cuenta de los resultados de Manejo de Riesgo
     manejo_riesgo = 0
     if user.risk_management:
@@ -901,6 +897,7 @@ def view_results(request):
                         des[2] += proceso.ri_height
                         if not proceso.poliza.id == 1:
                             desgloce[0][2] += proceso.ri_height
+    '''
 
     is_empty = 0
     for d in desgloce:
