@@ -137,10 +137,10 @@ def view_form_quantity(request):
                 campo[0].cantidad = cantidad[k]
                 campo[0].save()
                 k = k + 1
-        print(formset.errors)
-        return redirect('poll-process-list')
-        #else:
-         #   messages.error(request, "Error")
+            return redirect('poll-process-list')
+        else:
+            print(formset.errors)
+            #   messages.error(request, "Error")
     context = {'user': user, 'campos': campos, 'formset': formset}
     return render(request, 'Poll/forms/form_dotacion.html', context)
 
@@ -198,7 +198,6 @@ def view_process(request):
         dependencias.clear()
         preguntas.clear()
         if form.is_valid():
-            # form = ActivityForm(request.POST, n=i-1, p=pre)
             grupo_opciones = IntermediaUserOpcion.objects.filter(user=user)
             opciones = Opcion.objects.all()
             if grupo_opciones.count() != opciones.count():
@@ -224,7 +223,6 @@ def view_process(request):
             return render(request, 'Poll/forms/form_process.html', context)
             #   messages.error(request, "Error")
             # TODO: Generar correctamente mensajes de error en caso que se requiera
-    #context = {'user': user, 'preg': preg, 'form': form}
     return render(request, 'Poll/forms/form_process.html', context)
 
 
@@ -318,7 +316,6 @@ def view_control(request):
     if request.method == "POST":
         form = PreguntaForm(request.POST, n=n, p=preguntas)
         if form.is_valid():
-            # form = ActivityForm(request.POST, n=i-1, p=pre)
             grupo_opciones = IntermediaUserOpcion.objects.filter(user=user)
             opciones = Opcion.objects.all()
             if grupo_opciones.count() != opciones.count():
@@ -342,7 +339,6 @@ def view_control(request):
             return render(request, 'Poll/forms/form_control.html', context)
             #   messages.error(request, "Error")
             # TODO: Generar correctamente mensajes de error en caso que se requiera
-    #context = {'user': user, 'preg': preg, 'form': form}
     return render(request, 'Poll/forms/form_control.html', context)
 
 
@@ -428,7 +424,6 @@ def view_activity(request):
     if request.method == "POST":
         form = PreguntaForm(request.POST, n=n, p=preguntas)
         if form.is_valid():
-            # form = ActivityForm(request.POST, n=i-1, p=pre)
             grupo_opciones = IntermediaUserOpcion.objects.filter(user=user)
             opciones = Opcion.objects.all()
             if grupo_opciones.count() != opciones.count():
@@ -453,7 +448,6 @@ def view_activity(request):
             return render(request, 'Poll/forms/form_activity.html', context)
             #   messages.error(request, "Error")
             # TODO: Generar correctamente mensajes de error en caso que se requiera
-    #context = {'user': user, 'preg': preg, 'form': form}
     return render(request, 'Poll/forms/form_activity.html', context)
 
 
@@ -667,80 +661,6 @@ def view_results(request):
     for pol in polizas:
         desgloce.append([pol.name, 0, 0, pol.pk, pol.categoria.name])
 
-    # Se obtienen los maximos de cada poliza revisando cada opcion de cada pregunta
-    '''for opcion in TransportProcess.objects.all():
-        pos = opcion.poliza.pk - 1
-        if pos != 0:
-            desgloce[pos][1] += opcion.ri_transport
-        desgloce[0][1] += opcion.ri_transport
-        maximo += opcion.ri_transport
-    for opcion in ManufactureProcess.objects.all():
-        pos = opcion.poliza.pk - 1
-        if pos != 0:
-            desgloce[pos][1] += opcion.ri_manufacture
-        desgloce[0][1] += opcion.ri_manufacture
-        maximo += opcion.ri_manufacture
-    for opcion in BuildingProcess.objects.all():
-        pos = opcion.poliza.pk - 1
-        if pos != 0:
-            desgloce[pos][1] += opcion.ri_building
-        desgloce[0][1] += opcion.ri_building
-        maximo += opcion.ri_building
-    for opcion in GeneralServicesProcess.objects.all():
-        pos = opcion.poliza.pk - 1
-        if pos != 0:
-            desgloce[pos][1] += opcion.ri_service
-        desgloce[0][1] += opcion.ri_service
-        maximo += opcion.ri_service
-    for opcion in ExplosiveControl.objects.all():
-        pos = opcion.poliza.pk - 1
-        if pos != 0:
-            desgloce[pos][1] += opcion.ri_explosive
-        desgloce[0][1] += opcion.ri_explosive
-        maximo += opcion.ri_explosive
-    for opcion in SubstanceControl.objects.all():
-        pos = opcion.poliza.pk - 1
-        if pos != 0:
-            desgloce[pos][1] += opcion.ri_substance
-        desgloce[0][1] += opcion.ri_substance
-        maximo += opcion.ri_substance
-    for opcion in ElectricityControl.objects.all():
-        pos = opcion.poliza.pk - 1
-        if pos != 0:
-            desgloce[pos][1] += opcion.ri_electricity
-        desgloce[0][1] += opcion.ri_electricity
-        maximo += opcion.ri_electricity
-    for opcion in HeightControl.objects.all():
-        pos = opcion.poliza.pk - 1
-        if pos != 0:
-            desgloce[pos][1] += opcion.ri_height
-        desgloce[0][1] += opcion.ri_height
-        maximo += opcion.ri_height
-    max = 0
-    for opcion in ExplosiveConfirmed.objects.all():
-        if opcion.value_ri_explosive > max:
-            max = opcion.value_ri_explosive
-    desgloce[0][1] += max
-    maximo += max
-    max = 0
-    for opcion in SubstanceConfirmed.objects.all():
-        if opcion.value_ri_substance > max:
-            max = opcion.value_ri_substance
-    desgloce[0][1] += max
-    maximo += max
-    max = 0
-    for opcion in ElectricityConfirmed.objects.all():
-        if opcion.value_ri_electricity > max:
-            max = opcion.value_ri_electricity
-    desgloce[0][1] += max
-    maximo += max
-    max = 0
-    for opcion in HeightConfirmed.objects.all():
-        if opcion.value_ri_height > max:
-            max = opcion.value_ri_height
-    desgloce[0][1] += max
-    maximo += max'''
-
     # Se obtiene el usuario del cual se lee la informacion
     user = UserGuiar.objects.get(pk=pk)
 
@@ -752,32 +672,32 @@ def view_results(request):
     # dotaciones = DotacionEmpresarial.objects.get(user=user)
         rangos = RangosDotacion.objects.filter(dotacion=dotacion)
         for rango in rangos:
-            pos = rango.poliza.pk - 1
+            pos = buscar_indice(rango.poliza.pk - 1, desgloce)
             if rango.min_value > rango.max_value:
                 if cantidad >= rango.min_value:  # caso valor en el ultimo rango
                     # Se agrega el resultado correspondiente al riesgo de la poliza vinculada
-                    if pos != 0:
-                        desgloce[pos][2] += rango.ri_value * rango.min_value
-                    desgloce[0][2] += rango.ri_value * rango.min_value
+                    desgloce[pos][2] += rango.ri_value * rango.min_value
                     total += rango.ri_value * rango.min_value
                 # Se agrega el maximo correspondiente independiente si se encuentra o no dentro del rango asociado
-                if pos != 0:
-                    desgloce[pos][1] += rango.ri_value * rango.min_value
-                desgloce[0][1] += rango.ri_value * rango.min_value
+                desgloce[pos][1] += rango.ri_value * rango.min_value
                 maximo += rango.ri_value * rango.min_value
             elif cantidad >= rango.min_value:
                 if cantidad < rango.max_value:  # caso valor dentro del rango
                     # Se agrega el resultado correspondiente al riesgo de la poliza vinculada
-                    if pos != 0:
-                        desgloce[pos][2] += rango.ri_value * cantidad
-                    desgloce[0][2] += rango.ri_value * cantidad
+                    desgloce[pos][2] += rango.ri_value * cantidad
                     total += rango.ri_value * cantidad
 
     # Se obtiene el listado de todas las dependencias marcadas
     procesos = IntermediaDependenciaUser.objects.filter(user=user)
-    '''for p in procesos:
-        index = buscar_indice("indice poliza", desgloce)'''
-    # TODO: habilitar esta funcionalidad
+    for p in procesos:
+        preguntas = Pregunta.objects.filter(dependencia=p.dependencia)
+        for pregunta in preguntas:
+            if pregunta.tipo != 1:
+                opciones = Opcion.objects.filter(pregunta=pregunta)
+                for opcion in opciones:
+                    maximo += opcion.riesgo
+        total += p.dependencia.riesgo
+        maximo += p.dependencia.riesgo
     preguntas = PolizaPregunta.objects.all()
     opciones = IntermediaUserOpcion.objects.filter(user=user)
     amortiguacion = 0
@@ -788,116 +708,10 @@ def view_results(request):
                     index = buscar_indice(preg.poliza.pk, desgloce)
                     if o.selected:
                         desgloce[index][2] += o.opcion.riesgo
+                        total += o.opcion.riesgo
                     desgloce[index][1] += o.opcion.riesgo
         else:
             amortiguacion += o.opcion.riesgo
-
-
-    '''# Se lleva la cuenta de los resultados de Transporte
-    for proceso in user.transport.all():
-        total += proceso.ri_transport
-        for des in desgloce:
-            if proceso.poliza.id == des[3]:
-                des[2] += proceso.ri_transport
-                if not proceso.poliza.id == 1:
-                    desgloce[0][2] += proceso.ri_transport
-
-    # Se lleva la cuenta de los resultados de Construccion
-    for proceso in user.building.all():
-        total += proceso.ri_building
-        for des in desgloce:
-            if proceso.poliza.id == des[3]:
-                des[2] += proceso.ri_building
-                if not proceso.poliza.id == 1:
-                    desgloce[0][2] += proceso.ri_building
-
-    # Se lleva la cuenta de los resultados de Manufactura
-    for proceso in user.manufacture.all():
-        total += proceso.ri_manufacture
-        for des in desgloce:
-            if proceso.poliza.id == des[3]:
-                des[2] += proceso.ri_manufacture
-                if not proceso.poliza.id == 1:
-                    desgloce[0][2] += proceso.ri_manufacture
-
-    # Se lleva la cuenta de los resultados de Servicios Generales
-    for proceso in user.general_services.all():
-        total += proceso.ri_service
-        for des in desgloce:
-            if proceso.poliza.id == des[3]:
-                des[2] += proceso.ri_service
-                if not proceso.poliza.id == 1:
-                    desgloce[0][2] += proceso.ri_service'''
-
-    '''
-    # Se lleva la cuenta de los resultados de Manejo de Riesgo
-    manejo_riesgo = 0
-    if user.risk_management:
-        manejo_riesgo = user.risk_management.ri_risk
-    # Se lleva la cuenta de los resultados de Prevencionista de Riesgo
-    prevencionista = 0
-    if user.risk_prevent:
-        prevencionista = user.risk_prevent.ri_prevent
-
-    # Se obtiene el total de amortiguacion de riesgo en %, aqui no hay un valor maximo que aumente el riesgo
-    amortiguacion = (manejo_riesgo + prevencionista)/100
-
-    # Se lleva la cuenta de los resultados de Explosivos
-    if user.explosive_confirmed:
-        riesgo = user.explosive_confirmed.value_ri_explosive
-        if user.explosive_confirmed.option_explosive == "Sí":
-            total += riesgo
-            desgloce[0][2] += riesgo
-            for proceso in user.explosive_control.all():
-                total += proceso.ri_explosive
-                for des in desgloce:
-                    if proceso.poliza.id == des[3]:
-                        des[2] += proceso.ri_explosive
-                        if not proceso.poliza.id == 1:
-                            desgloce[0][2] += proceso.ri_explosive
-
-    # Se lleva la cuenta de los resultados de Electricidad
-    if user.electricity_confirmed:
-        riesgo = user.electricity_confirmed.value_ri_electricity
-        if user.electricity_confirmed.option_electricity == "Sí":
-            total += riesgo
-            desgloce[0][2] += riesgo
-            for proceso in user.electricity_control.all():
-                total += proceso.ri_electricity
-                for des in desgloce:
-                    if proceso.poliza.id == des[3]:
-                        des[2] += proceso.ri_electricity
-                        if not proceso.poliza.id == 1:
-                            desgloce[0][2] += proceso.ri_electricity
-
-    # Se lleva la cuenta de los resultados de Sustancias Peligrosas
-    if user.substance_confirmed:
-        riesgo = user.substance_confirmed.value_ri_substance
-        if user.substance_confirmed.option_substance == "Sí":
-            total += riesgo
-            desgloce[0][2] += riesgo
-            for proceso in user.substance_control.all():
-                total += proceso.ri_substance
-                for des in desgloce:
-                    if proceso.poliza.id == des[3]:
-                        des[2] += proceso.ri_substance
-                        if not proceso.poliza.id == 1:
-                            desgloce[0][2] += proceso.ri_substance
-
-    # Se lleva la cuenta de los resultados de Altura
-    if user.height_confirmed:
-        riesgo = user.height_confirmed.value_ri_height
-        if user.height_confirmed.option_height == "Sí":
-            total += riesgo
-            desgloce[0][2] += riesgo
-            for proceso in user.height_control.all():
-                total += proceso.ri_height
-                for des in desgloce:
-                    if proceso.poliza.id == des[3]:
-                        des[2] += proceso.ri_height
-                        if not proceso.poliza.id == 1:
-                            desgloce[0][2] += proceso.ri_height
-    '''
 
     is_empty = 0
     for d in desgloce:
