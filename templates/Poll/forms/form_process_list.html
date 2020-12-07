@@ -16,6 +16,7 @@
         </div>
         <div class="hero-body">
             <form id="id_process" method="post" style="width: 100%;">
+                <p id="error" style="color: white"></p>
                 {% csrf_token %}
                 <div class="container">
                     {% for i in form.nombre %}
@@ -33,4 +34,25 @@
         </div>
     </div>
 </section>
+{% block js %}
+<script>
+    $(document).ready(function(){
+        $('#id_process').on('submit', function(e){
+            e.preventDefault();
+            var serializedData = $(this).serialize();
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'poll-process-list' %}",
+                data: serializedData,
+                success: function (response) {
+                    window.location.href = "../"+response.url;
+                },
+                error: function(response){
+                    document.getElementById("error").innerHTML = "Debe seleccionar al menos un elemento";
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
 {% endblock %}

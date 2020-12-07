@@ -24,20 +24,28 @@
                         <div class="textlabel" style="color: white">{{campo.0}}</div>
                         {% endfor %}
                     </div>
-                    <div class="control">
-                        {% for field in formset.visible_fields %}
+                    {% for field in formset.visible_fields %}
                         <div class="label">{{ field }}</div>
-                        {% endfor %}
-                    </div>
+                    {% endfor %}
                 </div>
-                <div>
-                    <button class="button" type="button" id="previous" onclick="history.go(-1)"
-                        style="background-color: rgb(0,94,184); color: white; border: none">Anterior</button>
-                    <button type="submit" class="button"
-                        style="background-color: rgb(0,94,184); color: white; border: none">Siguiente</button>
-                </div>
+                <div><br></div>
+                <button class="button" type="button" id="previous" onclick="history.go(-1)"
+                    style="background-color: rgb(0,94,184); color: white; border: none">Anterior</button>
+                <button type="submit" class="button"
+                    style="background-color: rgb(0,94,184); color: white; border: none">Siguiente</button>
             </form>
         </div>
     </div>
 </section>
+{% block js %}
+<script>
+    $(document).ready(function(){
+        var input = document.getElementsByClassName("textlabel");
+        var label = document.getElementsByClassName("label");
+        for(var i = 0; i< input.length; i++){
+            input[i].append(label[i]);
+        }
+    });
+</script>
+{% endblock %}
 {% endblock %}

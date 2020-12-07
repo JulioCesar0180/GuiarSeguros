@@ -69,13 +69,13 @@ def view_form_profile_bs(request):
     user = UserGuiar.objects.get(pk=request.user.pk)
     form = ChangeProfileBSPoll(instance=user)
     context = {'user': user, 'form': form}
-    if request.method == "POST":
+    if request.is_ajax and request.method == "POST":
         form = ChangeProfileBSPoll(request.POST, instance=user)
         if form.is_valid():
             form.save()
             return redirect('poll-manager')
         else:
-            messages.error(request, "Error")
+            return JsonResponse({"error": form.errors}, status=400)
     return render(request, 'Poll/forms/form_personal_BS.html', context)
 
 
@@ -84,13 +84,13 @@ def view_form_profile_bm(request):
     manager = BusinessManager.objects.get(userguiar__pk=request.user.pk)
     form = ChangeProfileBMPoll(instance=manager)
     context = {'manager': manager, 'form': form}
-    if request.method == "POST":
+    if request.is_ajax and request.method == "POST":
         form = ChangeProfileBMPoll(request.POST, instance=manager)
         if form.is_valid():
             form.save()
             return redirect('poll-sales')
         else:
-            messages.error(request, "Error")
+            return JsonResponse({"error": form.errors}, status=400)
     return render(request, 'Poll/forms/form_personal_BM.html', context)
 
 
@@ -99,7 +99,7 @@ def view_form_sales(request):
     user = UserGuiar.objects.get(pk=request.user.pk)
     form = ChangeSaleFrom(instance=user)
     context = {'user': user, 'form': form}
-    if request.method == "POST":
+    if request.is_ajax and request.method == "POST":
         form = ChangeSaleFrom(request.POST, instance=user)
         if form.is_valid():
             form.save()
@@ -124,8 +124,9 @@ def view_form_quantity(request):
         values.append(campo[0].cantidad)
         i = i + 1
     formset = DotacionForm(n=i-1, values=values)
-    if request.method == "POST":
+    if request.is_ajax and request.method == "POST":
         formset = DotacionForm(request.POST, n=i-1, values=values)
+        print(formset)
         if formset.is_valid():
             cantidad = []
             cantidad.clear()
@@ -139,8 +140,7 @@ def view_form_quantity(request):
                 k = k + 1
             return redirect('poll-process-list')
         else:
-            print(formset.errors)
-            #   messages.error(request, "Error")
+            messages.error(request, "Error")
     context = {'user': user, 'campos': campos, 'formset': formset}
     return render(request, 'Poll/forms/form_dotacion.html', context)
 
@@ -150,7 +150,7 @@ def view_form_process_list(request):
     user = UserGuiar.objects.get(pk=request.user.pk)
     form = ProcessActivityForm(t="1")
     context = {'user': user, 'form': form}
-    if request.method == "POST":
+    if request.is_ajax and request.method == "POST":
         form = ProcessActivityForm(request.POST, t="1")
         if form.is_valid():
             dependencias = IntermediaDependenciaUser.objects.filter(user=user)
@@ -167,10 +167,12 @@ def view_form_process_list(request):
                 cambio = IntermediaDependenciaUser.objects.get(user=user, dependencia=campo.pk)
                 cambio.selected = True
                 cambio.save()
+            return JsonResponse({"url": "poll-A"})
             # return redirect('poll-transport')
-            return redirect('poll-process')
+            #return redirect('poll-process')
         else:
-            messages.error(request, "Error")
+            return JsonResponse({"error":formset.errors})
+            #messages.error(request, "Error")
     return render(request, 'Poll/forms/form_process_list.html', context)
 
 
@@ -193,7 +195,7 @@ def view_process(request):
     n = len(preguntas)
     form = PreguntaForm(n=n, p=preguntas)
     context = {'user': user, 'form': form}
-    if request.method == "POST":
+    if request.is_ajax and request.method == "POST":
         form = PreguntaForm(request.POST, n=n, p=preguntas)
         dependencias.clear()
         preguntas.clear()
@@ -214,13 +216,15 @@ def view_process(request):
                     opcion = IntermediaUserOpcion.objects.get(user=user, opcion=o)
                     opcion.selected = True
                     opcion.save()
+            return JsonResponse({"url": "poll-B"})
             # return redirect('poll-control-risk')
-            return redirect('poll-control')
+            #return redirect('poll-control')
         else:
             # print("Hi")
             print(form.errors)
             context = {'user': user, 'form': form}
-            return render(request, 'Poll/forms/form_process.html', context)
+            return JsonResponse({"error":formset.errors})
+            #return render(request, 'Poll/forms/form_process.html', context)
             #   messages.error(request, "Error")
             # TODO: Generar correctamente mensajes de error en caso que se requiera
     return render(request, 'Poll/forms/form_process.html', context)
@@ -313,7 +317,7 @@ def view_control(request):
     n = len(preguntas)
     form = PreguntaForm(n=n, p=preguntas)
     context = {'user': user, 'form': form}
-    if request.method == "POST":
+    if request.is_ajax and request.method == "POST":
         form = PreguntaForm(request.POST, n=n, p=preguntas)
         if form.is_valid():
             grupo_opciones = IntermediaUserOpcion.objects.filter(user=user)
@@ -332,11 +336,11 @@ def view_control(request):
                     opcion = IntermediaUserOpcion.objects.get(user=user, opcion=o)
                     opcion.selected = True
                     opcion.save()
-            return redirect('poll-activity-list')
+            return JsonResponse({"url": "poll8"})
+            #return redirect('poll-activity-list')
         else:
-            print("Hi")
-            print(form.errors)
-            return render(request, 'Poll/forms/form_control.html', context)
+            return JsonResponse({"error":formset.errors})
+            #return render(request, 'Poll/forms/form_control.html', context)
             #   messages.error(request, "Error")
             # TODO: Generar correctamente mensajes de error en caso que se requiera
     return render(request, 'Poll/forms/form_control.html', context)
@@ -378,7 +382,7 @@ def view_form_activity_list(request):
     user = UserGuiar.objects.get(pk=request.user.pk)
     form = ProcessActivityForm(t="2")
     context = {'user': user, 'form': form}
-    if request.method == "POST":
+    if request.is_ajax and request.method == "POST":
         form = ProcessActivityForm(request.POST, t="2")
         if form.is_valid():
             dependencias = IntermediaDependenciaUser.objects.filter(user=user)
@@ -395,10 +399,12 @@ def view_form_activity_list(request):
                 cambio = IntermediaDependenciaUser.objects.get(user=user, dependencia=campo.pk)
                 cambio.selected = True
                 cambio.save()
+            return JsonResponse({"url": "poll-C"})
             # return redirect('poll-transport')
-            return redirect('poll-activity')
+            #return redirect('poll-activity')
         else:
-            messages.error(request, "Error")
+            return JsonResponse({"error":formset.errors})
+            #messages.error(request, "Error")
     return render(request, 'Poll/forms/form_activity_list.html', context)
 
 
@@ -440,12 +446,12 @@ def view_activity(request):
                     opcion = IntermediaUserOpcion.objects.get(user=user, opcion=o)
                     opcion.selected = True
                     opcion.save()
+            return JsonResponse({"url": "poll-results"})
             # return redirect('poll-control-risk')
-            return redirect('poll-results')
+            #return redirect('poll-results')
         else:
-            print("Hi")
-            print(form.errors)
-            return render(request, 'Poll/forms/form_activity.html', context)
+            return JsonResponse({"error":formset.errors})
+            #return render(request, 'Poll/forms/form_activity.html', context)
             #   messages.error(request, "Error")
             # TODO: Generar correctamente mensajes de error en caso que se requiera
     return render(request, 'Poll/forms/form_activity.html', context)

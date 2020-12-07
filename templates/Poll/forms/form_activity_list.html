@@ -11,11 +11,12 @@
 <section id="formulario" class="hero is-fullheight" style="background-color: rgb(0,48,87)">
     <div class="container is-desktop" style="padding: 0;">
         <div id="titulo" style="padding: 0 1.5rem">
-            <h1 class="title is-1" style="margin-top: 100px; color: white">5.- Indique el o los rubros en que participa la empresa</h1>
+            <h1 class="title is-1" style="margin-top: 100px; color: white">8.- Indique el o los rubros en que participa la empresa</h1>
             <p style="color: white">Asegurese que la información este actualizada</p>
         </div>
         <div class="hero-body">
             <form id="id_process" method="post" style="width: 100%;">
+                <p id="error" style="color: white"></p>
                 {% csrf_token %}
                 <div class="container">
                     {% for i in form.nombre %}
@@ -33,4 +34,25 @@
         </div>
     </div>
 </section>
+{% block js %}
+<script>
+    $(document).ready(function(){
+        $('#id_process').on('submit', function(e){
+            e.preventDefault();
+            var serializedData = $(this).serialize();
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'poll-activity-list' %}",
+                data: serializedData,
+                success: function (response) {
+                    window.location.href = "../"+response.url;
+                },
+                error: function(response){
+                    document.getElementById("error").innerHTML = "Debe seleccionar al menos una activdad";
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
 {% endblock %}

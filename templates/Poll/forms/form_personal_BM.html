@@ -53,4 +53,18 @@
         </div>
     </div>
 </section>
+{% block js %}
+<script>
+    $(function (){
+        $('#id_personal_BM').on('submit', function(e){
+            var serializedData = $(this).serialize();
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'poll-manager' %}",
+                data: serializedData
+            });
+        });
+    });
+</script>
+{% endblock %}
 {% endblock %}
