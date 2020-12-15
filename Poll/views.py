@@ -10,8 +10,7 @@ from django.views.generic import *
 
 from Poll.forms import *
 from Poll.models import *
-from Home.models import UserGuiar, BusinessManager, ProcessBusiness, Dotacion, DotacionEmpresarial, RangosDotacion,\
-    IntermediaUserOpcion
+from Home.models import UserGuiar, BusinessManager, Dotacion, DotacionEmpresarial, RangosDotacion, IntermediaUserOpcion
 #PDF
 from django.views.generic import View
 from .utils import render_to_pdf
@@ -168,7 +167,6 @@ def view_form_process_list(request):
                 cambio.selected = True
                 cambio.save()
             return JsonResponse({"url": "poll-A"})
-            # return redirect('poll-transport')
             #return redirect('poll-process')
         else:
             return JsonResponse({"error":formset.errors})
@@ -217,7 +215,6 @@ def view_process(request):
                     opcion.selected = True
                     opcion.save()
             return JsonResponse({"url": "poll-B"})
-            # return redirect('poll-control-risk')
             #return redirect('poll-control')
         else:
             # print("Hi")
@@ -228,86 +225,6 @@ def view_process(request):
             #   messages.error(request, "Error")
             # TODO: Generar correctamente mensajes de error en caso que se requiera
     return render(request, 'Poll/forms/form_process.html', context)
-
-
-@login_required
-def view_transport_process(request):
-    user = UserGuiar.objects.get(pk=request.user.pk)
-    process = ProcessBusiness.objects.get(title="Transporte")
-    if process not in user.process.all():
-        user.transport.clear()
-        return redirect('poll-manufacture')
-
-    form = TransportProcessForm(instance=user)
-    context = {'user': user, 'form': form}
-    if request.method == "POST":
-        form = TransportProcessForm(request.POST, instance=user)
-        if form.is_valid():
-            form.save()
-            return redirect('poll-manufacture')
-        else:
-            messages.error(request, "Error")
-    return render(request, 'Poll/forms/form_transport.html', context)
-
-
-@login_required
-def view_manufacture_process(request):
-    user = UserGuiar.objects.get(pk=request.user.pk)
-    process = ProcessBusiness.objects.get(title="Manufactura")
-    if process not in user.process.all():
-        user.manufacture.clear()
-        return redirect('poll-building')
-
-    form = ManufactureProcessForm(instance=user)
-    context = {'user': user, 'form': form}
-    if request.method == "POST":
-        form = ManufactureProcessForm(request.POST, instance=user)
-        if form.is_valid():
-            form.save()
-            return redirect('poll-building')
-        else:
-            messages.error(request, "Error")
-    return render(request, 'Poll/forms/form_manufacture.html', context)
-
-
-@login_required
-def view_building_process(request):
-    user = UserGuiar.objects.get(pk=request.user.pk)
-    process = ProcessBusiness.objects.get(title="Construcción")
-    if process not in user.process.all():
-        user.building.clear()
-        return redirect('poll-services')
-
-    form = BuildingProcessForm(instance=user)
-    context = {'user': user, 'form': form}
-    if request.method == "POST":
-        form = BuildingProcessForm(request.POST, instance=user)
-        if form.is_valid():
-            form.save()
-            return redirect('poll-services')
-        else:
-            messages.error(request, "Error")
-    return render(request, 'Poll/forms/form_building.html', context)
-
-
-@login_required
-def view_services_process(request):
-    user = UserGuiar.objects.get(pk=request.user.pk)
-    process = ProcessBusiness.objects.get(title="Servicios Generales")
-    if process not in user.process.all():
-        user.general_services.clear()
-        return redirect('poll-control-risk')
-
-    form = GeneralServiceForm(instance=user)
-    context = {'user': user, 'form': form}
-    if request.method == "POST":
-        form = GeneralServiceForm(request.POST, instance=user)
-        if form.is_valid():
-            form.save()
-            return redirect('poll-control-risk')
-        else:
-            messages.error(request, "Error")
-    return render(request, 'Poll/forms/form_services.html', context)
 
 
 @login_required
@@ -347,37 +264,6 @@ def view_control(request):
 
 
 @login_required
-def view_control_risk(request):
-    user = UserGuiar.objects.get(pk=request.user.pk)
-    form = ControlRiskForm(instance=user)
-    context = {'user': user, 'form': form}
-    if request.method == "POST":
-        form = ControlRiskForm(request.POST, instance=user)
-        if form.is_valid():
-            form.save()
-            return redirect('poll-prevent-risk')
-        else:
-            messages.error(request, "Error")
-    return render(request, 'Poll/forms/form_control_risk.html', context)
-
-
-@login_required
-def view_prevent_risk(request):
-    user = UserGuiar.objects.get(pk=request.user.pk)
-    form = PreventRiskForm(instance=user)
-    context = {'user': user, 'form': form}
-    if request.method == "POST":
-        form = PreventRiskForm(request.POST, instance=user)
-        if form.is_valid():
-            form.save()
-            # return redirect('poll-confirmed-explosive')
-            return redirect('poll-activity-list')
-        else:
-            messages.error(request, "Error")
-    return render(request, 'Poll/forms/form_prevnet_risk.html', context)
-
-
-@login_required
 def view_form_activity_list(request):
     user = UserGuiar.objects.get(pk=request.user.pk)
     form = ProcessActivityForm(t="2")
@@ -400,7 +286,6 @@ def view_form_activity_list(request):
                 cambio.selected = True
                 cambio.save()
             return JsonResponse({"url": "poll-C"})
-            # return redirect('poll-transport')
             #return redirect('poll-activity')
         else:
             return JsonResponse({"error":formset.errors})
@@ -447,7 +332,6 @@ def view_activity(request):
                     opcion.selected = True
                     opcion.save()
             return JsonResponse({"url": "poll-results"})
-            # return redirect('poll-control-risk')
             #return redirect('poll-results')
         else:
             return JsonResponse({"error":formset.errors})
@@ -455,134 +339,6 @@ def view_activity(request):
             #   messages.error(request, "Error")
             # TODO: Generar correctamente mensajes de error en caso que se requiera
     return render(request, 'Poll/forms/form_activity.html', context)
-
-
-@login_required
-def view_confirmed_control_explosive(request):
-    user = UserGuiar.objects.get(pk=request.user.pk)
-    form = ExplosiveConfirmedForm(instance=user)
-    if request.method == "POST":
-        form = ExplosiveConfirmedForm(request.POST, instance=user)
-        if form.is_valid():
-            form.save()
-            if user.explosive_confirmed.option_explosive == "Sí":
-                return redirect('poll-explosive')
-            else:
-                user.explosive_control.clear()
-                return redirect('poll-confirmed-electricity')
-    context = {'form': form}
-    return render(request, 'Poll/forms/form_confirm_explosive.html', context)
-
-
-@login_required
-def view_control_explosive(request):
-    user = UserGuiar.objects.get(pk=request.user.pk)
-    form = ExplosiveControlForm(instance=user)
-    context = {'user': user, 'form': form}
-    if request.method == "POST":
-        form = ExplosiveControlForm(request.POST, instance=user)
-        if form.is_valid():
-            form.save()
-            return redirect('poll-confirmed-electricity')
-        else:
-            messages.error(request, "Error")
-    return render(request, 'Poll/forms/form_control_explosives.html', context)
-
-
-@login_required
-def view_confirmed_control_electricity(request):
-    user = UserGuiar.objects.get(pk=request.user.pk)
-    form = ElectricityConfirmedForm(instance=user)
-    if request.method == "POST":
-        form = ElectricityConfirmedForm(request.POST, instance=user)
-        if form.is_valid():
-            form.save()
-            if user.electricity_confirmed.option_electricity == "Sí":
-                return redirect('poll-electricity')
-            else:
-                user.electricity_control.clear()
-                return redirect('poll-confirmed-substance')
-    context = {'form': form}
-    return render(request, 'Poll/forms/form_confirm_electricity.html', context)
-
-
-@login_required
-def view_control_electricity(request):
-    user = UserGuiar.objects.get(pk=request.user.pk)
-    form = ElectricityControlForm(instance=user)
-    context = {'user': user, 'form': form}
-    if request.method == "POST":
-        form = ElectricityControlForm(request.POST, instance=user)
-        if form.is_valid():
-            form.save()
-            return redirect('poll-confirmed-substance')
-        else:
-            messages.error(request, "Error")
-    return render(request, 'Poll/forms/form_control_electricity.html', context)
-
-
-@login_required
-def view_confirmed_substances(request):
-    user = UserGuiar.objects.get(pk=request.user.pk)
-    form = SubstancesConfirmedForm(instance=user)
-    if request.method == "POST":
-        form = SubstancesConfirmedForm(request.POST, instance=user)
-        if form.is_valid():
-            form.save()
-            if user.substance_confirmed.option_substance == "Sí":
-                return redirect('poll-substance')
-            else:
-                user.substance_control.clear()
-                return redirect('poll-confirmed-height')
-    context = {'form': form}
-    return render(request, 'Poll/forms/form_confirm_substance.html', context)
-
-
-@login_required
-def view_control_substances(request):
-    user = UserGuiar.objects.get(pk=request.user.pk)
-    form = SubstanceControlForm(instance=user)
-    context = {'user': user, 'form': form}
-    if request.method == "POST":
-        form = SubstanceControlForm(request.POST, instance=user)
-        if form.is_valid():
-            form.save()
-            return redirect('poll-confirmed-height')
-        else:
-            messages.error(request, "Error")
-    return render(request, 'Poll/forms/form_control_substance.html', context)
-
-
-@login_required
-def view_confirmed_height(request):
-    user = UserGuiar.objects.get(pk=request.user.pk)
-    form = HeightConfirmedForm(instance=user)
-    if request.method == "POST":
-        form = HeightConfirmedForm(request.POST, instance=user)
-        if form.is_valid():
-            form.save()
-            if user.height_confirmed.option_height == "Sí":
-                return redirect('poll-height')
-            else:
-                user.height_control.clear()
-                return redirect('poll-results')
-    context = {'form': form}
-    return render(request, 'Poll/forms/form_confirm_height.html', context)
-
-
-@login_required
-def view_control_height(request):
-    user = UserGuiar.objects.get(pk=request.user.pk)
-    form = HeightControlForm(instance=user)
-    context = {'user': user, 'form': form}
-    if request.method == "POST":
-        form = HeightControlForm(request.POST, instance=user)
-        if form.is_valid():
-            form.save()
-            return redirect('poll-results')
-        else:
-            messages.error(request, "Error")
-    return render(request, 'Poll/forms/form_control_height.html', context)
 
 
 class UpdateManagerView(UpdateView):

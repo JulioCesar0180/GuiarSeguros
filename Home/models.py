@@ -3,9 +3,7 @@ from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from django.db import models
 
 # Create your models here.
-from Poll.models import Sales, ProcessBusiness, TransportProcess, ManufactureProcess, GeneralServicesProcess,\
-    BuildingProcess, RiskManagement, RiskPreventionPersonal, HeightConfirmed, ExplosiveConfirmed, ElectricityConfirmed,\
-    SubstanceConfirmed, ElectricityControl, ExplosiveControl, HeightControl, SubstanceControl, SubPoliza, Opcion
+from Poll.models import Sales, SubPoliza, Opcion
 
 
 class Town(models.Model):
@@ -62,44 +60,6 @@ class UserGuiar(AbstractBaseUser, PermissionsMixin):
 
     # Ventas Anuales
     sales = models.ForeignKey(Sales, on_delete=models.CASCADE, null=True)
-
-    # Procesos de la Empresa
-    process = models.ManyToManyField(ProcessBusiness)
-
-    # Transporte
-    transport = models.ManyToManyField(TransportProcess, blank=True)
-
-    # Manufactura
-    manufacture = models.ManyToManyField(ManufactureProcess, blank=True)
-
-    # Construccion
-    building = models.ManyToManyField(BuildingProcess, blank=True)
-
-    # Actividad
-    opciones = models.ManyToManyField(Opcion, blank=True)
-
-    # Servicios Generales
-    general_services = models.ManyToManyField(GeneralServicesProcess, blank=True)
-
-    # Elementos de manejo de riesgos
-    risk_management = models.ForeignKey(RiskManagement, on_delete=models.DO_NOTHING, null=True)
-
-    # Prevencionista de Riesgo
-    risk_prevent = models.ForeignKey(RiskPreventionPersonal, on_delete=models.DO_NOTHING, null=True)
-
-    # Explosives Control
-    explosive_control = models.ManyToManyField(ExplosiveControl)
-    # Electricity Control
-    electricity_control = models.ManyToManyField(ElectricityControl)
-    # Substance Control
-    substance_control = models.ManyToManyField(SubstanceControl)
-    # Height Control
-    height_control = models.ManyToManyField(HeightControl)
-
-    explosive_confirmed = models.ForeignKey(ExplosiveConfirmed, on_delete=models.DO_NOTHING, null=True)
-    electricity_confirmed = models.ForeignKey(ElectricityConfirmed, on_delete=models.DO_NOTHING, null=True)
-    substance_confirmed = models.ForeignKey(SubstanceConfirmed, on_delete=models.DO_NOTHING, null=True)
-    height_confirmed = models.ForeignKey(HeightConfirmed, on_delete=models.DO_NOTHING, null=True)
 
     is_admin = models.BooleanField(default=False)
 
