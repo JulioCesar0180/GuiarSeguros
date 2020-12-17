@@ -471,10 +471,20 @@ def view_results(request):
                     if o.selected:
                         desgloce[index][2] += o.opcion.riesgo
                         total += o.opcion.riesgo
-                    desgloce[index][1] += o.opcion.riesgo
+                    if o.opcion.riesgo >= 0:
+                        desgloce[index][1] += o.opcion.riesgo
         else:
             amortiguacion += o.opcion.riesgo
-
+    dependencias = Dependencia.objects.all()
+    for dep in dependencias:
+        registro = IntermediaDependenciaUser.objects.get(user=user, dependencia=dep)
+        risk = registro.dependencia.riesgo
+        for preg in preguntas:
+            if preg.pregunta.dependencia.pk == dep.pk:
+                index = buscar_indice(preg.poliza.pk, desgloce)
+                if registro.selected:
+                    desgloce[index][2] += risk
+                desgloce[index][1] += risk
     is_empty = 0
     for d in desgloce:
         if d[2] != 0:
