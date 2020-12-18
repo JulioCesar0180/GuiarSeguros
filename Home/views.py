@@ -42,6 +42,11 @@ def view_register_manager(request):
             user_query.email_manager = form_manager.cleaned_data['email']
             user_manager = BusinessManager.objects.get(rut_bm=form_manager.cleaned_data['rut_bm'])
             user_query.manager = user_manager
+            subject = 'Bienvenido a Guiar Consultores'
+            message = 'a'
+            email_from = settings.EMAIL_HOST_USER
+            email_to = [user_query.email_manager,]
+            send_mail(subject, message, email_from, email_to)
             user_query.save()
 
             user = authenticate(rut=form_user.cleaned_data['rut'], password=form_user.cleaned_data['password1'])

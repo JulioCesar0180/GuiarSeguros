@@ -52,3 +52,37 @@ meter{
   }
   
 }
+@media screen and (min-width: 1600px) {
+
+  .poliza{
+    padding-left: 12rem!important;
+  }
+  
+  .grafico{
+    padding-right: 9.5rem!important;
+  }
+  
+}
+@media screen and (min-width: 1680px) {
+
+  .poliza{
+    padding-left: 14.5rem!important;
+  }
+  
+  .grafico{
+    padding-right: 12rem!important;
+  }
+  
+}
+
+@media screen and (min-width: 1920px) {
+
+  .poliza{
+    padding-left: 22rem!important;
+  }
+  
+  .grafico{
+    padding-right: 19.5rem!important;
+  }
+  
+}

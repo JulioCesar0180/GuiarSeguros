@@ -12,5 +12,5 @@ urlpatterns = [
     path('recovery-pass/<uidb64>/<token>', views.PasswordResetConfirmViewGS.as_view(), name="recovery-pass-confirm"),
     path('recovery-success', views.PasswordResetCompleteViewGS.as_view(), name="recovery-complete"),
 
-    path('change_password', views.change_password_view, name="change_password")
+    path('change_password', views.change_password_view, name="change_password"),
 ]

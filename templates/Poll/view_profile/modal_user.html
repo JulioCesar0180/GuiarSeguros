@@ -1,9 +1,9 @@
-<div id="modal_update_user" class="modal">
+<div id="modal_update_user" uk-modal>
     <div class="modal-background"></div>
     <div class="modal-card">
         <header class="modal-card-head" style="background-color: rgb(0,48,87); border: none">
             <p class="modal-card-title" style="color: white">Datos de la Empresa</p>
-            <button id="close_user" class="delete" aria-label="close"></button>
+            <button id="close_user" class="uk-modal-close" aria-label="close"></button>
         </header>
         <form id="form_update_user" method="post" data-url="{% url 'update-user' %}">
             {% csrf_token %}
@@ -27,7 +27,7 @@
             </section>
             <footer class="modal-card-foot" style="background-color: rgb(0,48,87); border: none">
                 <button id="save_user" type="submit" class="button" style="background-color: rgb(0,94,184); border: none; color: white">Guardar Cambios</button>
-                <a id="cancel-user" class="button" style="background-color: rgb(0,94,184); border: none; color: white">Cancelar</a>
+                <button id="cancel-user" class="button uk-modal-close" style="background-color: rgb(0,94,184); border: none; color: white">Cancelar</button>
             </footer>
         </form>
     </div>

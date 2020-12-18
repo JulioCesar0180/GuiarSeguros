@@ -42,7 +42,7 @@
                             <input class="form-control" style="text-align: center; padding-left: 0" id="phone_manager" value="{{ manager.phone }}" disabled>
                         </div>
                     </div>
-                    <center><a class="button gs-btn-blue" id="button_update_manager" data-target="modal_update_manager" style="margin-top: 20px">Editar Información</a></center>
+                    <center><button class="button gs-btn-blue" id="button_update_manager" uk-toggle="target: #modal_update_manager" style="margin-top: 20px">Editar Información</button></center>
                 </div>
             </div>
             <div class="panel-card uk-width-1-2@m" id="middle" style="margin-top: 25px">
@@ -68,7 +68,7 @@
                             <input class="form-control" style="text-align: center;" id="seniority_bs" value="{{ user.seniority }}" disabled>
                         </div>
                     </div>
-                    <center><a id="button_update_user" class="button gs-btn-blue" style="margin-top: 20px">Editar Información</a></center>
+                    <center><button id="button_update_user" class="button gs-btn-blue" uk-toggle="target: #modal_update_user" style="margin-top: 20px">Editar Información</button></center>
                 </div>
             </div>
 

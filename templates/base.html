@@ -38,8 +38,8 @@
             <div class="navbar-start">
                 <a id="item-about" href="#mideturiesgo" class="navbar-item">Mide tu riesgo</a>
                 <a id="item-computer-lab" href="#welcome" class="navbar-item">Acerca de</a>
-                <a id="item-computer-lab" href="#service" class="navbar-item">Servicios</a>
-                <a id="item-computer-lab" href="#partners" class="navbar-item">Alianzas</a>
+                <a id="item-computer-lab-a" href="#service" class="navbar-item">Servicios</a>
+                <a id="item-computer-lab-b" href="#partners" class="navbar-item">Alianzas</a>
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link">
                         Paga tu seguro
@@ -104,21 +104,40 @@
         </div>
     </nav>
 
-    <div id="offcanvas-overlay" uk-offcanvas="overlay: true; flip: true; mode: push">
+    <div id="offcanvas-overlay" uk-offcanvas="overlay: true; flip: true; mode: slide">
         <div class="uk-offcanvas-bar">
             <button class="uk-offcanvas-close" type="button" uk-close></button>
             <ul>
+                {% if request.user.is_authenticated %}
                 <li>
-                    <a id="item-computer-lab" href="#welcome" class="navbar-item">Acerca de</a>
+                    <a href="{% url 'profile' %}" class="navbar-item"><strong>Mi cuenta</strong></a>
                 </li>
                 <li>
-                    <a id="item-computer-lab" href="#service" class="navbar-item">Servicios</a>
+                    <a href="{% url 'welcome' %}" class="navbar-item"><strong>MideTuRiesgo</strong></a>
                 </li>
                 <li>
-                    <a id="item-about" href="#mideturiesgo" class="navbar-item">Mide tu riesgo</a>
+                    <a href="{% url 'poll-results' %}" class="navbar-item"><strong>Resultados MideTuRiesgo</strong></a>
                 </li>
                 <li>
-                    <a id="item-computer-lab" href="#contacto" class="navbar-item">Contacto</a>
+                    <a href="{% url 'logout' %}" class="navbar-item"><strong>Salir</strong></a>
+                </li>        
+                {% else %}
+                <li>
+                    <a href="{% url 'login' %}" class="navbar-item"><strong>Ingresar</strong></a>
+                </li>
+                <li>
+                    <a href="{% url 'signUp' %}" class="navbar-item"><strong>Registrarte</strong></a>
+                </li>
+                {% endif %}
+                <hr>
+                <li>
+                    <a id="item-computer-lab" href="{% url 'home' %}#welcome" class="navbar-item">Acerca de</a>
+                </li>
+                <li>
+                    <a id="item-computer-lab" href="{% url 'home' %}#service" class="navbar-item">Servicios</a>
+                </li>
+                <li>
+                    <a id="item-computer-lab" href="{% url 'home' %}#contacto" class="navbar-item">Contacto</a>
                 </li>
             </ul>
         </div>

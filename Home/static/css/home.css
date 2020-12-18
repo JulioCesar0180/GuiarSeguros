@@ -112,3 +112,9 @@
   #check{color:rgb(0,48,87) !important;}
   #textobase{padding-top: 2vh;}
 }
+
+@media screen and (min-width: 1024px) and (max-width: 1230px) {
+
+  #item-computer-lab {display: none;}
+  #item-computer-lab-a {display: none;}
+}
