@@ -98,6 +98,18 @@ class BusinessManager(models.Model):
         verbose_name_plural = "Representantes"
 
 
+class RecoveryTokens(models.Model):
+    token = models.CharField(max_length=500)
+    email = models.EmailField(unique=True)
+
+    def __str__(self):
+        return self.email
+
+    class Meta:
+        verbose_name = "Token Generado"
+        verbose_name_plural = "Tokens Generados"
+
+
 class DotacionEmpresarial(models.Model):
     cantidad = models.IntegerField(default=0)
     user = models.ForeignKey('UserGuiar', models.DO_NOTHING)
