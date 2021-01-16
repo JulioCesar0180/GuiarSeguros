@@ -39,16 +39,28 @@ class SubPoliza(models.Model):
         verbose_name_plural = "Sub-Polizas"
 
 
-class PolizaPregunta(models.Model):
+class PolizaOpcion(models.Model):
     poliza = models.ForeignKey('SubPoliza', models.DO_NOTHING, null=True, blank=True)
-    pregunta = models.ForeignKey('Pregunta', models.DO_NOTHING, null=True, blank=True)
+    opcion = models.ForeignKey('Opcion', models.DO_NOTHING, null=True, blank=True)
 
     def __str__(self):
-        return self.poliza.name + " --- " + str(self.pregunta.pk)
+        return self.poliza.name + " --- " + str(self.opcion.pk)
 
     class Meta:
-        verbose_name = "Intermedia Poliza-Pregunta"
-        verbose_name_plural = "Intermedia Polizas-Preguntas"
+        verbose_name = "Intermedia Poliza-Opcion"
+        verbose_name_plural = "Intermedia Polizas-Opciones"
+
+
+class PolizaDependencia(models.Model):
+    poliza = models.ForeignKey('SubPoliza', models.DO_NOTHING, null=True, blank=True)
+    dependencia = models.ForeignKey('Dependencia', models.DO_NOTHING, null=True, blank=True)
+
+    def __str__(self):
+        return self.poliza.name + " --- " + str(self.dependencia.pk)
+
+    class Meta:
+        verbose_name = "Intermedia Poliza-Dependencia"
+        verbose_name_plural = "Intermedia Polizas-Dependencias"
 
 
 class Pregunta(models.Model):
