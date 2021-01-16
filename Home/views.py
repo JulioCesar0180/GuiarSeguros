@@ -12,7 +12,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
-from django.template.loader import render_to_string
+from django.template.loader import render_to_string, get_template
 from django.urls import reverse, reverse_lazy
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
@@ -20,9 +20,11 @@ from django.views.generic.edit import CreateView
 
 from GuiarSeguros import settings
 from .models import BusinessManager, UserGuiar
-from .forms import CreateManagerForm, CreateUserForm, PasswordResetFormGS, SetPasswordFormGS, UserChangePassword
+from .forms import CreateManagerForm, CreateUserForm, PasswordResetFormGS, SetPasswordFormGS, UserChangePassword, CreateRecuperarForm
 
 from .utils import validate_rut
+
+from django.core.mail import EmailMessage
 
 def home(request):
     return render(request, 'Home/home.html')
@@ -82,6 +84,31 @@ class PasswordResetConfirmViewGS(PasswordResetConfirmView):
 class PasswordResetCompleteViewGS(PasswordResetCompleteView):
     template_name = 'Home/auth_reset_password/password_reset_complete.html'
 
+#Por hacer: Generar la tabla con los token e ids
+def recuperar_password(request):
+    form_recuperar = CreateRecuperarForm()
+    context = {'form_recuperar': form_recuperar}
+    if request.method == 'POST':
+        form_recuperar = CreateRecuperarForm(request.POST)
+        if form_recuperar.is_valid():
+            if BusinessManager.objects.filter(email = form_recuperar.cleaned_data['email']).exists():
+                success_url = reverse_lazy('recovery_done')
+                html_email_template_name = 'Home/auth_reset_password/password_reset_email.html'
+                correo = form_recuperar.cleaned_data['email']
+                subject = 'Recuperar contraseña'
+                message = get_template(html_email_template_name).render()
+                email_from = settings.EMAIL_HOST_USER
+                email_to = [correo,]
+                mensaje = EmailMessage(
+                    subject,
+                    message,
+                    email_from,
+                    email_to,
+                )
+                mensaje.content_subtype = "html"
+                mensaje.send()
+                print(correo)
+    return render(request, 'Home/recuperar_password.html', context)
 
 def change_password_view(request):
     if request.method == 'POST':
