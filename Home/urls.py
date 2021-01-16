@@ -6,6 +6,9 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('signup', views.view_register_manager, name='signUp'),
 
+    #New Reset Password
+    path('recuperar/', views.recuperar_password, name="recuperar"),
+
     # Reset Password Views
     path('recovery/', views.PasswordResetViewGS.as_view(), name="recovery"),
     path('recovery/done', views.PasswordResetDoneViewGS.as_view(), name="recovery_done"),

@@ -76,6 +76,15 @@ class CreateUserForm(UserCreationForm):
         self.fields['password2'].widget = forms.PasswordInput(attrs={'class': 'input gs-input', 'placeholder': 'Confirmar Contraseña'})
 
 
+class CreateRecuperarForm(forms.Form):
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={
+            'class': 'input',
+            'placeholder': 'email'
+        })
+    )
+
+
 class PasswordResetFormGS(PasswordResetForm):
     email = forms.EmailField(
         label="",
