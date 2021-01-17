@@ -99,7 +99,7 @@ class BusinessManager(models.Model):
 
 
 class RecoveryTokens(models.Model):
-    token = models.CharField(max_length=500)
+    token = models.CharField(max_length=500, default="")
     email = models.EmailField(unique=True)
 
     def __str__(self):

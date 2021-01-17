@@ -84,6 +84,31 @@ class CreateRecuperarForm(forms.Form):
         })
     )
 
+class TokenForm(forms.Form):
+    token = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'input'
+        }),
+        required = True
+    )
+
+class NewPasswordForm(forms.Form):
+    new_password1 = forms.CharField(
+        label="",
+        widget=forms.PasswordInput(attrs={
+            'class': 'input'
+        }),
+        strip=False,
+        help_text=password_validation.password_validators_help_text_html(),
+    )
+
+    new_password2 = forms.CharField(
+        label="",
+        widget=forms.PasswordInput(attrs={
+            'class': 'input'
+        }),
+        strip=False,
+    )
 
 class PasswordResetFormGS(PasswordResetForm):
     email = forms.EmailField(

@@ -1,14 +1,14 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth.hashers import check_password
+from django.contrib.auth.hashers import check_password, make_password
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, \
     PasswordResetCompleteView, PasswordChangeView
 from django.contrib.messages import get_messages
 from django.core.mail import send_mail, BadHeaderError
 from django.db.models import Q
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
@@ -19,12 +19,21 @@ from django.utils.http import urlsafe_base64_encode
 from django.views.generic.edit import CreateView
 
 from GuiarSeguros import settings
-from .models import BusinessManager, UserGuiar
-from .forms import CreateManagerForm, CreateUserForm, PasswordResetFormGS, SetPasswordFormGS, UserChangePassword, CreateRecuperarForm
+from .models import BusinessManager, UserGuiar, RecoveryTokens
+from .forms import CreateManagerForm, CreateUserForm, PasswordResetFormGS, SetPasswordFormGS, UserChangePassword, CreateRecuperarForm, TokenForm, NewPasswordForm
 
 from .utils import validate_rut
 
 from django.core.mail import EmailMessage
+
+import random
+import string
+
+def get_random_string(length):
+    # Random string with the combination of lower and upper case
+    letters = string.ascii_letters
+    result_str = ''.join(random.choice(letters) for i in range(length))
+    return result_str
 
 def home(request):
     return render(request, 'Home/home.html')
@@ -88,15 +97,20 @@ class PasswordResetCompleteViewGS(PasswordResetCompleteView):
 def recuperar_password(request):
     form_recuperar = CreateRecuperarForm()
     context = {'form_recuperar': form_recuperar}
-    if request.method == 'POST':
+    if request.is_ajax and request.method == 'POST':
         form_recuperar = CreateRecuperarForm(request.POST)
         if form_recuperar.is_valid():
             if BusinessManager.objects.filter(email = form_recuperar.cleaned_data['email']).exists():
-                success_url = reverse_lazy('recovery_done')
-                html_email_template_name = 'Home/auth_reset_password/password_reset_email.html'
                 correo = form_recuperar.cleaned_data['email']
+                recovery_token = RecoveryTokens.objects.get_or_create(email=correo)
+                token = get_random_string(8)
+                recovery_token[0].token = token
+                recovery_token[0].save()
+                merge_data = {
+                    'protocol': "http", 'domain': "127.0.0.1:8000"
+                }
                 subject = 'Recuperar contraseña'
-                message = get_template(html_email_template_name).render()
+                message = render_to_string('Home/auth_reset_password/password_reset_email.html', merge_data)
                 email_from = settings.EMAIL_HOST_USER
                 email_to = [correo,]
                 mensaje = EmailMessage(
@@ -107,8 +121,53 @@ def recuperar_password(request):
                 )
                 mensaje.content_subtype = "html"
                 mensaje.send()
-                print(correo)
-    return render(request, 'Home/recuperar_password.html', context)
+                return JsonResponse({"status": "Correcto", "mensaje": "Se ha enviado un mensaje con los pasos para recuperar su contraseña."})
+            else:
+                return JsonResponse({"status": "Fracaso", "mensaje": "Correo no encontrado"})
+        else: 
+            return JsonResponse({"status": "Fracaso", "mensaje": "Correo no encontrado"})
+    return render(request, 'Home/new_recovery/recuperar_password.html', context)
+
+def token_recovery(request):
+    token_form = TokenForm()
+    password_form = NewPasswordForm()
+    context = {'token_form': token_form, 'password_form': password_form}
+    if request.is_ajax and request.method == 'POST':
+        token_form = TokenForm(request.POST)
+        password_form = NewPasswordForm(request.POST)
+        if token_form.is_valid() and password_form.is_valid():
+            password1 = password_form.cleaned_data['new_password1']
+            password2 = password_form.cleaned_data['new_password2']
+            print()
+            if password1 == password2:
+                if RecoveryTokens.objects.filter(token = token_form.cleaned_data['token']).exists():
+                    token = token_form.cleaned_data['token']
+                    recovery_token = RecoveryTokens.objects.get_or_create(token=token)
+                    user_manager = BusinessManager.objects.get(email=recovery_token[0].email)
+                    user_guiar = UserGuiar.objects.get(manager_id=user_manager.id)
+                    user_guiar.password = make_password(password1)
+                    user_guiar.save()
+                    subject = 'Contraseña actualizada correctamente'
+                    message = 'Hemos realizado el cambio de su contraseña, proceda a iniciar sesión en Guiar Seguros'
+                    email_from = settings.EMAIL_HOST_USER
+                    email_to = [user_manager.email,]
+                    mensaje = EmailMessage(
+                        subject,
+                        message,
+                        email_from,
+                        email_to,
+                    )
+                    mensaje.content_subtype = "html"
+                    mensaje.send()
+                    return JsonResponse({'url':'mideturiesgo'})
+                else: 
+                    return JsonResponse({"status": "Error", "mensaje": "Código no encontrado."})
+            else:
+                return JsonResponse({"status": "Error", "mensaje": "Contraseñas no son iguales"}, status=400)
+        else:
+            return JsonResponse({"status": "Error", "mensaje": "Código no encontrado."}, status=400)
+    return render(request, 'Home/new_recovery/token_recovery.html', context)
+
 
 def change_password_view(request):
     if request.method == 'POST':
