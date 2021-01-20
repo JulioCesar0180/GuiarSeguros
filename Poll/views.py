@@ -169,7 +169,9 @@ def view_form_process_list(request):
             return JsonResponse({"url": "poll-A"})
             #return redirect('poll-process')
         else:
-            return JsonResponse({"error":formset.errors})
+            print(form.errors)
+            # return JsonResponse({"url": "poll5", "error": form.errors})
+            return JsonResponse({"error": form.errors})
             #messages.error(request, "Error")
     return render(request, 'Poll/forms/form_process_list.html', context)
 
@@ -454,7 +456,7 @@ def view_results(request):
     for p in procesos:
         preguntas = Pregunta.objects.filter(dependencia=p.dependencia)
         for pregunta in preguntas:
-            if pregunta.tipo != 1:
+            if pregunta.tipo.pk == 3:
                 opciones = Opcion.objects.filter(pregunta=pregunta)
                 for opcion in opciones:
                     maximo += opcion.riesgo
@@ -463,34 +465,41 @@ def view_results(request):
     opciones = IntermediaUserOpcion.objects.filter(user=user)
     amortiguacion = 0
     for o in opciones:
-        if o.opcion.pregunta.tipo != 1:
+        if o.opcion.pregunta.tipo.pk == 3:  # Original (!= 1), devolver valor dependiendo de la corroboracion pendiente
             opcion_poliza = PolizaOpcion.objects.filter(opcion=o.opcion)
             if o.selected:
                 total += o.opcion.riesgo
             for opc in opcion_poliza:
                 index = buscar_indice(opc.poliza.pk, desgloce)
                 if o.selected:
-                    desgloce[index][2] += o.opcion.riesgo
-                if o.opcion.riesgo >= 0:
-                    desgloce[index][1] += o.opcion.riesgo
-        else:
-            amortiguacion += o.opcion.riesgo
-    dependencias = Dependencia.objects.all()
+                    desgloce[index][2] += opc.opcion.riesgo
+                if opc.opcion.riesgo >= 0:
+                    desgloce[index][1] += opc.opcion.riesgo
+        if o.opcion.pregunta.tipo.pk == 1:
+            if o.selected:
+                amortiguacion += o.opcion.riesgo
+    # TODO: Corroborar funcionamiento deseado encuesta actividades especificas
+    '''dependencias = Dependencia.objects.all()
     for dep in dependencias:
         registro = IntermediaDependenciaUser.objects.get(user=user, dependencia=dep)
         risk = registro.dependencia.riesgo
         dep_poliza = PolizaDependencia.objects.filter(dependencia=dep)
+        maximo += risk
         for dp in dep_poliza:
             index = buscar_indice(dp.poliza.pk, desgloce)
             if registro.selected:
                 desgloce[index][2] += risk
-            desgloce[index][1] += risk
+            desgloce[index][1] += risk'''
     is_empty = 0
     for d in desgloce:
         if d[2] != 0:
             is_empty = 1
-        d[2] = d[2] * (1 - amortiguacion)
-    total = total * (1 - amortiguacion)
+        print(d[0], d[1], d[2], d[3])
+        d[2] = d[2] * (1 - (amortiguacion/100))
+    print("")
+    print("Total: ", total)
+    print("Amortiguacion: ", amortiguacion)
+    total = total * (1 - (amortiguacion/100))
     if is_empty == 0:
         return redirect('home')
     else:
@@ -508,7 +517,7 @@ def view_results(request):
         desgloce_ordenado.sort(key=lambda array: array[2], reverse=True)
         for d in desgloce_ordenado:
             print(d[0], d[1], d[2], d[3])
-
+        print("Total: ", total)
         res_por = ((total) / (maximo))
         res_img = (379 + 19) * res_por
         res_fin = (379 + 19) - res_img

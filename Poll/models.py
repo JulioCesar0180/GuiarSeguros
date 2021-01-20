@@ -42,6 +42,7 @@ class SubPoliza(models.Model):
 class PolizaOpcion(models.Model):
     poliza = models.ForeignKey('SubPoliza', models.DO_NOTHING, null=True, blank=True)
     opcion = models.ForeignKey('Opcion', models.DO_NOTHING, null=True, blank=True)
+    riesgo = models.DecimalField(max_digits=5, decimal_places=2)
 
     def __str__(self):
         return self.poliza.name + " --- " + str(self.opcion.pk)
