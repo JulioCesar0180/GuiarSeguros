@@ -107,7 +107,8 @@ def recuperar_password(request):
                 recovery_token[0].token = token
                 recovery_token[0].save()
                 merge_data = {
-                    'protocol': "http", 'domain': "127.0.0.1:8000"
+                    'protocol': "http", 'domain': "127.0.0.1:8000",
+                    'token': token
                 }
                 subject = 'Recuperar contraseña'
                 message = render_to_string('Home/auth_reset_password/password_reset_email.html', merge_data)
