@@ -162,7 +162,7 @@ def token_recovery(request):
                     mensaje.send()
                     return JsonResponse({'url':'mideturiesgo'})
                 else: 
-                    return JsonResponse({"status": "Error", "mensaje": "Código no encontrado."})
+                    return JsonResponse({"status": "Error", "mensaje": "Código no encontrado."}, status=400)
             else:
                 return JsonResponse({"status": "Error", "mensaje": "Contraseñas no son iguales"}, status=400)
         else:

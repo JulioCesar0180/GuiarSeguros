@@ -171,7 +171,7 @@ def view_form_process_list(request):
         else:
             print(form.errors)
             # return JsonResponse({"url": "poll5", "error": form.errors})
-            return JsonResponse({"error": form.errors})
+            return JsonResponse({"error": form.errors}, status=400)
             #messages.error(request, "Error")
     return render(request, 'Poll/forms/form_process_list.html', context)
 
@@ -222,7 +222,7 @@ def view_process(request):
             # print("Hi")
             print(form.errors)
             context = {'user': user, 'form': form}
-            return JsonResponse({"error":formset.errors})
+            return JsonResponse({"error":formset.errors}, status=400)
             #return render(request, 'Poll/forms/form_process.html', context)
             #   messages.error(request, "Error")
             # TODO: Generar correctamente mensajes de error en caso que se requiera
@@ -258,7 +258,7 @@ def view_control(request):
             return JsonResponse({"url": "poll8"})
             #return redirect('poll-activity-list')
         else:
-            return JsonResponse({"error":formset.errors})
+            return JsonResponse({"error":formset.errors}, status=400)
             #return render(request, 'Poll/forms/form_control.html', context)
             #   messages.error(request, "Error")
             # TODO: Generar correctamente mensajes de error en caso que se requiera
@@ -290,7 +290,7 @@ def view_form_activity_list(request):
             return JsonResponse({"url": "poll-C"})
             #return redirect('poll-activity')
         else:
-            return JsonResponse({"error":formset.errors})
+            return JsonResponse({"error":formset.errors}, status=400)
             #messages.error(request, "Error")
     return render(request, 'Poll/forms/form_activity_list.html', context)
 
@@ -336,7 +336,7 @@ def view_activity(request):
             return JsonResponse({"url": "poll-results"})
             #return redirect('poll-results')
         else:
-            return JsonResponse({"error":formset.errors})
+            return JsonResponse({"error":formset.errors}, status=400)
             #return render(request, 'Poll/forms/form_activity.html', context)
             #   messages.error(request, "Error")
             # TODO: Generar correctamente mensajes de error en caso que se requiera
