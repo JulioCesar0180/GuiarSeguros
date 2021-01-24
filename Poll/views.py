@@ -478,18 +478,6 @@ def view_results(request):
         if o.opcion.pregunta.tipo.pk == 1:
             if o.selected:
                 amortiguacion += o.opcion.riesgo
-    # TODO: Corroborar funcionamiento deseado encuesta actividades especificas
-    '''dependencias = Dependencia.objects.all()
-    for dep in dependencias:
-        registro = IntermediaDependenciaUser.objects.get(user=user, dependencia=dep)
-        risk = registro.dependencia.riesgo
-        dep_poliza = PolizaDependencia.objects.filter(dependencia=dep)
-        maximo += risk
-        for dp in dep_poliza:
-            index = buscar_indice(dp.poliza.pk, desgloce)
-            if registro.selected:
-                desgloce[index][2] += risk
-            desgloce[index][1] += risk'''
     is_empty = 0
     for d in desgloce:
         if d[2] != 0:
