@@ -160,6 +160,7 @@ def token_recovery(request):
                     )
                     mensaje.content_subtype = "html"
                     mensaje.send()
+                    recovery_token[0].delete()
                     return JsonResponse({'url':'mideturiesgo'})
                 else: 
                     return JsonResponse({"status": "Error", "mensaje": "Código no encontrado."}, status=400)

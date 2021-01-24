@@ -166,7 +166,7 @@ def view_form_process_list(request):
                 cambio = IntermediaDependenciaUser.objects.get(user=user, dependencia=campo.pk)
                 cambio.selected = True
                 cambio.save()
-            return JsonResponse({"url": "poll-A"})
+            return JsonResponse({"url": "poll6"})
             #return redirect('poll-process')
         else:
             print(form.errors)
@@ -216,7 +216,7 @@ def view_process(request):
                     opcion = IntermediaUserOpcion.objects.get(user=user, opcion=o)
                     opcion.selected = True
                     opcion.save()
-            return JsonResponse({"url": "poll-B"})
+            return JsonResponse({"url": "poll7"})
             #return redirect('poll-control')
         else:
             # print("Hi")
@@ -287,7 +287,7 @@ def view_form_activity_list(request):
                 cambio = IntermediaDependenciaUser.objects.get(user=user, dependencia=campo.pk)
                 cambio.selected = True
                 cambio.save()
-            return JsonResponse({"url": "poll-C"})
+            return JsonResponse({"url": "poll9"})
             #return redirect('poll-activity')
         else:
             return JsonResponse({"error":formset.errors}, status=400)
