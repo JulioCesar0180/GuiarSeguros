@@ -12,7 +12,7 @@
     <div class="container is-desktop" style="padding: 0;">
         <div id="titulo" style="padding: 0 1.5rem">
             <h1 class="title is-1" style="margin-top: 100px; color: white">7.- Cuentanos un poco sobre la Prevención de Riesgos de tu empresa</h1>
-            <p style="color: white">Asegurese que la información este actualizada</p>
+            <p style="color: white">Debe marcar en cada caso la alternativa que mas se asemeje a la realidad de la empresa</p>
         </div>
         <div class="hero-body">
             <form id="id_process" method="post" style="width: 100%;">
@@ -61,7 +61,10 @@
                     window.location.href = "../"+response.url;
                 },
                 error: function(response){
-                    document.getElementById("error").innerHTML = "Debe seleccionar al menos un elemento en cada pregunta";
+                    document.getElementById("error").innerHTML = "Debe seleccionar al menos una opción en cada pregunta";
+                    window.alert("Debe señalar una de las opciones en cada una de las preguntas.\n" +
+                        "\nSi no encuentra una alternativa exacta correspondiente a la situación de la empresa, entonces " +
+                        "debe marcar la mas semejante a esta misma.")
                 }
             });
         });

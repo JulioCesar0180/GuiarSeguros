@@ -48,7 +48,9 @@
                     window.location.href = "../"+response.url;
                 },
                 error: function(response){
-                    document.getElementById("error").innerHTML = "Debe seleccionar al menos un elemento";
+                    document.getElementById("error").innerHTML = "Se requiere marcar al menos una opción";
+                    window.alert("Debe seleccionar al menos uno de los procesos listados.\n" +
+                        "\nSi requiere asistencia consulte directamente a +56974788719 o escriba un correo a contacto@guiarseguros.cl.")
                 }
             });
         });
