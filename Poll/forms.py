@@ -72,30 +72,29 @@ class DotacionForm(forms.Form):
             self.fields['cantidad%d' % i].widget.attrs.update({'class': 'input'})
 
 
-class ProcessActivityForm(forms.Form):
+class ProcessListForm(forms.Form):# Seleccionar procesos involucrados
 
     def __init__(self, *args, **kwargs):
         t = kwargs.pop('t', int)
-        super(ProcessActivityForm, self).__init__(*args, **kwargs)
+        super(ProcessListForm, self).__init__(*args, **kwargs)
         self.fields['nombre'] = forms.ModelMultipleChoiceField(queryset=Dependencia.objects.filter(tipo=t),
                                                                widget=forms.CheckboxSelectMultiple)
 
 
-class ActivityForm(forms.Form):
+class ActivityListForm(forms.Form):# Seleccionar actividades involucradas
 
     def __init__(self, *args, **kwargs):
-        n = kwargs.pop('n', int)
-        p = kwargs.pop('p', object)
-        super(ActivityForm, self).__init__(*args, **kwargs)
-        for i in xrange(n):
-            self.fields['opcion%d' % i] = forms.ModelMultipleChoiceField(queryset=Opcion.objects.filter(pregunta=p[i]))
+        t = kwargs.pop('t', int)
+        super(ActivityListForm, self).__init__(*args, **kwargs)
+        self.fields['nombre'] = forms.ModelMultipleChoiceField(queryset=Dependencia.objects.filter(tipo=t),
+                                                               widget=forms.CheckboxSelectMultiple, required=False)
 
 
-class PreguntaForm(forms.Form):
+class ProcessForm(forms.Form):# Seleccionar opcion en Procesos
     def __init__(self, *args, **kwargs):
         n = kwargs.pop('n', int)
         p = kwargs.pop('p', list)
-        super(PreguntaForm, self).__init__(*args, **kwargs)
+        super(ProcessForm, self).__init__(*args, **kwargs)
         for i in range(n):
             self.fields['titulo%d' % i] = forms.CharField(
                 initial=p[i].texto, required=False,
@@ -105,3 +104,38 @@ class PreguntaForm(forms.Form):
                 queryset=Opcion.objects.filter(pregunta=p[i]), required=True,
                 widget=forms.CheckboxSelectMultiple,
             )
+
+
+class ControlForm(forms.Form):# Seleccionar opcion en control de riesgo
+    def __init__(self, *args, **kwargs):
+        n = kwargs.pop('n', int)
+        p = kwargs.pop('p', list)
+        super(ControlForm, self).__init__(*args, **kwargs)
+        for i in range(n):
+            self.fields['titulo%d' % i] = forms.CharField(
+                initial=p[i].texto, required=False,
+                widget=forms.HiddenInput(attrs={'readonly': 'readonly'})
+            )
+            '''self.fields['opciones%d' % i] = forms.RadioSelect()
+            self.fields['opciones%d' % i].choices = Opcion.objects.filter(pregunta=p[i])'''
+            self.fields['opciones%d' % i] = forms.ModelChoiceField(
+                queryset=Opcion.objects.filter(pregunta=p[i]),
+                widget=forms.RadioSelect,
+            )
+
+
+class ActivityForm(forms.Form):# Seleccionar opcion en Actividades
+    def __init__(self, *args, **kwargs):
+        n = kwargs.pop('n', int)
+        p = kwargs.pop('p', list)
+        super(ActivityForm, self).__init__(*args, **kwargs)
+        for i in range(n):
+            self.fields['titulo%d' % i] = forms.CharField(
+                initial=p[i].texto, required=False,
+                widget=forms.HiddenInput(attrs={'readonly': 'readonly'})
+            )
+            self.fields['opciones%d' % i] = forms.ModelMultipleChoiceField(
+                queryset=Opcion.objects.filter(pregunta=p[i]), required=True, blank=True,
+                widget=forms.CheckboxSelectMultiple,
+            )
+# TODO: Habilitar este ultimo form en la ultima pagina de la encuesta antes de los resultados

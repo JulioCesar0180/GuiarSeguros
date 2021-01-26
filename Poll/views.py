@@ -1,7 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.forms import inlineformset_factory
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
@@ -11,7 +10,7 @@ from django.views.generic import *
 from Poll.forms import *
 from Poll.models import *
 from Home.models import UserGuiar, BusinessManager, Dotacion, DotacionEmpresarial, RangosDotacion, IntermediaUserOpcion
-#PDF
+# PDF
 from django.views.generic import View
 from .utils import render_to_pdf
 from django.template.loader import get_template
@@ -52,9 +51,9 @@ def profile_view(request):
         return redirect('/admin/')
     else:
         manager = BusinessManager.objects.get(rut_bm=user.manager.rut_bm)
-        formManager = ChangeProfileBMPoll(instance=manager)
-        formUser = ChangeProfileBSPoll(instance=user)
-        context = {'user': user, 'manager': manager, 'formManager': formManager, 'formUser': formUser}
+        form_manager = ChangeProfileBMPoll(instance=manager)
+        form_user = ChangeProfileBSPoll(instance=user)
+        context = {'user': user, 'manager': manager, 'formManager': form_manager, 'formUser': form_user}
         return render(request, 'Poll/profile.html', context)
 
 
@@ -147,10 +146,10 @@ def view_form_quantity(request):
 @login_required
 def view_form_process_list(request):
     user = UserGuiar.objects.get(pk=request.user.pk)
-    form = ProcessActivityForm(t="1")
+    form = ProcessListForm(t="1")
     context = {'user': user, 'form': form}
     if request.is_ajax and request.method == "POST":
-        form = ProcessActivityForm(request.POST, t="1")
+        form = ProcessListForm(request.POST, t="1")
         if form.is_valid():
             dependencias = IntermediaDependenciaUser.objects.filter(user=user)
             grupo_dependencias = Dependencia.objects.all()
@@ -167,12 +166,8 @@ def view_form_process_list(request):
                 cambio.selected = True
                 cambio.save()
             return JsonResponse({"url": "poll6"})
-            #return redirect('poll-process')
         else:
-            print(form.errors)
-            # return JsonResponse({"url": "poll5", "error": form.errors})
             return JsonResponse({"error": form.errors}, status=400)
-            #messages.error(request, "Error")
     return render(request, 'Poll/forms/form_process_list.html', context)
 
 
@@ -193,10 +188,10 @@ def view_process(request):
         if preg.dependencia.nombre in dependencias:
             preguntas.append(preg)
     n = len(preguntas)
-    form = PreguntaForm(n=n, p=preguntas)
+    form = ProcessForm(n=n, p=preguntas)
     context = {'user': user, 'form': form}
     if request.is_ajax and request.method == "POST":
-        form = PreguntaForm(request.POST, n=n, p=preguntas)
+        form = ProcessForm(request.POST, n=n, p=preguntas)
         dependencias.clear()
         preguntas.clear()
         if form.is_valid():
@@ -217,15 +212,8 @@ def view_process(request):
                     opcion.selected = True
                     opcion.save()
             return JsonResponse({"url": "poll7"})
-            #return redirect('poll-control')
         else:
-            # print("Hi")
-            print(form.errors)
-            context = {'user': user, 'form': form}
-            return JsonResponse({"error":formset.errors}, status=400)
-            #return render(request, 'Poll/forms/form_process.html', context)
-            #   messages.error(request, "Error")
-            # TODO: Generar correctamente mensajes de error en caso que se requiera
+            return JsonResponse({"error": formset.errors}, status=400)
     return render(request, 'Poll/forms/form_process.html', context)
 
 
@@ -234,10 +222,10 @@ def view_control(request):
     user = UserGuiar.objects.get(pk=request.user.pk)
     preguntas = Pregunta.objects.filter(tipo=1)
     n = len(preguntas)
-    form = PreguntaForm(n=n, p=preguntas)
+    form = ControlForm(n=n, p=preguntas)
     context = {'user': user, 'form': form}
     if request.is_ajax and request.method == "POST":
-        form = PreguntaForm(request.POST, n=n, p=preguntas)
+        form = ControlForm(request.POST, n=n, p=preguntas)
         if form.is_valid():
             grupo_opciones = IntermediaUserOpcion.objects.filter(user=user)
             opciones = Opcion.objects.all()
@@ -251,27 +239,23 @@ def view_control(request):
                         opcion.save()
             for i in range(n):
                 campo = 'opciones' + str(i)
-                for o in form.cleaned_data[campo]:
-                    opcion = IntermediaUserOpcion.objects.get(user=user, opcion=o)
-                    opcion.selected = True
-                    opcion.save()
+                o = form.cleaned_data[campo]
+                opcion = IntermediaUserOpcion.objects.get(user=user, opcion=o)
+                opcion.selected = True
+                opcion.save()
             return JsonResponse({"url": "poll8"})
-            #return redirect('poll-activity-list')
         else:
-            return JsonResponse({"error":formset.errors}, status=400)
-            #return render(request, 'Poll/forms/form_control.html', context)
-            #   messages.error(request, "Error")
-            # TODO: Generar correctamente mensajes de error en caso que se requiera
+            return JsonResponse({"error": formset.errors}, status=400)
     return render(request, 'Poll/forms/form_control.html', context)
 
 
 @login_required
 def view_form_activity_list(request):
     user = UserGuiar.objects.get(pk=request.user.pk)
-    form = ProcessActivityForm(t="2")
+    form = ActivityListForm(t="2")
     context = {'user': user, 'form': form}
     if request.is_ajax and request.method == "POST":
-        form = ProcessActivityForm(request.POST, t="2")
+        form = ActivityListForm(request.POST, t="2")
         if form.is_valid():
             dependencias = IntermediaDependenciaUser.objects.filter(user=user)
             grupo_dependencias = Dependencia.objects.all()
@@ -283,15 +267,18 @@ def view_form_activity_list(request):
                     if dep.dependencia.tipo == "2":
                         dep.selected = False
                         dep.save()
+            i = 0
             for campo in form.cleaned_data['nombre']:
                 cambio = IntermediaDependenciaUser.objects.get(user=user, dependencia=campo.pk)
                 cambio.selected = True
                 cambio.save()
-            return JsonResponse({"url": "poll9"})
-            #return redirect('poll-activity')
+                i += 1
+            if i == 0:
+                return JsonResponse({"url": "poll-results"})
+            else:
+                return JsonResponse({"url": "poll9"})
         else:
-            return JsonResponse({"error":formset.errors}, status=400)
-            #messages.error(request, "Error")
+            return JsonResponse({"error": formset.errors}, status=400)
     return render(request, 'Poll/forms/form_activity_list.html', context)
 
 
@@ -312,10 +299,10 @@ def view_activity(request):
         if preg.dependencia.nombre in dependencias:
             preguntas.append(preg)
     n = len(preguntas)
-    form = PreguntaForm(n=n, p=preguntas)
+    form = ActivityForm(n=n, p=preguntas)
     context = {'user': user, 'form': form}
     if request.method == "POST":
-        form = PreguntaForm(request.POST, n=n, p=preguntas)
+        form = ActivityForm(request.POST, n=n, p=preguntas)
         if form.is_valid():
             grupo_opciones = IntermediaUserOpcion.objects.filter(user=user)
             opciones = Opcion.objects.all()
@@ -334,12 +321,8 @@ def view_activity(request):
                     opcion.selected = True
                     opcion.save()
             return JsonResponse({"url": "poll-results"})
-            #return redirect('poll-results')
         else:
-            return JsonResponse({"error":formset.errors}, status=400)
-            #return render(request, 'Poll/forms/form_activity.html', context)
-            #   messages.error(request, "Error")
-            # TODO: Generar correctamente mensajes de error en caso que se requiera
+            return JsonResponse({"error": formset.errors}, status=400)
     return render(request, 'Poll/forms/form_activity.html', context)
 
 
@@ -506,16 +489,16 @@ def view_results(request):
         for d in desgloce_ordenado:
             print(d[0], d[1], d[2], d[3])
         print("Total: ", total)
-        res_por = ((total) / (maximo))
+        res_por = (total / maximo)
         res_img = (379 + 19) * res_por
         res_fin = (379 + 19) - res_img
         res_fin = int(res_fin)
-        cuartil = (maximo) / 4
+        cuartil = maximo / 4
         print("este es el maximo", maximo)
 
-        if total < (cuartil):
+        if total < cuartil:
             color = "VERDE"
-        elif (cuartil) <= total < (2 * cuartil):
+        elif cuartil <= total < (2 * cuartil):
             color = "AMARILLO"
         elif (2 * cuartil) <= total <= (3 * cuartil):
             color = "ANARANJADO"
@@ -523,7 +506,8 @@ def view_results(request):
             color = "ROJO"
 
         return render(request, 'Poll/results.html',
-                      {'maximo': maximo, 'minimo': minimo, 'total': total, 'res_fin': res_fin, 'color': color, 'desgloce': desgloce_ordenado})
+                      {'maximo': maximo, 'minimo': minimo, 'total': total, 'res_fin': res_fin,
+                       'color': color, 'desgloce': desgloce_ordenado})
 
 
 class GeneratePDF(View):
@@ -540,12 +524,12 @@ class GeneratePDF(View):
         if pdf:
             response = HttpResponse(pdf, content_type='application/pdf')
             filename = "Reporte.pdf"
-            content = "inline; filename='%s'" %(filename)
+            content = "inline; filename='%s'" % filename
             response['Content-Disposition'] = content
 
             download = request.GET.get("download")
             if download:
-                content = "attachment; filename='%s'" %(filename)
+                content = "attachment; filename='%s'" % filename
             response['Content-Disposition'] = content
             return response
         return
