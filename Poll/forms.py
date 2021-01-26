@@ -31,13 +31,6 @@ class ChangeProfileBSPoll(forms.ModelForm):
         }
 
 
-"""
-    def __init__(self, city_q, *args, **kwargs):
-        super(ChangeProfileBSPoll, self).__init__(*args, **kwargs)
-        # self.fields['town'].queryset = Town.objects.filter(city__name_city=city_q)
-"""
-
-
 class ChangeProfileBMPoll(forms.ModelForm):
     class Meta:
         model = BusinessManager
@@ -116,8 +109,6 @@ class ControlForm(forms.Form):# Seleccionar opcion en control de riesgo
                 initial=p[i].texto, required=False,
                 widget=forms.HiddenInput(attrs={'readonly': 'readonly'})
             )
-            '''self.fields['opciones%d' % i] = forms.RadioSelect()
-            self.fields['opciones%d' % i].choices = Opcion.objects.filter(pregunta=p[i])'''
             self.fields['opciones%d' % i] = forms.ModelChoiceField(
                 queryset=Opcion.objects.filter(pregunta=p[i]),
                 widget=forms.RadioSelect,
@@ -131,11 +122,10 @@ class ActivityForm(forms.Form):# Seleccionar opcion en Actividades
         super(ActivityForm, self).__init__(*args, **kwargs)
         for i in range(n):
             self.fields['titulo%d' % i] = forms.CharField(
-                initial=p[i].texto, required=False,
+                initial=p[i].texto, required=True, disabled=True,
                 widget=forms.HiddenInput(attrs={'readonly': 'readonly'})
             )
             self.fields['opciones%d' % i] = forms.ModelMultipleChoiceField(
-                queryset=Opcion.objects.filter(pregunta=p[i]), required=True, blank=True,
+                queryset=Opcion.objects.filter(pregunta=p[i]), required=False,
                 widget=forms.CheckboxSelectMultiple,
             )
-# TODO: Habilitar este ultimo form en la ultima pagina de la encuesta antes de los resultados

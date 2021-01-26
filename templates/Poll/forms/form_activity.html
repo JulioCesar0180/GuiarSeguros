@@ -19,7 +19,7 @@
                 {% csrf_token %}
                     {% for f in form %}
                     <p id="error" style="color: white"></p>
-                        {% if not f.field.required %}
+                        {% if f.field.required %}
                             <div id="titulo" style="padding: 0 1.5rem">
                                 <h1 class="title is-1" style="color: white">{{f.value}}</h1>
                             </div>
