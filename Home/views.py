@@ -42,16 +42,26 @@ def home(request):
 def view_register_manager(request):
     form_user = CreateUserForm()
     form_manager = CreateManagerForm()
-    if request.method == "POST":
+    if request.is_ajax and request.method == "POST":
         form_user = CreateUserForm(request.POST)
         form_manager = CreateManagerForm(request.POST)
         if form_user.is_valid() and form_manager.is_valid() and validate_rut(form_manager.cleaned_data['rut_bm'])\
                 and validate_rut(form_user.cleaned_data['rut']):
-            form_manager.save()
-            form_user.save()
-            user_query = UserGuiar.objects.get(rut=form_user.cleaned_data['rut'])
+            instance_bm = form_manager.save(commit = False)
+            instance_user = form_user.save(commit = False)
+            
+            instance_bm.rut_bm = instance_bm.rut_bm.upper()
+            instance_bm.rut_bm = instance_bm.rut_bm.replace(".", "")
+            
+            instance_user.rut = instance_user.rut.upper()
+            instance_user.rut = instance_user.rut.replace(".", "")
+            
+            instance_user.save()
+            instance_bm.save()
+
+            user_query = UserGuiar.objects.get(rut=instance_user.rut)
             user_query.email_manager = form_manager.cleaned_data['email']
-            user_manager = BusinessManager.objects.get(rut_bm=form_manager.cleaned_data['rut_bm'])
+            user_manager = BusinessManager.objects.get(rut_bm=instance_bm.rut_bm)
             user_query.manager = user_manager
             subject = 'Bienvenido a Guiar Consultores'
             message = 'a'
@@ -60,13 +70,14 @@ def view_register_manager(request):
             send_mail(subject, message, email_from, email_to)
             user_query.save()
 
-            user = authenticate(rut=form_user.cleaned_data['rut'], password=form_user.cleaned_data['password1'])
+            user = authenticate(rut=instance_user.rut, password=form_user.cleaned_data['password1'])
             print(user)
             if user:
                 login(request, user)
                 return redirect('profile')
         else:
             messages.error(request, "Error")
+            #return JsonResponse({'status': 'error', 'mensaje_user': form_user.errors, 'mensaje_bm': form_manager.errors}, status=400)
     context = {'form_user': form_user, 'form_manager': form_manager}
     return render(request, 'Home/forms/form_signup.html', context)
 

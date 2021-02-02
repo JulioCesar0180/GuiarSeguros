@@ -17,9 +17,19 @@
                 <div>
                     <div class="uk-card-left uk-card-body">
                         <h3 class="uk-card-title">¿Quien eres?</h3>
+                        <div id="mensaje_user">
+                            <p id="error_user"></p>
+                        </div>
                         <p>Para mejorar nuestra atención queremos saber con quien estamos tratando</p>
                         <br>
                         {% csrf_token %}
+                        {% if form_user.errors %}
+                            {% for field in form_user %}
+                                {% for error in field.errors %}
+                                    Existe un error en el formulario, por favor revise el rut o contraseña
+                                {% endfor %}
+                            {% endfor %}
+                        {% endif %}
                         {{ form_manager.fullname }}
                         {{ form_manager.rut_bm }}
                         {{ form_manager.email }}
@@ -29,6 +39,9 @@
                 <div>
                     <div class="uk-card-body">
                         <h3 class="uk-card-title">Sobre tu Empresa...</h3>
+                        <div id="mensaje_bm">
+                            <p id="error_manager"></p>
+                        </div>
                         <p>Crea tu cuenta la cual estará asociada a tu empresa</p>
                         <br>
                         {{ user_error }}
@@ -52,31 +65,28 @@
 {% block script %}
     <script>
         document.getElementById('id_fullname').focus();
-        {% if form_user.errors %}
-            {% for field in form_user %}
-                {% for error in field.errors %}
-                    $.notify("{{ error }}");
-                {% endfor %}
-            {% endfor %}
-        {% endif %}
+        
     </script>
     <script src="{% static 'js/rut_validate.js' %}"></script>
     <script>
-        $("form#validacion-live #id_rut")
-            .rut({formatOn: 'keyup', validateOn: 'keyup'})
-            .on('rutInvalido', function(){
-                $(this).addClass("is-danger")
-            })
-            .on('rutValido', function(){
-                $(this).removeClass("is-danger")
-            });
-        $("form#validacion-live #id_rut_bm")
-            .rut({formatOn: 'keyup', validateOn: 'keyup'})
-            .on('rutInvalido', function(){
-                $(this).addClass("is-danger")
-            })
-            .on('rutValido', function(){
-                $(this).removeClass("is-danger")
+        $(document).ready(function(){
+
+            $("form#validacion-live #id_rut")
+                .rut({formatOn: 'keyup', validateOn: 'keyup'})
+                .on('rutInvalido', function(){
+                    $(this).addClass("is-danger")
+                })
+                .on('rutValido', function(){
+                    $(this).removeClass("is-danger")
+                });
+            $("form#validacion-live #id_rut_bm")
+                .rut({formatOn: 'keyup', validateOn: 'keyup'})
+                .on('rutInvalido', function(){
+                    $(this).addClass("is-danger")
+                })
+                .on('rutValido', function(){
+                    $(this).removeClass("is-danger")
+                }); 
             });
     </script>
 {% endblock %}

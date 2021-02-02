@@ -36,7 +36,7 @@ class CreateManagerForm(forms.ModelForm):
         widgets = {
             'fullname': forms.TextInput(attrs={'class': 'input gs-input', 'placeholder': 'Nombre Completo',
                                                'autocomplete': 'off'}),
-            'rut_bm': forms.TextInput(attrs={'class': 'input gs-input', 'placeholder': 'Rut',
+            'rut_bm': forms.TextInput(attrs={'class': 'input gs-input', 'placeholder': 'Rut, ingreselo sin puntos y con guion',
                                              'autocomplete': 'off'}),
             'email': forms.EmailInput(attrs={'class': 'input gs-input', 'placeholder': 'Email',
                                              'autocomplete': 'off'}),
@@ -63,7 +63,7 @@ class CreateUserForm(UserCreationForm):
         fields = ['rut', 'name', 'city', 'town', 'address', 'seniority', 'password1', 'password2']
 
         widgets = {
-            'rut': forms.TextInput(attrs={'class': 'input gs-input', 'placeholder': 'RUT', 'autocomplete': 'off'}),
+            'rut': forms.TextInput(attrs={'class': 'input gs-input', 'placeholder': 'Rut, ingreselo sin puntos y con guion', 'autocomplete': 'off'}),
             'name': forms.TextInput(attrs={'class': 'input gs-input', 'placeholder': 'Razón Social', 'autocomplete': 'off'}),
             'seniority': forms.NumberInput(attrs={'class': 'input gs-input', 'placeholder': 'Antigüedad de la empresa', 'autocomplete': 'off'}),
             'address': forms.TextInput(attrs={'class': 'input gs-input', 'placeholder': 'Dirección', 'autocomplete': 'off'}),
