@@ -24,11 +24,7 @@
                         <br>
                         {% csrf_token %}
                         {% if form_user.errors %}
-                            {% for field in form_user %}
-                                {% for error in field.errors %}
-                                    Existe un error en el formulario, por favor revise el rut o contraseña
-                                {% endfor %}
-                            {% endfor %}
+                            Existe un error en el formulario, por favor revise el rut o contraseña
                         {% endif %}
                         {{ form_manager.fullname }}
                         {{ form_manager.rut_bm }}
