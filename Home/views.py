@@ -1,26 +1,21 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth.hashers import check_password, make_password
-from django.contrib.auth.tokens import default_token_generator
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, \
-    PasswordResetCompleteView, PasswordChangeView
-from django.contrib.messages import get_messages
-from django.core.mail import send_mail, BadHeaderError
-from django.db.models import Q
-from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render, redirect, get_object_or_404
+    PasswordResetCompleteView
+from django.core.mail import send_mail
+from django.http import JsonResponse
+from django.shortcuts import render, redirect
 
 # Create your views here.
-from django.template.loader import render_to_string, get_template
-from django.urls import reverse, reverse_lazy
-from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode
-from django.views.generic.edit import CreateView
+from django.template.loader import render_to_string
+from django.urls import reverse_lazy
 
 from GuiarSeguros import settings
 from .models import BusinessManager, UserGuiar, RecoveryTokens
-from .forms import CreateManagerForm, CreateUserForm, PasswordResetFormGS, SetPasswordFormGS, UserChangePassword, CreateRecuperarForm, TokenForm, NewPasswordForm
+from .forms import CreateManagerForm, CreateUserForm, PasswordResetFormGS, SetPasswordFormGS, CreateRecuperarForm,\
+    TokenForm, NewPasswordForm
 
 from .utils import validate_rut
 
@@ -29,11 +24,13 @@ from django.core.mail import EmailMessage
 import random
 import string
 
+
 def get_random_string(length):
     # Random string with the combination of lower and upper case
     letters = string.ascii_letters
     result_str = ''.join(random.choice(letters) for i in range(length))
     return result_str
+
 
 def home(request):
     return render(request, 'Home/home.html')
@@ -47,8 +44,8 @@ def view_register_manager(request):
         form_manager = CreateManagerForm(request.POST)
         if form_user.is_valid() and form_manager.is_valid() and validate_rut(form_manager.cleaned_data['rut_bm'])\
                 and validate_rut(form_user.cleaned_data['rut']):
-            instance_bm = form_manager.save(commit = False)
-            instance_user = form_user.save(commit = False)
+            instance_bm = form_manager.save(commit=False)
+            instance_user = form_user.save(commit=False)
             
             instance_bm.rut_bm = instance_bm.rut_bm.upper()
             instance_bm.rut_bm = instance_bm.rut_bm.replace(".", "")
@@ -76,8 +73,9 @@ def view_register_manager(request):
                 login(request, user)
                 return redirect('profile')
         else:
+            print("Ha ocurrido un error")
             messages.error(request, "Error")
-            #return JsonResponse({'status': 'error', 'mensaje_user': form_user.errors, 'mensaje_bm': form_manager.errors}, status=400)
+            # return JsonResponse({'status': 'error', 'mensaje_user': form_user.errors, 'mensaje_bm': form_manager.errors}, status=400)
     context = {'form_user': form_user, 'form_manager': form_manager}
     return render(request, 'Home/forms/form_signup.html', context)
 
@@ -104,14 +102,15 @@ class PasswordResetConfirmViewGS(PasswordResetConfirmView):
 class PasswordResetCompleteViewGS(PasswordResetCompleteView):
     template_name = 'Home/auth_reset_password/password_reset_complete.html'
 
-#Por hacer: Generar la tabla con los token e ids
+
+# Por hacer: Generar la tabla con los token e ids
 def recuperar_password(request):
     form_recuperar = CreateRecuperarForm()
     context = {'form_recuperar': form_recuperar}
     if request.is_ajax and request.method == 'POST':
         form_recuperar = CreateRecuperarForm(request.POST)
         if form_recuperar.is_valid():
-            if BusinessManager.objects.filter(email = form_recuperar.cleaned_data['email']).exists():
+            if BusinessManager.objects.filter(email=form_recuperar.cleaned_data['email']).exists():
                 correo = form_recuperar.cleaned_data['email']
                 recovery_token = RecoveryTokens.objects.get_or_create(email=correo)
                 token = get_random_string(8)
@@ -124,7 +123,7 @@ def recuperar_password(request):
                 subject = 'Recuperar contraseña'
                 message = render_to_string('Home/auth_reset_password/password_reset_email.html', merge_data)
                 email_from = settings.EMAIL_HOST_USER
-                email_to = [correo,]
+                email_to = [correo, ]
                 mensaje = EmailMessage(
                     subject,
                     message,
@@ -133,12 +132,14 @@ def recuperar_password(request):
                 )
                 mensaje.content_subtype = "html"
                 mensaje.send()
-                return JsonResponse({"status": "Correcto", "mensaje": "Se ha enviado un mensaje con los pasos para recuperar su contraseña."})
+                return JsonResponse({"status": "Correcto",
+                                     "mensaje": "Se ha enviado un mensaje con los pasos para recuperar su contraseña."})
             else:
                 return JsonResponse({"status": "Fracaso", "mensaje": "Correo no encontrado"})
         else: 
             return JsonResponse({"status": "Fracaso", "mensaje": "Correo no encontrado"})
     return render(request, 'Home/new_recovery/recuperar_password.html', context)
+
 
 def token_recovery(request):
     token_form = TokenForm()
@@ -152,7 +153,7 @@ def token_recovery(request):
             password2 = password_form.cleaned_data['new_password2']
             print()
             if password1 == password2:
-                if RecoveryTokens.objects.filter(token = token_form.cleaned_data['token']).exists():
+                if RecoveryTokens.objects.filter(token=token_form.cleaned_data['token']).exists():
                     token = token_form.cleaned_data['token']
                     recovery_token = RecoveryTokens.objects.get_or_create(token=token)
                     user_manager = BusinessManager.objects.get(email=recovery_token[0].email)
@@ -162,7 +163,7 @@ def token_recovery(request):
                     subject = 'Contraseña actualizada correctamente'
                     message = 'Hemos realizado el cambio de su contraseña, proceda a iniciar sesión en Guiar Seguros'
                     email_from = settings.EMAIL_HOST_USER
-                    email_to = [user_manager.email,]
+                    email_to = [user_manager.email, ]
                     mensaje = EmailMessage(
                         subject,
                         message,
@@ -172,7 +173,7 @@ def token_recovery(request):
                     mensaje.content_subtype = "html"
                     mensaje.send()
                     recovery_token[0].delete()
-                    return JsonResponse({'url':'mideturiesgo'})
+                    return JsonResponse({'url': 'mideturiesgo'})
                 else: 
                     return JsonResponse({"status": "Error", "mensaje": "Código no encontrado."}, status=400)
             else:
