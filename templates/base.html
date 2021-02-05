@@ -36,10 +36,10 @@
 
         <div id="navMenu-bar" class="navbar-menu">
             <div class="navbar-start">
-                <a id="item-about" href="#mideturiesgo" class="navbar-item">Mide tu riesgo</a>
-                <a id="item-computer-lab" href="#welcome" class="navbar-item">Acerca de</a>
-                <a id="item-computer-lab-a" href="#service" class="navbar-item">Servicios</a>
-                <a id="item-computer-lab-b" href="#partners" class="navbar-item">Alianzas</a>
+                <a id="item-about" href="{% url 'home' %}#mideturiesgo" class="navbar-item">Mide tu riesgo</a>
+                <a id="item-computer-lab" href="{% url 'home' %}#welcome" class="navbar-item">Acerca de</a>
+                <a id="item-computer-lab-a" href="{% url 'home' %}#service" class="navbar-item">Servicios</a>
+                <a id="item-computer-lab-b" href="{% url 'home' %}#partners" class="navbar-item">Alianzas</a>
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link">
                         Paga tu seguro
