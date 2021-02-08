@@ -40,8 +40,8 @@ class CreateManagerForm(forms.ModelForm):
                                              'autocomplete': 'off'}),
             'email': forms.EmailInput(attrs={'class': 'input gs-input', 'placeholder': 'Email',
                                              'autocomplete': 'off'}),
-            'phone': forms.NumberInput(attrs={'class': 'input gs-input', 'placeholder': 'Celular',
-                                              'autocomplete': 'off'})
+            'phone': forms.NumberInput(attrs={'class': 'input gs-input', 'placeholder': '912345678 ó +56912345678',
+                                              'autocomplete': 'off', 'type': 'tel', 'pattern':'^(\+?56)?(\s?)(0?9)(\s?)[9876543]\d{7}$'})
         }
 
 
@@ -94,6 +94,7 @@ class TokenForm(forms.Form):
 
 class NewPasswordForm(forms.Form):
     new_password1 = forms.CharField(
+        min_length='8',
         label="",
         widget=forms.PasswordInput(attrs={
             'class': 'input'
@@ -103,6 +104,7 @@ class NewPasswordForm(forms.Form):
     )
 
     new_password2 = forms.CharField(
+        min_length='8',
         label="",
         widget=forms.PasswordInput(attrs={
             'class': 'input'
@@ -151,6 +153,7 @@ class UserChangePassword(PasswordChangeForm):
     )
 
     new_password = forms.CharField(
+        min_length='8',
         label="",
         widget=forms.PasswordInput(
             attrs={
@@ -160,6 +163,7 @@ class UserChangePassword(PasswordChangeForm):
     )
 
     confirm_password = forms.CharField(
+        min_length='8',
         label="",
         widget=forms.PasswordInput(
             attrs={

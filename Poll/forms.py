@@ -25,7 +25,7 @@ class ChangeProfileBSPoll(forms.ModelForm):
 
         widgets = {
             'name': forms.TextInput(attrs={'class': 'input'}),
-            'rut': forms.TextInput(attrs={'class': 'input'}),
+            'rut': forms.TextInput(attrs={'class': 'input', 'readonly':'readonly'}),
             'seniority': forms.TextInput(attrs={'class': 'input'}),
             'address': forms.TextInput(attrs={'class': 'input'}),
         }
@@ -38,7 +38,7 @@ class ChangeProfileBMPoll(forms.ModelForm):
 
         widgets = {
             'fullname': forms.TextInput(attrs={'class': 'input'}),
-            'rut_bm': forms.TextInput(attrs={'class': 'input'}),
+            'rut_bm': forms.TextInput(attrs={'class': 'input', 'readonly':'readonly'}),
             'email': forms.EmailInput(attrs={'class': 'input'}),
             'phone': forms.NumberInput(attrs={'class': 'input'})
         }
