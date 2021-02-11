@@ -448,7 +448,7 @@ def view_results(request):
     opciones = IntermediaUserOpcion.objects.filter(user=user)
     amortiguacion = 0
     for o in opciones:
-        if o.opcion.pregunta.tipo.pk == 3:  # Original (!= 1), devolver valor dependiendo de la corroboracion pendiente
+        if o.opcion.pregunta.tipo.pk == 3:
             opcion_poliza = PolizaOpcion.objects.filter(opcion=o.opcion)
             if o.selected:
                 total += o.opcion.riesgo
@@ -461,6 +461,25 @@ def view_results(request):
         if o.opcion.pregunta.tipo.pk == 1:
             if o.selected:
                 amortiguacion += o.opcion.riesgo
+    dependencias = IntermediaDependenciaUser.objects.filter(user=user)
+    for dep in dependencias:
+        risk = dep.dependencia.riesgo
+        maximo += risk
+        if dep.selected:
+            total += risk
+            if dep.dependencia.tipo == "2":
+                preguntas = Pregunta.objects.filter(dependencia=dep.dependencia)
+                riesgo_total = 0
+                riesgo = 0
+                for pregunta in preguntas:
+                    opciones = IntermediaUserOpcion.objects.filter(user=user, pregunta=pregunta)
+                    for opcion in opciones:
+                        riesgo_total += opcion.opcion.riesgo
+                        if opcion.selected:
+                            riesgo += opcion.opcion.riesgo
+                riesgo_parcial = riesgo/riesgo_total
+                riesgo_agregado = (risk*0.8)*riesgo_parcial
+                total += riesgo_agregado
     is_empty = 0
     for d in desgloce:
         if d[2] != 0:
