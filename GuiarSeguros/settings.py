@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 SECRET_KEY = 'z)kc&7h%(e7!_cviegmszw=&n58%zg#^xzlmfjmb3ffqenl^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["186.64.122.111", "127.0.0.1", "guiarseguros.cl"]
+ALLOWED_HOSTS = ["45.236.129.221", "127.0.0.1", "guiarseguros.cl", "www.guiarseguros.cl"]
 
 
 # Application definition
