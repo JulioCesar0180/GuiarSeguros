@@ -25,7 +25,7 @@ SECRET_KEY = 'z)kc&7h%(e7!_cviegmszw=&n58%zg#^xzlmfjmb3ffqenl^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["45.236.129.221", "127.0.0.1", "servidor.guiarseguros.cl",]
+ALLOWED_HOSTS = ["45.236.129.221", "127.0.0.1", "servidor.guiarseguros.cl", "www.guiarseguros.cl", "guiarseguros.cl"]
 
 
 # Application definition
