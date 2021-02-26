@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 SECRET_KEY = 'z)kc&7h%(e7!_cviegmszw=&n58%zg#^xzlmfjmb3ffqenl^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["186.64.122.168","45.236.129.221", "127.0.0.1", "servidor.guiarseguros.cl", "www.guiarseguros.cl", "guiarseguros.cl"]
 
