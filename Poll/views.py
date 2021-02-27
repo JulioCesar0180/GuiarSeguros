@@ -371,6 +371,7 @@ class UpdateUserView(UpdateView):
 
     def form_valid(self, form):
         response = super(UpdateUserView, self).form_valid(form)
+        print(response)
         if self.request.is_ajax():
             form.save()
             data = {

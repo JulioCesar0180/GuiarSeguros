@@ -53,8 +53,9 @@ def view_register_manager(request):
             instance_user.rut = instance_user.rut.upper()
             instance_user.rut = instance_user.rut.replace(".", "")
             
-            instance_user.save()
             instance_bm.save()
+            instance_user.manager_id = instance_bm.id
+            instance_user.save()
 
             user_query = UserGuiar.objects.get(rut=instance_user.rut)
             user_query.email_manager = form_manager.cleaned_data['email']

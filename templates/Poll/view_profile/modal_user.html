@@ -5,7 +5,7 @@
             <p class="modal-card-title" style="color: white">Datos de la Empresa</p>
             <button id="close_user" class="uk-modal-close" aria-label="close"></button>
         </header>
-        <form id="form_update_user" method="post" data-url="{% url 'update-user' %}">
+        <form id="form_update_user">
             {% csrf_token %}
             <section class="modal-card-body" style="background-color: gray">
                 <label for="{{ formUser.name.id_for_label }}" style="color: white">Razón Social</label>
@@ -32,3 +32,22 @@
         </form>
     </div>
 </div>
+
+{% block js %}
+    <script>
+        $(document).ready(function (){
+            $('#save_user').on('submit', function (e){
+                e.preventDefault();
+                var serializedData = $(this).serialize();
+                $.ajax({
+                    type: 'PUT',
+                    url: "{% url 'update-user' %}",
+                    data: serializedData,
+                    success: function (response) {
+                        window.location.href = "../"+response.url;
+                    }
+                });
+            })
+        })
+    </script>
+{% endblock %}
