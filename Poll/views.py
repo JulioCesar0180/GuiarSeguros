@@ -473,14 +473,16 @@ def view_results(request):
                 riesgo_total = 0
                 riesgo = 0
                 for pregunta in preguntas:
-                    opciones = IntermediaUserOpcion.objects.filter(user=user, pregunta=pregunta)
+                    # opciones = IntermediaUserOpcion.objects.filter(user=user, pregunta=pregunta)
+                    opciones = IntermediaUserOpcion.objects.filter(user=user)
                     for opcion in opciones:
-                        riesgo_total += opcion.opcion.riesgo
-                        if opcion.selected:
-                            riesgo += opcion.opcion.riesgo
-                riesgo_parcial = riesgo/riesgo_total
-                riesgo_agregado = (risk*0.8)*riesgo_parcial
-                total += riesgo_agregado
+                        if opcion.opcion.pregunta == pregunta:
+                            riesgo_total += opcion.opcion.riesgo
+                            if opcion.selected:
+                                riesgo += opcion.opcion.riesgo
+                riesgo_parcial = float(riesgo/riesgo_total)
+                riesgo_agregado = (float(risk)*0.8)*riesgo_parcial
+                total = float(total) + float(riesgo_agregado)
     is_empty = 0
     for d in desgloce:
         if d[2] != 0:
@@ -490,7 +492,7 @@ def view_results(request):
     print("")
     print("Total: ", total)
     print("Amortiguacion: ", amortiguacion)
-    total = total * (1 - (amortiguacion/100))
+    total = total * float(1 - (amortiguacion/100))
     if is_empty == 0:
         return redirect('home')
     else:
@@ -509,7 +511,7 @@ def view_results(request):
         for d in desgloce_ordenado:
             print(d[0], d[1], d[2], d[3])
         print("Total: ", total)
-        res_por = (total / maximo)
+        res_por = total / float(maximo)
         res_img = (379 + 19) * res_por
         res_fin = (379 + 19) - res_img
         res_fin = int(res_fin)
