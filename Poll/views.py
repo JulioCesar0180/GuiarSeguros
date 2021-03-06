@@ -467,7 +467,7 @@ def view_results(request):
         risk = dep.dependencia.riesgo
         maximo += risk
         if dep.selected:
-            total += risk
+            total = float(total) + float(risk)
             if dep.dependencia.tipo == "2":
                 preguntas = Pregunta.objects.filter(dependencia=dep.dependencia)
                 riesgo_total = 0
