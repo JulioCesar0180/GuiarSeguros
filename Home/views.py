@@ -61,8 +61,8 @@ def view_register_manager(request):
             user_query.email_manager = form_manager.cleaned_data['email']
             user_manager = BusinessManager.objects.get(rut_bm=instance_bm.rut_bm)
             user_query.manager = user_manager
-            subject = 'Bienvenido a Guiar Consultores'
-            message = 'a'
+            subject = 'Bienvenido a Guiar Seguros'
+            message = 'Le damos la bienvida a Guiar Seguros, una página de Guiar Consultores. Ahora que su cuenta ha sido creada usted puede realizar la encuesta Mideturiesgo y conocer el nivel de riesgo de su empresa.'
             email_from = settings.EMAIL_HOST_USER
             email_to = [user_query.email_manager,]
             send_mail(subject, message, email_from, email_to)
