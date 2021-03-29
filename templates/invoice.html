@@ -61,23 +61,13 @@
             <div class='header'>
                 <p class='title'>Reporte Guiar Seguros</p>
             </div>
-        <div>
-            <div class='text'>
-                <b>Mensaje introductorio</b>
-                <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales dolor nisl, non ornare justo mollis nec. In laoreet, massa non convallis lobortis, tellus elit vestibulum tortor, et vulputate urna purus ut sem. Fusce metus nibh, lobortis id sem ut, pharetra lacinia turpis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur facilisis accumsan euismod. Aenean vel convallis neque, nec feugiat felis. Integer a nunc sed purus imperdiet semper nec sollicitudin nunc. Sed sit amet malesuada ex. Mauris sit amet faucibus diam, sed consequat purus. Phasellus ac malesuada urna.
-                <p>
-                Fusce orci massa, vehicula id consequat in, hendrerit eu sem. Aliquam ac nibh neque. Praesent mi leo, ultrices ac enim sed, convallis porttitor dolor. Cras porta sit amet justo ac ullamcorper. In aliquet vitae dolor in tempor. Donec id diam posuere, dignissim odio a, luctus justo. Praesent lobortis orci eu vehicula tristique. Sed non lectus scelerisque lectus venenatis congue eu eu felis.
-                <h2></h2>
-            </div>
-        </div>
 
         <div class='wrapper'>
             <div class="logo-left">
                 <img src="{% static 'img/logoGC.png' %}" alt="logo">
 			</div>
             <div class='header'>
-                <p class='title'>POLIZA DE REPSONSABILIDAD CIVIL DE EMPRESA UF 1.000.-</p>
+                <p class='title'>POLIZA DE REPSONSABILIDAD CIVIL DE EMPRESA UF {{monto_recomendado}}.-</p>
             </div>
         <div>
             <div class='text'>
@@ -89,7 +79,7 @@
                 materiales y/o lesiones corporales, lucro cesante, daño moral, causados a terceros,
                 relacionada a la actividad de la empresa contratante.
                 <p>
-                MONTO ASEGURADO RECOMENDADO : UF 1.000.-
+                MONTO ASEGURADO RECOMENDADO : UF {{monto_recomendado}}.-
                 <p>
                 <b>COBERTURAS:</b>
                 <p>
@@ -102,7 +92,7 @@
                 <p>
                 <b>Responsabilidad civil patronal.</b>
                 <p>
-                Monto Asegurado : UF 500.- por persona y evento, máximo UF 1.000.- en la vigencia
+                Monto Asegurado : UF {{monto_asegurado}}.- por persona y evento, máximo UF {{monto_recomendado}}.- en la vigencia
                 de la póliza.
                 <p>
                 Cubre en exceso de la Ley de Accidentes del Trabajo (Ley 16.744) Y siempre que a la
