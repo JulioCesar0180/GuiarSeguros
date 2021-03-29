@@ -49,6 +49,9 @@
             h2 {
               page-break-before: always;
             }
+            .page-break{
+                page-break-after:always;
+            }
         </style>
     </head>
     <body>
@@ -70,7 +73,7 @@
                 <p class='title'>POLIZA DE REPSONSABILIDAD CIVIL DE EMPRESA UF {{monto_recomendado}}.-</p>
             </div>
         <div>
-            <div class='text'>
+            <div class='text page-break'>
                 <b>OBJETO DEL SEGURO</b>
                 <p>
                 Cubre la Responsabilidad Civil Extracontractual que el o los asegurados sean
@@ -146,7 +149,88 @@
                 <b>Deducible</b><br />
                 Las Compañías de seguros generalmente utilizan deducible porcentual asociado a la
                 pérdida o del monto Asegurado, con un mínimo expresado en UF.
+            </div>
+            {% if vehiculos_ligeros == 1 %}
+                <div class="text page-break">
+                    <b>POLIZA DE VEHICULO MOTORIZADO VEHÍCULO LIGERO</b>
+                    <p>
+                    <b>OBJETO DEL SEGURO:</b>
+                    <p>
+                    Cubre los daños al vehículo en caso de accidentes, mientras esté estacionado o en movimiento, incluye incendio, robo del vehículo, tentativa, robo de piezas y/o partes, volcamiento, etc.,  ocurridos en caminos públicos y/o privados.
+
+                    En esta cobertura se incorpora Responsabilidad Civil vehicular, que proteje al asegurado cuando sea civilmente responsable, ya sea por sentencia ejecutoriada o transacción aceptada por el asegurador, por daños materiales y/o lesiones corporales, lucro cesante, daño moral, causados a terceros.
+
+                    Esta última se recomienda un <b>Monto Asegurado de UF 1.000.-</b> Para vehículos pesados para cada sub-sección :
+                    <p>
+                    <ul>
+                        <li>Daño Emergente</li>
+                        <li>Daño Moral</li>
+                        <li>Lucro Cesante</li>
+                    </ul>
+                    <dl>
+                        <dt>ADICIONALES OPCIONALES</dt>
+                        <dd>- Robo de Accesorios</dd>
+                        <dd>- Daños Materiales a consecuencia de Huelga y Terrorismo</dd>
+                        <dd>- Daños Materiales a consecuencia de Actos Maliciosos</dd>
+                        <dd>- Daños Materiales a consecuencia de Riesgos de la Naturaleza</dd>
+                        <dd>- Daños Materiales a consecuencia de Granizo</dd>
+                        <dd>- Daños Materiales a Consecuencia de Sismo</dd>
+                        <dd>- Daños Materiales causados por la Propia Carga</dd>
+                        <dd>- Daños Materiales causados por Conductores Dependientes</dd>
+                        <dd>- Daños a Terceros por la Carga</dd>
+                        <dd>- Daños a Terceros Causados por Conductores Dependientes</dd>
+                        <dd>- Defensa Penal y Constitución de Fianzas</dd>
+                        <dd>- Daños al Vehículo durante Viaje al Extranjero</dd>
+                        <dd>- Asistencia a Camiones</dd>
+                        <dd>- Asistencia, rescate y traslado de vehículo</dd>
+                        <dd>- Clausula de trabajos en Faenas</dd>
+                        <dd>- Clausula de caminos privados</dd>
+                        <dd>- Clausula de carga y/o descarga</dd>
+                        <dd>- Clausula de apropiación indebida</dd>
+                    </dl>
                 </div>
+            {% endif %}
+
+            {% if vehiculos_pesados == 1 %}
+                <div class="text page-break">
+                    <b>POLIZA DE VEHICULO MOTORIZADO VEHÍCULO PESADO</b>
+                    <p>
+                    <b>OBJETO DEL SEGURO:</b>
+                    <p>
+                    Cubre los daños al vehículo en caso de accidentes, mientras esté estacionado o en movimiento, incluye incendio, robo del vehículo, tentativa, robo de piezas y/o partes, volcamiento, etc.,  ocurridos en caminos públicos y/o privados.
+
+                    En esta cobertura se incorpora Responsabilidad Civil vehicular, que proteje al asegurado cuando sea civilmente responsable, ya sea por sentencia ejecutoriada o transacción aceptada por el asegurador, por daños materiales y/o lesiones corporales, lucro cesante, daño moral, causados a terceros.
+
+                    Esta última se recomienda un <b>Monto Asegurado de UF 1.000.-</b> Para vehículos pesados para cada sub-sección :
+                    <p>
+                    <ul>
+                        <li>Daño Emergente</li>
+                        <li>Daño Moral</li>
+                        <li>Lucro Cesante</li>
+                    </ul>
+                    <dl>
+                        <dt>ADICIONALES OPCIONALES</dt>
+                        <dd>- Robo de Accesorios</dd>
+                        <dd>- Daños Materiales a consecuencia de Huelga y Terrorismo</dd>
+                        <dd>- Daños Materiales a consecuencia de Actos Maliciosos</dd>
+                        <dd>- Daños Materiales a consecuencia de Riesgos de la Naturaleza</dd>
+                        <dd>- Daños Materiales a consecuencia de Granizo</dd>
+                        <dd>- Daños Materiales a Consecuencia de Sismo</dd>
+                        <dd>- Daños Materiales causados por la Propia Carga</dd>
+                        <dd>- Daños Materiales causados por Conductores Dependientes</dd>
+                        <dd>- Daños a Terceros por la Carga</dd>
+                        <dd>- Daños a Terceros Causados por Conductores Dependientes</dd>
+                        <dd>- Defensa Penal y Constitución de Fianzas</dd>
+                        <dd>- Daños al Vehículo durante Viaje al Extranjero</dd>
+                        <dd>- Asistencia a Camiones</dd>
+                        <dd>- Asistencia, rescate y traslado de vehículo</dd>
+                        <dd>- Clausula de trabajos en Faenas</dd>
+                        <dd>- Clausula de caminos privados</dd>
+                        <dd>- Clausula de carga y/o descarga</dd>
+                        <dd>- Clausula de apropiación indebida</dd>
+                    </dl>     
+                </div>
+            {% endif %}
         </div>
     </body>
 </html>
