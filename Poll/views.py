@@ -435,21 +435,49 @@ def view_results(request):
                     desgloce[pos][2] += rango.ri_value * cantidad
                     total += rango.ri_value * cantidad
 
-    # Se obtiene el listado de todas las dependencias marcadas
-    procesos = IntermediaDependenciaUser.objects.filter(user=user)
-    for p in procesos:
-        preguntas = Pregunta.objects.filter(dependencia=p.dependencia)
-        for pregunta in preguntas:
-            if pregunta.tipo.pk == 3:
-                opciones = Opcion.objects.filter(pregunta=pregunta)
+    # Se obtiene el listado de todas las dependencias marcadas y se procesan
+    dependencia = IntermediaDependenciaUser.objects.filter(user=user)
+    for dep in dependencia:
+        risk = dep.dependencia.riesgo
+        if dep.dependencia.tipo == "1":
+            if dep.selected:
+                preguntas = Pregunta.objects.filter(dependencia=dep.dependencia)
+                for pregunta in preguntas:
+                    if pregunta.tipo.pk == 3:
+                        opciones = Opcion.objects.filter(pregunta=pregunta)
+                        for opcion in opciones:
+                            maximo += opcion.riesgo * risk
+                            opc = IntermediaUserOpcion.objects.filter(user=user, opcion=opcion)
+                            if opc[0].selected:
+                                total += opc[0].opcion.riesgo * risk
+                            opcion_poliza = PolizaOpcion.objects.filter(opcion=opc[0].opcion)
+                            for op in opcion_poliza:
+                                index = buscar_indice(op.poliza.pk, desgloce)
+                                if opc[0].selected:
+                                    desgloce[index][2] += op.opcion.riesgo * risk
+                                if op.opcion.riesgo >= 0:
+                                    desgloce[index][1] += op.opcion.riesgo * risk
+        if dep.dependencia.tipo == "2":
+            if dep.selected:
+                total = float(total) + float(risk)
+            maximo += risk
+            preguntas = Pregunta.objects.filter(dependencia=dep.dependencia)
+            riesgo_total = 0
+            riesgo = 0
+            for pregunta in preguntas:
+                opciones = IntermediaUserOpcion.objects.filter(user=user)
                 for opcion in opciones:
-                    maximo += opcion.riesgo
-        total += p.dependencia.riesgo
-        maximo += p.dependencia.riesgo
+                    if opcion.opcion.pregunta == pregunta:
+                        riesgo_total += opcion.opcion.riesgo
+                        if opcion.selected:
+                            riesgo += opcion.opcion.riesgo
+            riesgo_parcial = float(riesgo / riesgo_total)
+            riesgo_agregado = (float(risk) * 0.8) * riesgo_parcial
+            total = float(total) + float(riesgo_agregado)
     opciones = IntermediaUserOpcion.objects.filter(user=user)
     amortiguacion = 0
     for o in opciones:
-        if o.opcion.pregunta.tipo.pk == 3:
+        '''if o.opcion.pregunta.tipo.pk == 3:
             opcion_poliza = PolizaOpcion.objects.filter(opcion=o.opcion)
             if o.selected:
                 total += o.opcion.riesgo
@@ -458,31 +486,17 @@ def view_results(request):
                 if o.selected:
                     desgloce[index][2] += opc.opcion.riesgo
                 if opc.opcion.riesgo >= 0:
-                    desgloce[index][1] += opc.opcion.riesgo
+                    desgloce[index][1] += opc.opcion.riesgo'''
         if o.opcion.pregunta.tipo.pk == 1:
             if o.selected:
+                # TODO: trabajar casos especiales
                 amortiguacion += o.opcion.riesgo
-    dependencias = IntermediaDependenciaUser.objects.filter(user=user)
-    for dep in dependencias:
-        risk = dep.dependencia.riesgo
-        maximo += risk
-        if dep.selected:
-            total = float(total) + float(risk)
-            if dep.dependencia.tipo == "2":
-                preguntas = Pregunta.objects.filter(dependencia=dep.dependencia)
-                riesgo_total = 0
-                riesgo = 0
-                for pregunta in preguntas:
-                    # opciones = IntermediaUserOpcion.objects.filter(user=user, pregunta=pregunta)
-                    opciones = IntermediaUserOpcion.objects.filter(user=user)
-                    for opcion in opciones:
-                        if opcion.opcion.pregunta == pregunta:
-                            riesgo_total += opcion.opcion.riesgo
-                            if opcion.selected:
-                                riesgo += opcion.opcion.riesgo
-                riesgo_parcial = float(riesgo/riesgo_total)
-                riesgo_agregado = (float(risk)*0.8)*riesgo_parcial
-                total = float(total) + float(riesgo_agregado)
+
+    ventas = user.sales.amortiguador
+    # Evitar problemas de rebalse del amortiguador
+    if amortiguacion > 45:
+        amortiguacion = 45
+    amortiguacion += ventas
     is_empty = 0
     for d in desgloce:
         if d[2] != 0:
@@ -493,6 +507,10 @@ def view_results(request):
     print("Total: ", total)
     print("Amortiguacion: ", amortiguacion)
     total = total * float(1 - (amortiguacion/100))
+
+    if total > maximo:
+        total = maximo
+
     if is_empty == 0:
         return redirect('home')
     else:
