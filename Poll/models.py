@@ -5,8 +5,10 @@ from django.db import models
 
 class Sales(models.Model):
     title = models.CharField(max_length=100)
+    amortiguador = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 
     def __str__(self):
+        # return self.title + " ; " + str(self.amortiguador)
         return self.title
 
     class Meta:

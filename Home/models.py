@@ -165,3 +165,16 @@ class IntermediaUserOpcion(models.Model):
     class Meta:
         verbose_name = "Intermedia User Opcion"
         verbose_name_plural = "Intermedia Users Opciones"
+
+
+class IntermediaUserVenta(models.Model):
+    user = models.ForeignKey('UserGuiar', models.DO_NOTHING)
+    venta = models.ForeignKey(to='Poll.Sales', on_delete=models.DO_NOTHING)
+    selected = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.user.rut + " --- " + self.venta.title
+
+    class Meta:
+        verbose_name = "Intermedia User Venta"
+        verbose_name_plural = "Intermedia Users Ventas"
