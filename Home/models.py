@@ -143,10 +143,10 @@ class RangosDotacion(models.Model):
 
     def __str__(self):
         if self.max_value > self.min_value:
-            return self.dotacion.title + " (" + str(self.min_value) + "-" + str(self.max_value) + ") risk " +\
+            return self.dotacion.title + " / " + self.poliza.name + " (" + str(self.min_value) + "-" + str(self.max_value) + ") risk " +\
                str(self.ri_value)
         else:
-            return self.dotacion.title + " (" + str(self.min_value) + "+) risk " + str(self.ri_value)
+            return self.dotacion.title + " / " + self.poliza.name + " (" + str(self.min_value) + "+) risk " + str(self.ri_value)
 
     class Meta:
         verbose_name = "Rango Dotacion"
@@ -165,16 +165,3 @@ class IntermediaUserOpcion(models.Model):
     class Meta:
         verbose_name = "Intermedia User Opcion"
         verbose_name_plural = "Intermedia Users Opciones"
-
-
-class IntermediaUserVenta(models.Model):
-    user = models.ForeignKey('UserGuiar', models.DO_NOTHING)
-    venta = models.ForeignKey(to='Poll.Sales', on_delete=models.DO_NOTHING)
-    selected = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.user.rut + " --- " + self.venta.title
-
-    class Meta:
-        verbose_name = "Intermedia User Venta"
-        verbose_name_plural = "Intermedia Users Ventas"

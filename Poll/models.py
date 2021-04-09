@@ -47,7 +47,7 @@ class PolizaOpcion(models.Model):
     riesgo = models.DecimalField(max_digits=5, decimal_places=2)
 
     def __str__(self):
-        return self.poliza.name + " --- " + str(self.opcion.pk)
+        return self.poliza.name + " --- " + str(self.opcion.texto)
 
     class Meta:
         verbose_name = "Intermedia Poliza-Opcion"
@@ -83,6 +83,7 @@ class Pregunta(models.Model):
 class Opcion(models.Model):
     texto = models.CharField(max_length=200)
     riesgo = models.DecimalField(max_digits=5, decimal_places=2)
+    cobertura = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     pregunta = models.ForeignKey('Pregunta', models.DO_NOTHING, null=True, blank=True)
 
     def __str__(self):
