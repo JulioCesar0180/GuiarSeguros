@@ -64,10 +64,27 @@
             <div class='header'>
                 <p class='title'>Reporte Guiar Seguros</p>
             </div>
-
+        <div class="text page-break">
+            Señores: {{nombre_empresa}}
+            <p>
+            "La administración de riesgos en un marco amplio implica, que las estrategias, procesos, personas, tecnologia y conocimiento
+            estan alineados para manejar toda la incertidumbre que una organización enfrenta"
+            <p>
+            Guiar Seguros a traves de MideTuRiesgo, querido simplificar mediante esta encuesta, la correcta transferencia de riesgos, utilizando un mecanismo
+            de algoritmo que entrega un indice según su actividad y control de Riesgos. Este informe esta dirigido exclusivamente a usted y su
+            Empresa, de aquellos seguros que se recomiendan, segun nuestra experiencia en seguros y desarrollado en conjunto con expertos en Prevencion de Riesgos.
+            <p>
+	        Lo invitamos a concretar una reunion para complementar esta informacion y asesorarlo.
+            <p>
+	        Cordialmente,
+            <p>
+            <b>Remberto Adasme Inostrosa</b>
+            <br>
+            Corredor de Seguros Generales y Vida. 
+        </div>
         <div class='wrapper'>
             <div class="logo-left">
-                <img src="{% static 'img/logoGC.png' %}" alt="logo">
+                <img src="{% static 'images/logoGC.png' %}" alt="logo">
 			</div>
             <div class='header'>
                 <p class='title'>POLIZA DE REPSONSABILIDAD CIVIL DE EMPRESA UF {{monto_recomendado}}.-</p>
@@ -150,6 +167,215 @@
                 Las Compañías de seguros generalmente utilizan deducible porcentual asociado a la
                 pérdida o del monto Asegurado, con un mínimo expresado en UF.
             </div>
+            {% if accidentes == 1 %}
+                <div class="text page-break">
+                    <b>POLIZA DE ACCIDENTES PERSONALES</b>
+                    <p>
+                    MATERIA ASEGURADA
+                    <p>
+                    COBERTURA (Nominada e Innominada)
+                    <p>
+                    Segun Condiciones Generales de Póliza de Accidentes Personales depositadas en la Superintendencia de Valores y Seguros 
+                    bajo POL320130435, cubriendo los planes que se detallan:
+                    <p>
+                    PLAN A	Muerte. 
+                    <br>
+                    PLAN B	Inhabilidad Permanente. 
+                    <br>
+                    PLAN C	Gastos Médicos. 
+                    <p>
+                    COBERTURAS ADICIONALES
+                    <p>
+                    Se  considera  cubierta la  exclusión  del Articulo 3°:
+                    <br>
+                    Letra k) Movimientos sismicos.
+                    <br>
+                    Se consideran cubiertos los accidentes mencionados en el Articulo 4° que se detallan: 
+                    <br>
+                    Letra c) Viajes aereos en líneas no regulares. 
+                    <br>
+                    Letra d) Practica de deportes riesgosos que no sean remunerado o pagado con dinero.
+                    <p>
+                    CONDICIONES PARTICULARES
+                    <p>
+                    <ul>
+                        <li>
+                            Se consideran cubiertos los accidentes producidos durante motines o tumultos, sin perjuicio de la exclusión establecida en el 
+                            Articulo 3° letra e) sobre la participación del asegurado en tales hechos.
+                        </li>
+                        <li>
+                            El pago de las indemnizaciones referidas al Plan C de la presente póliza se efectuaran en la calidad de reembolso y en exceso 
+                            de toda otra prestación que le de derecho al asegurado a reembolso por los conceptos indicados en las Condiciones Generales para dicho plan.
+                        </li>
+                    </ul>
+                    
+                </div>
+            {% endif %}
+            
+            {% if equipos == 1 %}
+                <div class="text page-break">
+                    <b>POLIZA DE EQUIPO MOVIL CONTRATISTA</b> 
+                    <p>
+                    MATERIAS Y MONTOS ASEGURADOS
+                    <p>
+                    <ul>
+                        <li>Daños Propios Equipos de Contratista </li>
+                        <li>Responsabilidad Civil extracontractual de equipo de contratista </li>
+                        <li>Gastos de Salvamento	</li>
+                    </ul>
+                    <p>
+                    COBERTURA
+                    <br>
+                    Según Condiciones Generales de Póliza de Equipo Móvil Contratista depositada en la Superintendencia de Valores y Seguros según POL120130710, sección I 
+                    (daños propios) y sección II (responsabilidad Civil)
+                    <p>
+                    COBERTURA ADICIONALES
+                    <br>CAD120131011 Gastos de salvamento, remoción de escombros y limpieza.
+                    <br>CAD120131012 Labores o trabajos subterráneos.
+                    <br>CAD120131013 Trabajos en muelles o equipos flotantes.
+                    <br>CAD120131014 Trabajos en riveras, lechos o cauces donde corren aguas y a orillas de lagos. 
+                    <br>CAD120131015 Gastos extras por trabajos efectuados fuera de horario normal y por transportes expresos, hasta un XX% del siniestro con un máximo de UF XXX-.
+                    <br>CAD120131016 Gastos por flete aéreo, hasta un XX% del siniestro con un máximo de UF XXX-.
+                    <br>CAD120131017 Huelga y motín. 
+                    <p>
+                    DEDUCIBLE
+                    <br>Se aplica deducible fijo y porcentual.
+                    <p>
+                    CONDICIONES PARTICULARES
+                    <ul>
+                        <li>El monto asegurado de la Sección I (daños propios) debe corresponder al valor de reposición de los equipos 
+                            asegurados y no a su valor comercial.</li>
+                        <li>Los vehículos motorizados diseñados para circular en caminos y carreteras (camiones), se cubren 
+                            sólo en los recintos de la obra especificada en la póliza. </li>
+                        <li>La maquinaria asegurada debe ser operada exclusivamente por personal del asegurado, quedando
+                             sin efecto la cobertura si los equipos son arrendados sin operador. </li>
+                        <li>Rehabilitación Automática de la suma asegurada en caso de indemnización: Por siniestro se rehabilitara automáticamente
+                             a su valor antes del siniestro con cobro de prima adicional. </li>
+                        <li>La maquinaria asegurada debe ser operada exclusivamente por personal calificado del asegurado, con licencia de manejo 
+                            especifica para operar la maquinaría, al día, además de contar con capacitación calificada para operar el equipo. </li>
+                        <li>La operación de los equipos puede realizarse por terceros, pero el operador deberá contar con su licencia de manejo 
+                            especifica para operar la maquinaría, además de contar con capacitación calificada para operar el equipo. </li>
+                        <li>Para incorporaciones de nuevos equipos se entenderán automáticamente cubiertos por la cobertura de esta póliza, su inclusión 
+                            a la misma podrá ser avisada en un plazo de 45 días, contados desde la fecha  de guía de despacho y/o factura.</li>
+                        <li>Los montos asegurados no serán objeto de discusión siempre y cuando correspondan al valor de reposición a nuevo de los bienes asegurados. 
+                            Se establece como condición especial que la Compañía aceptará fluctuaciones de hasta un 10% de la variación del valor de reposición a nuevo, sólo 
+                            si los montos al momento de la suscripción de la póliza corresponden a valor a nuevo, en caso contrario se aplicará prorrateo. </li>
+                        <li>Se aceptan desviaciones de monto asegurado hasta 15% del monto por equipo, siempre y cuando esta desviación o 
+                            infraseguro se origine por diferencia de tipo de cambio. </li>
+                        <li>Se cubre daños a grúas, estanques y accesorios adosados como parte integrante del vehículo, como así mismo daños producidos por la operación 
+                            misma, siempre y cuando estos equipos formen parte integrante del monto asegurado.</li>
+                    </ul>
+                    <p>
+                    EXTENSIONES DE COBERTURA 
+                    <ul>
+                        <li>Traslados: Se cubren los accidentes a consecuencia de riesgos cubiertos por la póliza cuando los equipos están siendo desmontados, 
+                            montados y/o trasladados  por sus propios medios o como carga a otro lugar de operación y/o para su mantención. </li>
+                        <li>Se cubre el daño propio, debido al traslado por sus propios medios, por caminos públicos, incluyendo ,cuando lo hacen como 
+                            carga o montados sobre vehículos. </li>
+                        <li>Se deja constancia que para el traslado de los equipos, se cubre el proceso de carga y descarga de los mismos sobre el medio transportador, 
+                            siempre y cuando la operación sea realizada por personal calificado, con licencia de manejo  especifica  para operar la maquinaría, al día 
+                            y adoptando los procedimientos de seguridad necesarios.</li>
+                        <li>Daños o pérdidas causados por mareas hasta UF XXXXX. por evento, y UF XXXX. en el agregado de vigencia.</li>
+                        <li>Se cubre el izamiento de equipos en las obras, siempre y cuando este sea realizado por personal calificado en este tipo de maniobras, 
+                            contando con el equipamiento adecuado, y tomando en consideración  todas  las medidas  y procedimientos de seguridad, 
+                            recomendados de acuerdo a las mejores prácticas,  aplicables a este tipo de maniobras.  Quedan excluidas las maniobras izaje de equipos que 
+                            requieran Tandem.</li>
+                        <li>Se cubre apropiación indebida, siempre que haya un contrato de arriendo formalizado,  Hasta un máximo de US$ 50.000. por evento, y US$ 100.000. 
+                            en el agregado de vigencia.-</li>
+                        <li>Se cubre el Hurto de equipos. Hasta un máximo de US$ 50.000. por evento, y US$ 100.000. en el agregado de vigencia.-</li>
+                        <li>En caso de indemnización por concepto de Gastos de Salvamento, se deja expresa constancia que cuando el valor del salvamento correspondiente 
+                            al equipo, o equipos a rescatar, sea superior al monto asegurado del equipo, la indemnización a realizar  sera en base al 50% del valor actual
+                             del equipo, inmediatamente después del siniestro acaecido, con un máximo indemnizable de UF 2.000. por cada equipo.</li>
+                    </ul>
+                    <p>
+                    Deducible para esta cobertura  20% para todo y cada evento, se establece un máximo de eventos 2 al año.
+                    <ul>
+                        <li>Se deja constancia que la presente póliza cubre los daños o pérdidas que sufra la materia asegurada mientras sean transportadas o se trasladen
+                             por sus propios medios, por caminos públicos desde y hacia las respectivas obras, talleres de obras y casa matriz.. 
+                             Para esta extensión de cobertura se establece un límite máximo de indemnización de UF XXX por equipo y  UF XXX en acumulado anual para la póliza o 
+                             grupo de pólizas del asegurado.</li>
+                    </ul>
+                </div>
+            {% endif %}
+
+            {% if transporte_acido == 1 %}
+                <div class="text page-break">
+                    <b>POLIZA DE TRANSPORTE TERRESTRE CARGAS PELIGROSAS</b>
+                    <p>
+                    MATERIA ASEGURADA :
+                    <br>
+                    corrosivos, explosivos, combustibles, químicos.
+                    <p>
+                    MATERIAS EXCLUIDAS
+                    <br>
+                    Se excluye expresamente el transporte de frutas y verduras, obras de arte, joyas, valores, celulares, cigarrillos, dinero, valijas, 
+                    encomiendas, pieles, antigüedades, carga viva, computadores sus partes y piezas, vehículos motorizados.
+                    <br>
+                    En caso de incluir el transporte de frutas y otros productos perecibles de exportación se deberá utilizar la siguiente Nota:
+                    <p>
+                    VALORIZACIÓN MERCADO NACIONAL
+                    <br>
+                    En caso de indemnizaciones de siniestros cubiertos para frutas y verduras nacional o de exportación, como máximo estos se pagaran a valor de mercado nacional, 
+                    según las transacciones efectuadas en los mercados de lo Valledor y Mapocho.
+                    <p>
+                    En caso de incluir el transporte de vehículos motorizados se deberá utilizar la siguiente nota:
+                    <br>
+                    NOTA PARA VEHÍCULOS MOTORIZADOS
+                    <br>
+                    Se excluye expresamente el transporte de vehículos chocados y, o, siniestrados.
+                    <br>
+                    Se excluyen traslados por sus propios medios.
+                    <p>
+                    NOTA PARA VEHÍCULOS MOTORIZADOS (ESPECIAL)
+                    <br>
+                    Se  acepta y conviene que se cubre el traslado de vehículos motorizados y/o equipos, siempre y cuando el cliente cumpla con un protocolo de recepción 
+                    de vehículos (check - list) y un set fotográfico(4 fotos exteriores del vehículo o máquina y dos fotos interiores.
+                    br
+                    Se excluyen traslados por sus propios medios.
+                    <p>
+                    TRAYECTOS
+                    <br>
+                    Dentro del Territorio Nacional
+                    <br>
+                    Extensión a territorios de países limítrofes del conosur.
+                    <p>
+                    COBERTURA: (SEGURO EN BASE A RESPONSABILIDAD MAXIMA)
+                    <ul>
+                        <li>Póliza de Transporte Terrestre (carga). Condiciones Restringidas. Código POL 1 2013 1497</li>
+                        <li>Cláusula Chilena para Huelga.  Transporte Terrestre.  Código CAD 1 2013 1501</li>
+                        <li>Cláusula de Carga y, o, Descarga.  Código CAD 1 2013 1500</li>
+                        <li>Rige Cláusula de Uso General año 2000.  CUG 1 98 031</li>
+                        <li>Rige Cláusula de Uso General de Exclusión de Datos Electrónicos.  CUG 1 02 074</li>
+                        <li>Rige Cláusula de Exclusión del Instituto de armas químicas, biológicas, bioquímicas, electromagnéticas y ataques cibernéticos.</li>
+                        <li>Rige Cláusula de Exclusión de contaminación radioactiva.</li>
+                    </ul>        
+                </div>
+            {% endif %}
+
+            {% if eco_motor == 1 %}
+                <div class="text page-break">
+                    <b>POLIZA DE ASIENTO DE PASAJEROS DE ACCIDENTES PERSONALES</b>
+                    <p>
+                    COBERTURA
+                    <br>
+                    Según Condiciones Generales de Póliza de Accidentes Personales para Pasajeros de Vehículos Motorizados aprobada por la Superintendencia de Valores 
+                    y Seguros bajo  POL320130685 cubriendo los planes que se detallan:
+                    <br>
+                    PLAN A	Muerte. 
+                    <br>
+                    PLAN B	Inhabilidad Permanente. 
+                    <br>
+                    PLAN D	Gastos Médicos. 
+                    <p>
+                    CONDICIONES PARTICULARES
+                    <ul>
+                        <li>El pago de las indemnizaciones referidas al Plan D de la presente póliza se efectuarán en la calidad de reembolso y en exceso de toda otra prestación que le dé 
+                            derecho al asegurado a reembolso por los conceptos indicados en las Condiciones Generales para dicho plan.</li>
+                    </ul>
+
+                </div>
+            {% endif %}
+
             {% if vehiculos_ligeros == 1 %}
                 <div class="text page-break">
                     <b>POLIZA DE VEHICULO MOTORIZADO VEHÍCULO LIGERO</b>

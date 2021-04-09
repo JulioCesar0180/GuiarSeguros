@@ -544,7 +544,7 @@ def view_results(request):
             color = "ANARANJADO"
         else:
             color = "ROJO"
-
+        print(desgloce_ordenado)
         return render(request, 'Poll/results.html',
                       {'maximo': maximo, 'minimo': minimo, 'total': total, 'res_fin': res_fin,
                        'color': color, 'desgloce': desgloce_ordenado})
@@ -552,204 +552,56 @@ def view_results(request):
 
 class GeneratePDF(View):
     def get(self, request, *args, **kwargs):
+        polizas = request.GET.getlist('polizas[]')
         user = UserGuiar.objects.get(pk=self.request.user.pk)
         dotacion = DotacionEmpresarial.objects.get(user_id=user.id, dotacion_id=1)
         vehiculos_ligeros = DotacionEmpresarial.objects.get(user_id=user.id, dotacion_id=3)
         vehiculos_pesados = DotacionEmpresarial.objects.get(user_id=user.id, dotacion_id=5)
         context = {
+            "nombre_empresa": user.name,
             "monto_recomendado": 0,
             "monto_asegurado": 0,
             "vehiculos_ligeros": 0,
-            "vehiculos_pesados": 0
+            "vehiculos_pesados": 0,
+            "accidentes": 0,
+            "equipos": 0,
+            "eco_motor": 0,
+            "transporte_acido": 0
         }
-        if user.sales_id == 1 and dotacion.cantidad < 3:
-            context = {
-                "monto_recomendado": 1000,
-                "monto_asegurado": 500
-            }
-        elif user.sales_id == 2 and dotacion.cantidad < 3:
-            context = {
-                "monto_recomendado": 2000,
-                "monto_asegurado": 1000
-            }
-        elif user.sales_id == 2 and dotacion.cantidad < 5:
-            if vehiculos_ligeros.cantidad > 0 and vehiculos_pesados.cantidad == 0:
-                context = {
-                    "monto_recomendado": 2000,
-                    "monto_asegurado": 1000,
-                    "vehiculos_ligeros": 1,
-                    "vehiculos_pesados": 0
-                }
-            elif vehiculos_pesados.cantidad > 0 and vehiculos_ligeros.cantidad == 0:
-                context = {
-                    "monto_recomendado": 2000,
-                    "monto_asegurado": 1000,
-                    "vehiculos_ligeros": 0,
-                    "vehiculos_pesados": 1
-                }
-            elif vehiculos_ligeros.cantidad > 0 and vehiculos_pesados.cantidad > 0:
-                context = {
-                    "monto_recomendado": 2000,
-                    "monto_asegurado": 1000,
-                    "vehiculos_ligeros": 1,
-                    "vehiculos_pesados": 1
-                }
-            else:
-                    context = {
-                    "monto_recomendado": 2000,
-                    "monto_asegurado": 1000,
-                    "vehiculos_ligeros": 0,
-                    "vehiculos_pesados": 0
-                }
-        elif user.sales_id == 2 and dotacion.cantidad >= 5 and dotacion.cantidad < 10:
-            if vehiculos_ligeros.cantidad > 0  and vehiculos_pesados.cantidad == 0:
-                context = {
-                    "monto_recomendado": 2000,
-                    "monto_asegurado": 1000,
-                    "vehiculos_ligeros": 1,
-                    "vehiculos_pesados": 0
-                }
-            elif vehiculos_pesados.cantidad > 0  and vehiculos_ligeros.cantidad == 0:
-                context = {
-                    "monto_recomendado": 2000,
-                    "monto_asegurado": 1000,
-                    "vehiculos_ligeros": 0,
-                    "vehiculos_pesados": 1
-                }
-            elif vehiculos_ligeros.cantidad > 0 and vehiculos_pesados.cantidad > 0:
-                context = {
-                    "monto_recomendado": 2000,
-                    "monto_asegurado": 1000,
-                    "vehiculos_ligeros": 1,
-                    "vehiculos_pesados": 1
-                }
-            else:
-                context = {
-                    "monto_recomendado": 2000,
-                    "monto_asegurado": 1000,
-                    "vehiculos_ligeros": 0,
-                    "vehiculos_pesados": 0
-                }
-  
-        elif user.sales_id == 3 and dotacion.cantidad < 30:
-            if vehiculos_ligeros.cantidad > 0  and vehiculos_pesados.cantidad == 0:
-                context = {
-                    "monto_recomendado": 3000,
-                    "monto_asegurado": 1000,
-                    "vehiculos_ligeros": 1,
-                    "vehiculos_pesados": 0
-                }
-            elif vehiculos_pesados.cantidad > 0 and vehiculos_ligeros.cantidad == 0:
-                context = {
-                    "monto_recomendado": 3000,
-                    "monto_asegurado": 1000,
-                    "vehiculos_ligeros": 0,
-                    "vehiculos_pesados": 1
-                }
-            elif vehiculos_ligeros.cantidad > 0 and vehiculos_pesados.cantidad > 0:
-                context = {
-                    "monto_recomendado": 3000,
-                    "monto_asegurado": 1000,
-                    "vehiculos_ligeros": 1,
-                    "vehiculos_pesados": 1
-                }
-            else:
-                context = {
-                    "monto_recomendado": 3000,
-                    "monto_asegurado": 1000,
-                    "vehiculos_ligeros": 0,
-                    "vehiculos_pesados": 0
-                }
-        elif user.sales_id == 4 and dotacion.cantidad < 50:
-            if vehiculos_ligeros.cantidad > 0 and vehiculos_pesados.cantidad == 0:
-                context = {
-                    "monto_recomendado": 5000,
-                    "monto_asegurado": 1500,
-                    "vehiculos_ligeros": 1,
-                    "vehiculos_pesados": 0
-                }
-            elif vehiculos_pesados.cantidad > 0 and vehiculos_ligeros.cantidad == 0:
-                context = {
-                    "monto_recomendado": 5000,
-                    "monto_asegurado": 1500,
-                    "vehiculos_ligeros": 0,
-                    "vehiculos_pesados": 1
-                }
-            elif vehiculos_ligeros.cantidad > 0 and vehiculos_pesados.cantidad > 0:
-                context = {
-                    "monto_recomendado": 5000,
-                    "monto_asegurado": 1500,
-                    "vehiculos_ligeros": 1,
-                    "vehiculos_pesados": 1
-                }
-            else:
-                context = {
-                    "monto_recomendado": 5000,
-                    "monto_asegurado": 1500,
-                    "vehiculos_ligeros": 0,
-                    "vehiculos_pesados": 0
-                }
+        if user.sales_id == 1 and dotacion.cantidad < 200:
+            context['monto_recomendado']= 1000
+            context['monto_asegurado']= 500
+        elif user.sales_id == 2 and dotacion.cantidad < 200:
+            context['monto_recomendado']= 2000
+            context['monto_asegurado']= 1000
+        elif user.sales_id == 3 and dotacion.cantidad < 200:
+            context['monto_recomendado']= 3000
+            context['monto_asegurado']= 1000
+        elif user.sales_id == 4 and dotacion.cantidad < 200:
+            context['monto_recomendado']= 5000
+            context['monto_asegurado']= 1500
         elif user.sales_id == 4 and dotacion.cantidad >= 50 and dotacion.cantidad < 200:
-            if vehiculos_ligeros.cantidad > 0 and vehiculos_pesados.cantidad == 0:
-                context = {
-                    "monto_recomendado": 7000,
-                    "monto_asegurado": 2500,
-                    "vehiculos_ligeros": 1,
-                    "vehiculos_pesados": 0
-                }
-            elif vehiculos_pesados.cantidad > 0 and vehiculos_ligeros.cantidad == 0:
-                context = {
-                    "monto_recomendado": 7000,
-                    "monto_asegurado": 2500,
-                    "vehiculos_ligeros": 0,
-                    "vehiculos_pesados": 1
-                }
-            elif vehiculos_ligeros.cantidad > 0 and vehiculos_pesados.cantidad > 0:
-                context = {
-                    "monto_recomendado": 7000,
-                    "monto_asegurado": 2500,
-                    "vehiculos_ligeros": 1,
-                    "vehiculos_pesados": 1
-                }
-            else:
-                context = {
-                    "monto_recomendado": 7000,
-                    "monto_asegurado": 2500,
-                    "vehiculos_ligeros": 0,
-                    "vehiculos_pesados": 0
-                }
+            context['monto_recomendado']= 7500
+            context['monto_asegurado']= 2500
         elif user.sales_id == 4 and dotacion.cantidad >= 200:
-            if vehiculos_ligeros.cantidad > 0 and vehiculos_pesados.cantidad == 0:
-                context = {
-                    "monto_recomendado": 10000,
-                    "monto_asegurado": 2500,
-                    "vehiculos_ligeros": 1,
-                    "vehiculos_pesados": 0
-                }
-            elif vehiculos_pesados.cantidad > 0 and vehiculos_ligeros.cantidad == 0:
-                context = {
-                    "monto_recomendado": 10000,
-                    "monto_asegurado": 2500,
-                    "vehiculos_ligeros": 0,
-                    "vehiculos_pesados": 1
-                }
-            elif vehiculos_ligeros.cantidad > 0 and vehiculos_pesados.cantidad > 0:
-                context = {
-                    "monto_recomendado": 10000,
-                    "monto_asegurado": 2500,
-                    "vehiculos_ligeros": 1,
-                    "vehiculos_pesados": 1
-                }
-            else:
-                context = {
-                    "monto_recomendado": 10000,
-                    "monto_asegurado": 2500,
-                    "vehiculos_ligeros": 0,
-                    "vehiculos_pesados": 0
-                }
+            context['monto_recomendado']= 10000
+            context['monto_asegurado']= 2500
+        if vehiculos_ligeros.cantidad > 0:
+            context['vehiculos_ligeros'] = 1
+        if vehiculos_pesados.cantidad > 0:
+            context['vehiculos_pesados'] = 1
+        if "1" in polizas:
+            context['accidentes'] = 1
+        if "7" in polizas:
+            context['equipos'] = 1
+        if "8" in polizas:
+            context['eco_motor'] = 1
+        if "9" in polizas:
+            context['transporte_acido'] = 1
         template = get_template('invoice.html')
         html = template.render(context)
         pdf = render_to_pdf('invoice.html', context)
+        print(context)
         if pdf:
             response = HttpResponse(pdf, content_type='application/pdf')
             filename = "Reporte.pdf"
