@@ -477,19 +477,9 @@ def view_results(request):
     opciones = IntermediaUserOpcion.objects.filter(user=user)
     amortiguacion = 0
     for o in opciones:
-        '''if o.opcion.pregunta.tipo.pk == 3:
-            opcion_poliza = PolizaOpcion.objects.filter(opcion=o.opcion)
-            if o.selected:
-                total += o.opcion.riesgo
-            for opc in opcion_poliza:
-                index = buscar_indice(opc.poliza.pk, desgloce)
-                if o.selected:
-                    desgloce[index][2] += opc.opcion.riesgo
-                if opc.opcion.riesgo >= 0:
-                    desgloce[index][1] += opc.opcion.riesgo'''
         if o.opcion.pregunta.tipo.pk == 1:
             if o.selected:
-                # TODO: trabajar casos especiales
+                # TODO: Al captar marcada la opcion 4 o  la opcion 7 desmarcar las anteriores a estas
                 amortiguacion += o.opcion.riesgo
 
     ventas = user.sales.amortiguador
@@ -569,23 +559,24 @@ class GeneratePDF(View):
             "transporte_acido": 0
         }
         if user.sales_id == 1 and dotacion.cantidad < 200:
-            context['monto_recomendado']= 1000
-            context['monto_asegurado']= 500
+            context['monto_recomendado'] = 1000
+            context['monto_asegurado'] = 500
         elif user.sales_id == 2 and dotacion.cantidad < 200:
-            context['monto_recomendado']= 2000
-            context['monto_asegurado']= 1000
+            context['monto_recomendado'] = 2000
+            context['monto_asegurado'] = 1000
         elif user.sales_id == 3 and dotacion.cantidad < 200:
-            context['monto_recomendado']= 3000
-            context['monto_asegurado']= 1000
+            context['monto_recomendado'] = 3000
+            context['monto_asegurado'] = 1000
         elif user.sales_id == 4 and dotacion.cantidad < 200:
-            context['monto_recomendado']= 5000
-            context['monto_asegurado']= 1500
-        elif user.sales_id == 4 and dotacion.cantidad >= 50 and dotacion.cantidad < 200:
-            context['monto_recomendado']= 7500
-            context['monto_asegurado']= 2500
+            if dotacion.cantidad >= 50:
+                context['monto_recomendado'] = 7500
+                context['monto_asegurado'] = 2500
+            else:
+                context['monto_recomendado'] = 5000
+                context['monto_asegurado'] = 1500
         elif user.sales_id == 4 and dotacion.cantidad >= 200:
-            context['monto_recomendado']= 10000
-            context['monto_asegurado']= 2500
+            context['monto_recomendado'] = 10000
+            context['monto_asegurado'] = 2500
         if vehiculos_ligeros.cantidad > 0:
             context['vehiculos_ligeros'] = 1
         if vehiculos_pesados.cantidad > 0:
@@ -598,8 +589,8 @@ class GeneratePDF(View):
             context['eco_motor'] = 1
         if "9" in polizas:
             context['transporte_acido'] = 1
-        template = get_template('invoice.html')
-        html = template.render(context)
+        # template = get_template('invoice.html')
+        # html = template.render(context)
         pdf = render_to_pdf('invoice.html', context)
         print(context)
         if pdf:
