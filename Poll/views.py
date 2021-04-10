@@ -13,7 +13,7 @@ from Home.models import UserGuiar, BusinessManager, Dotacion, DotacionEmpresaria
 # PDF
 from django.views.generic import View
 from .utils import render_to_pdf
-from django.template.loader import get_template
+# from django.template.loader import get_template
 
 
 def login_view(request):
@@ -478,9 +478,13 @@ def view_results(request):
     amortiguacion = 0
     for o in opciones:
         if o.opcion.pregunta.tipo.pk == 1:
+            print(o.opcion.texto)
             if o.selected:
-                # TODO: Al captar marcada la opcion 4 o  la opcion 7 desmarcar las anteriores a estas
-                amortiguacion += o.opcion.riesgo
+                if o.opcion.texto == "Empresa cuenta con Sistem Integrado de Gestion" or \
+                        o.opcion.texto == "Gerencia / Administración de Riesgos (ISO 31.000:2009)":
+                    amortiguacion = o.opcion.riesgo
+                else:
+                    amortiguacion += o.opcion.riesgo
 
     ventas = user.sales.amortiguador
     # Evitar problemas de rebalse del amortiguador
