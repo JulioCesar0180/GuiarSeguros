@@ -4,8 +4,8 @@ from django.db import models
 
 
 class Sales(models.Model):
-    title = models.CharField(max_length=100)
-    amortiguador = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    title = models.CharField(max_length=100, verbose_name="título")
+    amortiguador = models.DecimalField(max_digits=5, decimal_places=2, default=0, verbose_name="modificador")
 
     def __str__(self):
         # return self.title + " ; " + str(self.amortiguador)
@@ -17,28 +17,31 @@ class Sales(models.Model):
 
 
 class Poliza(models.Model):
-    name = models.CharField(max_length=50)
-    order = models.PositiveSmallIntegerField()
+    name = models.CharField(max_length=50, verbose_name="nombre")
+    # order = models.PositiveSmallIntegerField()
 
     def __str__(self):
         return self.name
 
     class Meta:
-        verbose_name = "Poliza"
-        verbose_name_plural = "Polizas"
+        verbose_name = "Ramo"
+        verbose_name_plural = "Ramos"
 
 
 class SubPoliza(models.Model):
-    name = models.CharField(max_length=50)
-    order = models.PositiveSmallIntegerField()
-    categoria = models.ForeignKey('Poliza', models.DO_NOTHING, null=True, blank=True)
+    name = models.CharField(max_length=50, verbose_name="nombre")
+    # order = models.PositiveSmallIntegerField()
+    categoria = models.ForeignKey('Poliza', models.DO_NOTHING, null=True, blank=True, verbose_name="ramo")
 
     def __str__(self):
-        return self.categoria.name + " --- " + self.name
+        if self.categoria.name == 'Sin Categoria':
+            return self.name
+        else:
+            return self.categoria.name + " --- " + self.name
 
     class Meta:
-        verbose_name = "Sub-Poliza"
-        verbose_name_plural = "Sub-Polizas"
+        verbose_name = "Poliza"
+        verbose_name_plural = "Polizas"
 
 
 class PolizaOpcion(models.Model):
@@ -50,8 +53,8 @@ class PolizaOpcion(models.Model):
         return self.poliza.name + " --- " + str(self.opcion.texto)
 
     class Meta:
-        verbose_name = "Intermedia Poliza-Opcion"
-        verbose_name_plural = "Intermedia Polizas-Opciones"
+        verbose_name = "Vinculación"
+        verbose_name_plural = "Vinculaciones"
 
 
 class PolizaDependencia(models.Model):

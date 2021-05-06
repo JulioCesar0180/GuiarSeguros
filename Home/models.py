@@ -49,19 +49,20 @@ class UserGuiarManager(BaseUserManager):
 
 class UserGuiar(AbstractBaseUser, PermissionsMixin):
     rut = models.CharField(max_length=12, unique=True)
-    name = models.CharField(max_length=100)
-    city = models.ForeignKey(City, on_delete=models.DO_NOTHING, null=True)
-    town = models.ForeignKey(Town, on_delete=models.DO_NOTHING, null=True)
-    address = models.CharField(max_length=100, null=True)
-    seniority = models.PositiveSmallIntegerField(null=True, blank=True)
+    name = models.CharField(max_length=100, verbose_name="nombre")
+    city = models.ForeignKey(City, on_delete=models.DO_NOTHING, null=True, verbose_name="región")
+    town = models.ForeignKey(Town, on_delete=models.DO_NOTHING, null=True, verbose_name="ciudad")
+    address = models.CharField(max_length=100, null=True, verbose_name="dirección")
+    seniority = models.PositiveSmallIntegerField(null=True, blank=True, verbose_name="años de experiencia")
 
     # Datos del representante
-    manager = models.OneToOneField('BusinessManager', on_delete=models.CASCADE, null=True, blank=True)
+    manager = models.OneToOneField('BusinessManager', on_delete=models.CASCADE,
+                                   null=True, blank=True, verbose_name="representante")
 
     # Ventas Anuales
-    sales = models.ForeignKey(Sales, on_delete=models.CASCADE, null=True)
+    sales = models.ForeignKey(Sales, on_delete=models.CASCADE, null=True, verbose_name="ventas anuales")
 
-    is_admin = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False, verbose_name="administrador de guiar consultores")
 
     enable_poll = models.BooleanField(default=True)
     objects = UserGuiarManager()
@@ -80,15 +81,15 @@ class UserGuiar(AbstractBaseUser, PermissionsMixin):
         return self.is_admin
 
     class Meta:
-        verbose_name = "Usuario"
-        verbose_name_plural = "Usuarios"
+        verbose_name = "Usuario Registrado"
+        verbose_name_plural = "Usuarios Registrados"
 
 
 class BusinessManager(models.Model):
-    rut_bm = models.CharField(max_length=12, unique=True)
-    fullname = models.CharField(max_length=100)
+    rut_bm = models.CharField(max_length=12, unique=True, verbose_name="rut del representante")
+    fullname = models.CharField(max_length=100, verbose_name="nombre completo")
     email = models.EmailField(unique=True)
-    phone = models.PositiveIntegerField()
+    phone = models.PositiveIntegerField(verbose_name="teléfono")
 
     def __str__(self):
         return self.rut_bm
@@ -112,8 +113,8 @@ class RecoveryTokens(models.Model):
 
 class DotacionEmpresarial(models.Model):
     cantidad = models.IntegerField(default=0)
-    user = models.ForeignKey('UserGuiar', models.DO_NOTHING)
-    dotacion = models.ForeignKey('Dotacion', models.DO_NOTHING)
+    user = models.ForeignKey('UserGuiar', models.DO_NOTHING, verbose_name="usuario")
+    dotacion = models.ForeignKey('Dotacion', models.DO_NOTHING, verbose_name="campo de dotación")
 
     def __str__(self):
         return self.user.rut + " " + self.dotacion.title
@@ -124,7 +125,7 @@ class DotacionEmpresarial(models.Model):
 
 
 class Dotacion(models.Model):
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=200, verbose_name="título")
 
     def __str__(self):
         return self.title
@@ -135,11 +136,11 @@ class Dotacion(models.Model):
 
 
 class RangosDotacion(models.Model):
-    dotacion = models.ForeignKey('Dotacion', models.DO_NOTHING)
-    min_value = models.PositiveIntegerField()
-    max_value = models.PositiveIntegerField()
-    ri_value = models.PositiveIntegerField(default=1)
-    poliza = models.ForeignKey(SubPoliza, models.DO_NOTHING, null=True, blank=True)
+    dotacion = models.ForeignKey('Dotacion', models.DO_NOTHING, verbose_name="campo de dotación")
+    min_value = models.PositiveIntegerField(verbose_name="límite inferior")
+    max_value = models.PositiveIntegerField(verbose_name="límite superior")
+    ri_value = models.PositiveIntegerField(default=1, verbose_name="riesgo del rango")
+    poliza = models.ForeignKey(SubPoliza, models.DO_NOTHING, null=True, blank=True, verbose_name="póliza asociada")
 
     def __str__(self):
         if self.max_value > self.min_value:

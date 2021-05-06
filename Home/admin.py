@@ -42,12 +42,12 @@ class UserGuiarAdmin(UserAdmin):
     )
 
 
-admin.site.register(BusinessManager)
+# admin.site.register(BusinessManager)
 admin.site.register(City)
 admin.site.register(Town)
 admin.site.register(Dotacion)
-admin.site.register(DotacionEmpresarial)
+# admin.site.register(DotacionEmpresarial)
 admin.site.register(RangosDotacion)
-admin.site.register(IntermediaUserOpcion)
+# admin.site.register(IntermediaUserOpcion)
 
 admin.site.site_header = "Panel de Administración de GuiarSeguros"
