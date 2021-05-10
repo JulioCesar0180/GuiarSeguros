@@ -50,8 +50,8 @@ class UserGuiarManager(BaseUserManager):
 class UserGuiar(AbstractBaseUser, PermissionsMixin):
     rut = models.CharField(max_length=12, unique=True)
     name = models.CharField(max_length=100, verbose_name="nombre")
-    city = models.ForeignKey(City, on_delete=models.DO_NOTHING, null=True, verbose_name="región")
-    town = models.ForeignKey(Town, on_delete=models.DO_NOTHING, null=True, verbose_name="ciudad")
+    city = models.ForeignKey(City, on_delete=models.DO_NOTHING, null=True, verbose_name="ciudad")
+    town = models.ForeignKey(Town, on_delete=models.DO_NOTHING, null=True, verbose_name="comuna")
     address = models.CharField(max_length=100, null=True, verbose_name="dirección")
     seniority = models.PositiveSmallIntegerField(null=True, blank=True, verbose_name="años de experiencia")
 
