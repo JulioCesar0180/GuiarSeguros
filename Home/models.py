@@ -7,7 +7,7 @@ from Poll.models import Sales, SubPoliza, Opcion
 
 
 class Town(models.Model):
-    name_town_t = models.CharField(max_length=50)
+    name_town_t = models.CharField(max_length=50, verbose_name="Comuna")
 
     def __str__(self):
         return self.name_town_t
@@ -18,7 +18,7 @@ class Town(models.Model):
 
 
 class City(models.Model):
-    name_city = models.CharField(max_length=50)
+    name_city = models.CharField(max_length=50, verbose_name="Ciudad")
 
     def __str__(self):
         return self.name_city

@@ -27,7 +27,15 @@ def login_view(request):
         if login_form.is_valid():
             username = login_form.cleaned_data['rut']
             password = login_form.cleaned_data['password']
-
+            # print(username)
+            username = username.replace(".", "")
+            # print(username)
+            if username[-2] != "-":
+                # print("sin guion")
+                num = username[:-1]
+                div = username[-1:]
+                username = str(num) + "-" + str(div)
+            # print(username)
             user = authenticate(rut=username, password=password)
 
             if user:

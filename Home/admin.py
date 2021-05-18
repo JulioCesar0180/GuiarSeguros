@@ -41,8 +41,7 @@ class UserGuiarAdmin(UserAdmin):
         ('Permisos', {'fields': ('is_admin',)})
     )
 
-
-# admin.site.register(BusinessManager)
+admin.site.register(BusinessManager)
 admin.site.register(City)
 admin.site.register(Town)
 admin.site.register(Dotacion)
